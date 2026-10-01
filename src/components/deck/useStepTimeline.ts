@@ -104,6 +104,8 @@ export function useStepTimeline(build: (api: StepApi) => void, deps: unknown[] =
 
     let duration: number;
     if (dist < 0) duration = Math.min(-dist * 0.5, 0.9);
+    // Entrada no slide (vindo de fora): no máximo 1,3 s, para o conteúdo ficar pronto junto com a troca de slide.
+    else if (prev === -1 && deck.getSnapshot().mode !== "flow") duration = Math.min(dist, 1.3);
     // Celular (rolagem livre): o slide inteiro toca de uma vez, em no máximo ~3 s.
     else if (deck.getSnapshot().mode === "flow") duration = Math.min(dist, 3.2);
     else if (slide.step - prev <= 1) duration = dist;

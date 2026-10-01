@@ -32,7 +32,8 @@ export type DeckSnapshot = Readonly<{
 
 const COUNT = SLIDES.length;
 /** A seção "entra" (dispara a revelação) quando seu topo cruza este ponto da viewport. */
-const ENTER_AT = 0.62;
+// 0,97: a revelação começa assim que o slide desponta, para ele chegar já montado na troca.
+const ENTER_AT = 0.97;
 const FLOW_ENTER_AT = 0.82;
 /** Duração da troca de slide pelo teclado. */
 const SLIDE_DURATION = 1.1;
