@@ -1,0 +1,363 @@
+/* BORA OS — coluna de narrativa (esquerda) + chip (direita).
+   Camadas da esquerda trocam por passo (timeline); estados de destaque são CSS em elementos internos. */
+
+.root {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+}
+.left {
+  grid-column: 1 / span 5;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.right {
+  grid-column: 6 / span 7;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.diagram {
+  flex: 1 1 auto;
+}
+.footnote {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px 12px;
+  margin-top: 6px;
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: var(--text-tertiary);
+  text-align: right;
+}
+
+/* ── Cabeçalho com troca de manchete ───────────────────────────────── */
+.titles {
+  display: grid;
+  margin-top: 20px;
+}
+.titles > * {
+  grid-area: 1 / 1;
+}
+.headline {
+  font-size: clamp(30px, 3.25vw, 58px);
+}
+
+.body {
+  display: grid;
+  flex: 1 1 auto;
+  min-height: 0;
+  margin-top: clamp(14px, 2.4vh, 26px);
+}
+.body > * {
+  grid-area: 1 / 1;
+  min-width: 0;
+}
+.lede {
+  max-width: 44ch;
+  font-size: clamp(14px, 1.08vw, 18px);
+}
+
+/* ── Exemplo: jornada de um BORA ID ─────────────────────────────────── */
+.journey {
+  margin-top: clamp(18px, 3.4vh, 36px);
+  padding-top: clamp(14px, 2vh, 20px);
+  border-top: 1px solid var(--border);
+}
+.jHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+}
+.jWho {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.jWho b {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.stops {
+  position: relative;
+  display: grid;
+  margin: clamp(10px, 1.6vh, 16px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.stops::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 14px;
+  bottom: 14px;
+  width: 1px;
+  background: var(--border-strong);
+}
+.stop {
+  display: grid;
+  grid-template-columns: 11px 88px minmax(0, 1fr);
+  align-items: baseline;
+  column-gap: 14px;
+  width: 100%;
+  padding: clamp(5px, 0.8vh, 9px) 0;
+  text-align: left;
+  color: var(--text-secondary);
+  background: none;
+  border: 0;
+}
+.stopInner {
+  display: contents;
+}
+.stopDot {
+  position: relative;
+  top: 1px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 1.5px solid var(--text-tertiary);
+  background: var(--bg-primary);
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+.stopWhen {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  color: var(--text-tertiary);
+  transition: color 0.35s ease;
+}
+.stopWhat {
+  font-size: clamp(14px, 1.05vw, 17px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  color: var(--text-secondary);
+  transition: color 0.35s ease;
+}
+.stopMods {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  color: var(--text-tertiary);
+  transition: color 0.35s ease;
+}
+.stop[data-active="true"] .stopDot {
+  border-color: var(--brand);
+  background: var(--brand);
+  box-shadow: 0 0 14px -2px color-mix(in srgb, var(--brand) 70%, transparent);
+}
+.stop[data-active="true"] .stopWhat {
+  color: var(--text-primary);
+}
+.stop[data-active="true"] .stopWhen,
+.stop[data-active="true"] .stopMods {
+  color: var(--brand);
+}
+.stop:hover .stopWhat {
+  color: var(--text-primary);
+}
+.moral {
+  margin-top: clamp(8px, 1.4vh, 14px);
+  padding-left: 25px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--text-tertiary);
+}
+
+/* ── Perguntas ──────────────────────────────────────────────────────── */
+.qList {
+  display: grid;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border);
+}
+.q {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr) 14px;
+  align-items: center;
+  column-gap: 10px;
+  width: 100%;
+  padding: clamp(6px, 0.95vh, 10px) 0;
+  text-align: left;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+.qInner {
+  display: contents;
+}
+.qIdx {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-tertiary);
+  transition: color 0.3s ease;
+}
+.qText {
+  font-size: clamp(14px, 1.05vw, 17px);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  transition: color 0.3s ease;
+}
+.qMark {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  justify-self: end;
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+.q:hover .qText,
+.q[data-on="true"] .qText {
+  color: var(--text-primary);
+}
+.q[data-on="true"] .qIdx {
+  color: var(--brand);
+}
+.q[data-on="true"] .qMark {
+  background: var(--brand);
+  box-shadow: 0 0 12px -1px color-mix(in srgb, var(--brand) 70%, transparent);
+}
+
+/* ── Resposta demo ──────────────────────────────────────────────────── */
+.answer {
+  margin-top: clamp(14px, 2.4vh, 26px);
+}
+.aHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+}
+.aHeadRight {
+  margin-left: auto;
+}
+.aTable {
+  margin-top: 10px;
+  table-layout: fixed;
+}
+.aTable col:first-child {
+  width: 40%;
+}
+.aTable.aTable th,
+.aTable.aTable td {
+  padding-top: clamp(4px, 0.62vh, 8px);
+  padding-bottom: clamp(4px, 0.62vh, 8px);
+  font-size: clamp(12.5px, 0.95vw, 15px);
+  white-space: nowrap;
+}
+.aTable.aTable thead th {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  line-height: 1.35;
+  vertical-align: bottom;
+  white-space: normal;
+}
+.num {
+  text-align: right !important;
+  padding-right: 0 !important;
+  padding-left: 12px !important;
+}
+.best th,
+.best td {
+  color: var(--text-primary) !important;
+}
+.best .key {
+  color: var(--brand) !important;
+  font-weight: 600;
+}
+.bestMark {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--brand);
+  box-shadow: 0 0 10px -1px color-mix(in srgb, var(--brand) 70%, transparent);
+  vertical-align: 1px;
+}
+.cell {
+  display: inline-block;
+  transition: opacity 0.35s ease;
+}
+.unknown {
+  color: var(--text-quaternary);
+}
+.reading {
+  margin-top: 12px;
+  font-size: clamp(13px, 0.95vw, 15px);
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+.reading b {
+  margin-right: 8px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+.demoNote {
+  margin-top: 6px;
+  font-size: 11.5px;
+  color: var(--text-tertiary);
+}
+
+/* Telas estreitas (tablet / notebook pequeno): compacta a coluna da esquerda */
+@media (max-width: 1199px) {
+  .aHead {
+    flex-wrap: nowrap;
+  }
+  .aLabel {
+    display: none;
+  }
+  .aTable.aTable thead th {
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+  .q {
+    padding: 5px 0;
+  }
+  .qText {
+    font-size: 13.5px;
+  }
+  .answer {
+    margin-top: 12px;
+  }
+  .reading {
+    margin-top: 8px;
+    font-size: 12.5px;
+  }
+  .reading b {
+    display: none;
+  }
+  .demoNote {
+    margin-top: 4px;
+    font-size: 11px;
+  }
+}
+
+/* Fluxo (mobile / janelas baixas): colunas empilhadas */
+@media (max-width: 767px), (max-height: 559px) {
+  .left,
+  .right {
+    grid-column: 1 / -1;
+  }
+  .right {
+    height: 92vw;
+    margin-top: 28px;
+  }
+}

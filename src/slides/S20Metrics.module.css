@@ -1,0 +1,238 @@
+/* O que medimos — árvore de métricas + simulações (passo final). */
+
+.root {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  row-gap: clamp(10px, 1.8vh, 22px);
+}
+.headline {
+  font-size: clamp(30px, 3.25vw, 58px);
+}
+.lede {
+  max-width: 44ch;
+  font-size: clamp(14px, 1.02vw, 17px);
+}
+.stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  /* centraliza quando sobra espaço; se faltar, alinha ao topo (nunca invade o cabeçalho) */
+  justify-content: safe center;
+  min-height: 0;
+}
+.hint {
+  margin-top: clamp(4px, 1vh, 10px);
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+/* ── Simulações sobre a linha das folhas ────────────────────────────── */
+.sims {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  margin-top: clamp(10px, 1.6vh, 18px);
+}
+.simComp {
+  grid-column: 1 / span 7;
+  min-width: 0;
+}
+.simPay {
+  grid-column: 8 / span 5;
+  min-width: 0;
+}
+.panel {
+  height: 100%;
+  padding: clamp(14px, 1.3vw, 22px) clamp(16px, 1.5vw, 24px);
+  border-radius: var(--radius-lg);
+}
+.panel :global(.mt-5) {
+  margin-top: clamp(10px, 1.4vh, 16px);
+}
+
+.layerSliders {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+}
+.layerSliders label {
+  font-size: 12px !important;
+}
+.stack {
+  display: flex;
+  gap: 2px;
+  height: 26px;
+  margin-top: clamp(12px, 1.6vh, 18px);
+}
+.compFoot {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: clamp(16px, 2vw, 32px);
+  margin-top: 10px;
+}
+.seg {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 2px;
+  padding: 0 8px;
+  overflow: visible;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: flex-grow 0.3s ease;
+}
+.seg:first-child {
+  border-radius: 4px 0 0 4px;
+}
+.seg:last-child {
+  border-radius: 0 4px 4px 0;
+}
+.seg[data-network="true"] {
+  background: var(--brand);
+  color: var(--brand-ink);
+}
+.seg[data-network="false"] {
+  background: color-mix(in srgb, var(--text-primary) 22%, var(--surface));
+  color: var(--text-primary);
+}
+.segValue {
+  margin-left: 5px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+}
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  font-size: 11.5px;
+  color: var(--text-tertiary);
+}
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+.swatch[data-network="true"] {
+  background: var(--brand);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--brand-deep) 45%, transparent);
+}
+.swatch[data-network="false"] {
+  background: color-mix(in srgb, var(--text-primary) 22%, var(--surface));
+}
+.compStats {
+  display: flex;
+  gap: clamp(16px, 2vw, 32px);
+  align-items: flex-end;
+}
+.compStats > * {
+  max-width: 170px;
+}
+.premise {
+  margin-top: 6px;
+  font-size: 11.5px;
+  color: var(--text-tertiary);
+}
+
+.payGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: clamp(16px, 2vw, 28px);
+  align-items: start;
+}
+.paySliders {
+  display: grid;
+  gap: 10px;
+}
+.formula {
+  margin-top: 10px;
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: var(--text-tertiary);
+}
+.calc {
+  margin-top: 4px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.months {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 3px;
+  margin: clamp(10px, 1.4vh, 14px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.month {
+  position: relative;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--border);
+  overflow: hidden;
+}
+.monthFill {
+  position: absolute;
+  inset: 0;
+  background: var(--brand);
+  transform-origin: 0 50%;
+  transition: transform 0.35s ease;
+}
+.monthAxis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--text-tertiary);
+}
+
+/* Telas estreitas (tablet): simulações mais compactas */
+@media (max-width: 1199px) {
+  .premise {
+    display: none;
+  }
+  .layerSliders {
+    gap: 16px;
+  }
+  .layerSliders label {
+    font-size: 11px !important;
+  }
+  .layerSliders output {
+    font-size: 12px;
+  }
+  .legend {
+    font-size: 11px;
+  }
+  .compStats > * {
+    max-width: 130px;
+  }
+}
+
+/* Fluxo (mobile): simulações empilhadas */
+@media (max-width: 767px), (max-height: 559px) {
+  .simComp,
+  .simPay {
+    grid-column: 1 / -1;
+  }
+  .simPay {
+    margin-top: 16px;
+  }
+  .layerSliders {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .compFoot,
+  .payGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .compStats {
+    order: -1;
+    margin-bottom: 8px;
+  }
+}

@@ -1,0 +1,249 @@
+/* BORA OS — chip de infraestrutura (ver ArchitectureDiagram.tsx).
+   O GSAP anima os invólucros com data-a (entrada); destaque/desligado mudam
+   cor, borda e brilho em elementos internos ou em propriedades que o GSAP não toca. */
+
+.box {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+.artboard {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  --hair: calc(1.1px / var(--s, 1));
+  --trace: color-mix(in srgb, var(--text-primary) 26%, var(--bg-primary));
+  --trace-faint: color-mix(in srgb, var(--text-primary) 10%, var(--bg-primary));
+}
+.svg {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* ── Moldura do chip ────────────────────────────────────────────────── */
+.frame {
+  fill: none;
+  stroke: color-mix(in srgb, var(--text-primary) 34%, var(--bg-primary));
+  stroke-width: var(--hair);
+}
+.frameFill {
+  fill: color-mix(in srgb, var(--surface) 70%, transparent);
+}
+.gridDot {
+  fill: var(--text-primary);
+  opacity: 0.07;
+}
+.tick {
+  fill: none;
+  stroke: var(--text-tertiary);
+  stroke-width: var(--hair);
+}
+.osLabel {
+  position: absolute;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.osTag {
+  position: absolute;
+}
+
+/* ── Trilhas módulo → núcleo ────────────────────────────────────────── */
+.trace {
+  fill: none;
+  stroke: var(--trace);
+  stroke-width: var(--hair);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke 0.4s ease;
+}
+.trace[data-hl="on"] {
+  stroke: var(--brand);
+}
+.trace[data-hl="off"] {
+  stroke: var(--trace-faint);
+}
+.isOffline .trace {
+  stroke: var(--trace-faint);
+}
+.pulse {
+  fill: none;
+  stroke: var(--brand);
+  stroke-width: calc(2.2px / var(--s, 1));
+  stroke-linecap: round;
+  opacity: 0;
+}
+.pin {
+  fill: var(--bg-primary);
+  stroke: var(--trace);
+  stroke-width: var(--hair);
+  transition:
+    fill 0.4s ease,
+    stroke 0.4s ease;
+}
+.pin[data-hl="on"] {
+  fill: var(--brand);
+  stroke: var(--brand);
+}
+
+/* ── Portas (integrações possíveis = tracejado) ─────────────────────── */
+.stub {
+  fill: none;
+  stroke: var(--text-tertiary);
+  stroke-width: var(--hair);
+  stroke-dasharray: 3 3;
+}
+.pad {
+  fill: var(--bg-primary);
+  stroke: var(--text-secondary);
+  stroke-width: var(--hair);
+  stroke-dasharray: 2 2;
+}
+.portLabel {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.groupLabel {
+  position: absolute;
+  font-family: var(--font-sans);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+}
+
+/* ── Módulos ────────────────────────────────────────────────────────── */
+.mod {
+  position: absolute;
+}
+.modInner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--text-primary);
+  transition:
+    opacity 0.4s ease,
+    border-color 0.4s ease,
+    color 0.4s ease,
+    box-shadow 0.4s ease,
+    background-color 0.4s ease;
+}
+.modIdx {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  color: var(--text-tertiary);
+  transition: color 0.4s ease;
+}
+.modInner[data-hl="on"] {
+  border-color: var(--brand);
+  color: var(--brand);
+  background: color-mix(in srgb, var(--brand) 7%, var(--surface));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--brand) 35%, transparent),
+    0 0 28px -8px color-mix(in srgb, var(--brand) 60%, transparent);
+}
+.modInner[data-hl="on"] .modIdx {
+  color: color-mix(in srgb, var(--brand) 70%, transparent);
+}
+.modInner[data-hl="off"] {
+  opacity: 0.45;
+}
+.isOffline .modInner {
+  opacity: 0.55;
+  border-style: dashed;
+}
+
+/* ── Núcleo: camada de identidade ───────────────────────────────────── */
+.core {
+  position: absolute;
+}
+.coreInner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  padding: 16px 14px;
+  text-align: center;
+  border-radius: 20px;
+  border: 1px solid var(--brand);
+  background:
+    radial-gradient(120% 80% at 50% 0%, color-mix(in srgb, var(--brand) 12%, transparent), transparent 60%),
+    var(--surface-2);
+  box-shadow:
+    0 0 0 6px color-mix(in srgb, var(--brand) 6%, transparent),
+    0 0 60px -12px color-mix(in srgb, var(--brand) 45%, transparent);
+  transition:
+    opacity 0.5s ease,
+    box-shadow 0.5s ease,
+    border-color 0.5s ease;
+}
+.isOffline .coreInner {
+  opacity: 0.4;
+  border-color: var(--border-strong);
+  border-style: dashed;
+  box-shadow: none;
+}
+.ring {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1.5px solid var(--brand);
+  box-shadow: 0 0 18px -2px color-mix(in srgb, var(--brand) 70%, transparent);
+}
+.ring::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  background: var(--brand);
+}
+.coreKicker {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  color: var(--brand);
+}
+.coreTitle {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  text-wrap: balance;
+}
+.coreCaption {
+  font-size: 10.5px;
+  line-height: 1.4;
+  color: var(--text-tertiary);
+  text-wrap: balance;
+}

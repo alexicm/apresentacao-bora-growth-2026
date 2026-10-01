@@ -1,0 +1,206 @@
+/* Fim de semana de prova: dias em colunas (trilho + marcos + itens) e, abaixo, a matriz público × momento.
+   Timeline e matriz dividem o mesmo grid de colunas — o ponto de cada público cai exatamente sob o seu dia. */
+
+.wrap {
+  --label-w: minmax(118px, 1.05fr);
+  display: grid;
+  grid-template-columns: var(--label-w) repeat(4, minmax(0, 1fr));
+  column-gap: clamp(10px, 1.2vw, 22px);
+  align-content: start;
+}
+
+/* ── Timeline ── */
+.tlLabel {
+  grid-column: 1;
+  grid-row: 1 / span 3;
+  padding-top: 6px;
+  color: var(--text-tertiary);
+}
+.dayHead {
+  grid-row: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  min-width: 0;
+}
+.dayName {
+  font-size: clamp(17px, 1.5vw, 26px);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  white-space: nowrap;
+  color: var(--text-primary);
+}
+.peakPill {
+  display: inline-flex;
+  align-items: center;
+  height: 18px;
+  padding: 0 7px;
+  border-radius: var(--radius-pill);
+  background: var(--brand);
+  color: var(--brand-ink);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.railRow {
+  grid-column: 2 / -1;
+  grid-row: 2;
+  position: relative;
+  height: clamp(26px, 4vh, 44px);
+}
+.rail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1.5px;
+  margin-top: -0.75px;
+  background: var(--text-primary);
+}
+.nodes {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: clamp(10px, 1.2vw, 22px);
+  align-items: center;
+}
+.node {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--bg-primary);
+  box-shadow: inset 0 0 0 1.5px var(--text-primary);
+}
+.nodePeak {
+  width: 18px;
+  height: 18px;
+  margin-left: -3.5px;
+  background: var(--brand);
+  box-shadow:
+    0 0 0 1.5px var(--text-primary),
+    0 0 0 7px var(--brand-a32);
+}
+
+.items {
+  grid-row: 3;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(3px, 0.6vh, 7px);
+  min-width: 0;
+}
+.item {
+  font-size: clamp(13px, 1.02vw, 17px);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--text-secondary);
+}
+.itemsPeak .item {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* ── Matriz ── */
+.mxHead {
+  grid-column: 1 / -1;
+  grid-row: 4;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  margin-top: clamp(12px, 2.8vh, 40px);
+  padding-bottom: clamp(6px, 1.2vh, 14px);
+}
+.mxLabel {
+  color: var(--text-tertiary);
+}
+.mxCaption {
+  font-size: var(--fs-body);
+  color: var(--text-secondary);
+}
+.mxLegend {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+.mxLegend i {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+.mxRow {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  align-items: center;
+  min-height: clamp(28px, 4.4vh, 46px);
+  border-top: 1px solid var(--border);
+}
+.mxRow:last-child {
+  border-bottom: 1px solid var(--border);
+}
+.mxName {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 4px 0;
+  min-width: 0;
+}
+.mxName strong {
+  font-size: clamp(13px, 1.02vw, 17px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+.mxName span {
+  font-size: 11.5px;
+  line-height: 1.25;
+  color: var(--text-tertiary);
+}
+.cell {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+.dotBtn {
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  margin-left: -7.5px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: default;
+}
+.dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--text-primary);
+}
+.dotPeak {
+  width: 13px;
+  height: 13px;
+  background: var(--brand);
+  box-shadow: 0 0 0 1.5px var(--text-primary);
+}
+/* Não participa: anel vazio (nunca um traço). */
+.none {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1.5px var(--text-quaternary);
+}

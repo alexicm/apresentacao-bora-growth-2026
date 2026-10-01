@@ -1,0 +1,536 @@
+/* Ecossistema de projetos de growth.
+   Vistas (mapa / tabela) e camadas do rodapé (painel do projeto / simulação) trocam por estado,
+   com transições CSS só nos invólucros — o GSAP anima apenas os filhos (regra do motor). */
+
+.root {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  row-gap: clamp(12px, 1.8vh, 26px);
+}
+
+.headline {
+  font-size: clamp(30px, 3.25vw, 58px);
+}
+.lede {
+  max-width: 46ch;
+  font-size: clamp(14px, 1.02vw, 17px);
+}
+
+.main {
+  position: relative;
+  min-height: 0;
+}
+.mapView,
+.tableView {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  transition:
+    opacity 0.45s ease,
+    visibility 0.45s;
+}
+.main[data-view="map"] .tableView,
+.main[data-view="table"] .mapView {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.mapBox {
+  flex: 1 1 auto;
+}
+
+/* ── Rodapé: painel do projeto × simulação (mesma célula, a maior define a altura) ── */
+.strip {
+  display: grid;
+  margin-top: clamp(10px, 1.6vh, 18px);
+}
+.layer {
+  grid-area: 1 / 1;
+  min-width: 0;
+  transition:
+    opacity 0.4s ease,
+    visibility 0.4s;
+}
+.layer[data-show="false"] {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Painel do projeto: mesma moldura e altura da simulação (console do mapa) */
+.inspector {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-items: center;
+  height: 100%;
+  padding: clamp(14px, 1.4vw, 24px) clamp(16px, 1.6vw, 26px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--surface) 55%, transparent);
+}
+.inspName {
+  grid-column: span 4;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.inspTitle {
+  font-size: clamp(22px, 2vw, 34px);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+.inspNote {
+  font-size: 12.5px;
+  color: var(--text-tertiary);
+}
+.inspFacts {
+  grid-column: span 5;
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: var(--gutter);
+  margin: 0;
+}
+.inspFacts dd,
+.inspChain dd {
+  margin: 8px 0 0;
+  font-size: clamp(13px, 0.98vw, 16px);
+  line-height: 1.4;
+  color: var(--text-secondary);
+}
+.inspChain {
+  grid-column: span 3;
+  display: grid;
+  gap: 12px;
+  margin: 0;
+}
+.inspChain dd {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+.inspChain dt,
+.lineKey span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  border: 1px solid var(--text-primary);
+  border-radius: var(--radius-pill);
+}
+.chipDown {
+  color: var(--brand-deep);
+  border-color: var(--brand-deep);
+}
+.keyUp,
+.keyDown,
+.keyRail {
+  display: inline-block;
+  width: 18px;
+  height: 0;
+  border-top: 2px solid var(--text-primary);
+}
+.keyDown {
+  border-top-color: var(--brand-deep);
+}
+.keyRail {
+  height: 6px;
+  border-top: 1px solid var(--text-tertiary);
+  border-bottom: 1px solid var(--text-tertiary);
+}
+
+.stats {
+  grid-column: span 3;
+  display: flex;
+  gap: clamp(18px, 2.4vw, 40px);
+  margin: 0;
+}
+.stats dd {
+  margin: 0;
+}
+.statNum {
+  font-size: clamp(28px, 2.6vw, 46px);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.statLabel {
+  margin-top: 6px;
+  font-size: 12.5px;
+  color: var(--text-tertiary);
+}
+.legend {
+  grid-column: span 5;
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.legend li {
+  display: grid;
+  grid-template-columns: 140px 22px minmax(0, 1fr);
+  align-items: center;
+  column-gap: 8px;
+}
+.legendCount {
+  font-size: 13px;
+  color: var(--text-primary);
+}
+.legendDef {
+  font-size: 12px;
+  line-height: 1.3;
+  color: var(--text-tertiary);
+}
+.legend .legendBase {
+  grid-template-columns: 140px minmax(0, 1fr);
+}
+.baseSwatch {
+  justify-self: start;
+  width: 46px;
+  height: 18px;
+  margin-left: 2px;
+  border-radius: var(--radius-pill);
+  background: var(--text-primary);
+}
+.hintBox {
+  grid-column: span 4;
+  align-self: center;
+  display: grid;
+  gap: 12px;
+}
+.hint {
+  font-size: clamp(13px, 0.95vw, 15px);
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+.lineKey {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+/* ── Simulação ──────────────────────────────────────────────────────── */
+/* SimPanel compacto: título + tag e nota na mesma linha */
+.sim {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: clamp(16px, 2vw, 32px);
+  align-items: center;
+  padding: clamp(12px, 1.2vw, 20px) clamp(16px, 1.6vw, 26px) clamp(14px, 1.4vw, 22px);
+  border-radius: var(--radius-lg);
+}
+.sim > header {
+  grid-column: 1;
+  justify-content: flex-start;
+}
+.sim > p {
+  grid-column: 2;
+  margin: 0;
+}
+.sim > div {
+  grid-column: 1 / -1;
+  margin-top: clamp(10px, 1.4vh, 16px);
+}
+.simGrid {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: clamp(16px, 2.4vw, 44px);
+  align-items: start;
+}
+.frontsRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+}
+.simCell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+}
+.activeCount {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+.custom {
+  color: var(--text-tertiary);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.customOn {
+  opacity: 1;
+}
+.bigFig {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  line-height: 1;
+}
+.bigFig :global(.t-mono) {
+  font-size: clamp(20px, 1.6vw, 28px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+.bigOf {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+.frontBars {
+  display: grid;
+  grid-template-columns: repeat(6, 18px);
+  gap: 3px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.frontBars li {
+  height: 6px;
+  border-radius: 2px;
+  background: var(--border-strong);
+  transition: background-color 0.4s ease;
+}
+.frontBars li[data-on="true"] {
+  background: var(--brand);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--brand-deep) 40%, transparent);
+}
+.layers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.layers li {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 11px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-pill);
+  transition:
+    background-color 0.4s ease,
+    border-color 0.4s ease,
+    color 0.3s ease;
+}
+.layers li[data-on="true"] {
+  color: var(--brand-ink);
+  background: var(--brand);
+  border: 1px solid color-mix(in srgb, var(--brand-deep) 45%, transparent);
+}
+.measure {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--text-primary);
+}
+.measure i {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid var(--text-primary);
+}
+.measureOk {
+  color: var(--text-secondary);
+}
+.measureOk i {
+  border-color: var(--brand-deep);
+  background: var(--brand);
+}
+.missingList {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: clamp(12.5px, 0.92vw, 15px);
+  line-height: 1.35;
+  color: var(--text-secondary);
+}
+.missingList li {
+  position: relative;
+  padding-left: 14px;
+}
+.missingList li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 7px;
+  height: 0;
+  border-top: 1.5px dashed var(--text-primary);
+}
+.missingList strong {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.allGood {
+  font-size: clamp(12.5px, 0.92vw, 15px);
+  line-height: 1.4;
+  color: var(--text-secondary);
+}
+
+/* ── Tabela ─────────────────────────────────────────────────────────── */
+.tableView {
+  gap: clamp(4px, 0.8vh, 14px);
+}
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 24px;
+}
+.tableNote {
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+.tableWrap {
+  flex: 1 1 auto;
+  min-height: 0;
+  /* cabe inteira em 1440×900 e acima; em telas menores (tablet) rola por dentro */
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+.tableWrap .table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--bg-primary);
+  letter-spacing: 0.14em;
+  white-space: nowrap;
+}
+.tableWrap .table {
+  table-layout: fixed;
+  font-size: clamp(11px, min(0.82vw, 1.22vh), 14.5px);
+}
+.tableWrap .table th,
+.tableWrap .table td {
+  padding: clamp(2px, 0.22vh, 7px) 12px clamp(2px, 0.22vh, 7px) 0;
+  line-height: 1.2;
+  vertical-align: middle;
+}
+.tableWrap .table thead th {
+  padding-bottom: clamp(5px, 0.7vh, 10px);
+}
+@media (max-width: 1199px) {
+  .layers li {
+    height: 24px;
+    padding: 0 9px;
+    font-size: 11.5px;
+  }
+  .sim > p {
+    grid-column: 1 / -1;
+    margin-top: 4px;
+  }
+}
+.tableWrap .table tbody th {
+  font-weight: 600;
+}
+.groupStart > * {
+  border-top: 1px solid var(--border-strong);
+}
+.front {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+/* StageTag compacto dentro da tabela */
+.tableWrap :global(.stage) {
+  height: 16px;
+  gap: 6px;
+  padding: 0 8px 0 7px;
+  font-size: 8.5px;
+  letter-spacing: 0.12em;
+  vertical-align: middle;
+}
+.tableWrap :global(.stage-dots) i {
+  width: 4px;
+  height: 4px;
+}
+.cProject {
+  width: 14.5%;
+}
+.cFront {
+  width: 8%;
+}
+.cStage {
+  width: 8.5%;
+}
+@media (max-width: 1199px) {
+  .cProject {
+    width: 14%;
+  }
+  .cFront {
+    width: 8%;
+  }
+  .cStage {
+    width: 10.5%;
+  }
+}
+.cKpi {
+  width: 16.5%;
+}
+.cWhen {
+  width: 8%;
+}
+.cDeps {
+  width: 11.5%;
+}
+
+/* ── Fluxo (mobile): a tabela vira a vista principal ───────────────── */
+@media (max-width: 767px), (max-height: 559px) {
+  .main {
+    min-height: 0;
+  }
+  .mapView {
+    display: none;
+  }
+  .tableView,
+  .main[data-view="map"] .tableView {
+    position: relative;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+  .tableWrap {
+    overflow-x: auto;
+  }
+  .tableWrap .table {
+    min-width: 760px;
+  }
+  .filters {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .filters > :first-child {
+    flex: none;
+  }
+  .viewToggle {
+    display: none;
+  }
+}

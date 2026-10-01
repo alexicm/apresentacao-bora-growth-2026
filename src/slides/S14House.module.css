@@ -1,0 +1,349 @@
+/* BORA HOUSE — cabeçalho fixo; à esquerda o fim de semana (timeline → matriz), à direita a foto → receitas;
+   no último passo a simulação ocupa a largura toda. */
+
+.root {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+/* ── Cabeçalho ── */
+.header {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-items: end;
+}
+.headMain {
+  grid-column: 1 / span 8;
+}
+.headline {
+  margin-top: clamp(12px, 2vh, 22px);
+  font-size: clamp(34px, 4vw, 72px);
+}
+.headAside {
+  grid-column: 9 / span 4;
+  padding-bottom: 0.3em;
+}
+.lede {
+  margin: 0;
+  font-size: var(--fs-body);
+  max-width: 40ch;
+}
+
+/* ── Palco ── */
+.main {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: minmax(0, 1fr);
+  column-gap: var(--gutter);
+  min-height: 0;
+  margin-top: clamp(16px, 3.4vh, 40px);
+}
+.leftScene {
+  grid-column: 1 / span 8;
+  grid-row: 1;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+/* Passo 0: a timeline fica centrada na área livre (--shift medido em JS); no passo 1 sobe para dar lugar à matriz.
+   O GSAP anima só --k (1 → 0) na cena; o transform vive neste wrapper, sem transition CSS. */
+.leftInner {
+  position: relative;
+  transform: translateY(calc(var(--k, 0) * var(--shift, 0px)));
+}
+
+.rightCol {
+  grid-column: 9 / span 4;
+  grid-row: 1;
+  display: grid;
+  min-height: 0;
+}
+.rightScene {
+  grid-area: 1 / 1;
+  min-height: 0;
+  min-width: 0;
+}
+.simScene {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 0;
+}
+
+/* ── Foto (BORA no dia da prova) ── */
+.photo {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  background: var(--surface-2);
+}
+.photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 26%;
+  transform-origin: 50% 30%;
+}
+.photoGrade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgb(8 9 7 / 0) 42%, rgb(8 9 7 / 0.62) 72%, rgb(8 9 7 / 0.9) 100%);
+  pointer-events: none;
+}
+.photoFact {
+  position: absolute;
+  left: clamp(16px, 1.6vw, 28px);
+  right: clamp(16px, 1.6vw, 28px);
+  bottom: clamp(16px, 1.8vw, 28px);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #eef0e6;
+}
+.factValue {
+  font-size: clamp(40px, 4.2vw, 76px);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  line-height: 0.95;
+}
+.factLabel {
+  max-width: 22ch;
+  font-size: clamp(13px, 1.05vw, 17px);
+  font-weight: 600;
+  line-height: 1.25;
+}
+.factSource {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  margin-top: 4px;
+  font-size: 11px;
+  line-height: 1.35;
+  color: rgb(238 240 230 / 0.78);
+}
+.factPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 20px;
+  padding: 0 9px;
+  border-radius: var(--radius-pill);
+  background: rgb(238 240 230 / 0.16);
+  color: #eef0e6;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.factPill::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #eef0e6;
+}
+
+/* ── Receitas possíveis ── */
+.revenue {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(12px, 2vh, 20px);
+}
+.revHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+.revLabel {
+  color: var(--text-tertiary);
+}
+.layers {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.layer {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: 14px;
+  padding: clamp(10px, 1.7vh, 16px) clamp(14px, 1.3vw, 20px);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--border);
+}
+.layerIdx {
+  font-size: 11px;
+  color: var(--text-quaternary);
+}
+.layerName {
+  display: block;
+  font-size: clamp(14px, 1.12vw, 19px);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
+}
+.layerPayer {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+/* ── Simulação ── */
+.simGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 3fr) minmax(0, 5fr);
+  column-gap: clamp(20px, 3vw, 52px);
+  align-items: start;
+}
+.simCol {
+  display: grid;
+  gap: clamp(10px, 1.9vh, 20px);
+  align-content: start;
+}
+.simLabel {
+  margin-bottom: 2px;
+  color: var(--text-tertiary);
+}
+.results {
+  display: grid;
+  gap: clamp(12px, 2vh, 20px);
+  padding-left: clamp(16px, 2vw, 32px);
+  border-left: 1px solid var(--border);
+}
+.resultsTop {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px 24px;
+}
+.bar {
+  display: flex;
+  gap: 2px;
+  height: 10px;
+}
+.barSeg {
+  height: 100%;
+  min-width: 0;
+  border-radius: 3px;
+}
+.segNaming {
+  background: var(--text-primary);
+}
+.segCorporate {
+  background: var(--text-tertiary);
+}
+.barEmpty {
+  flex: 1;
+  border-radius: 3px;
+  background: var(--border);
+}
+.layerList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+}
+.layerRow {
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1fr) auto;
+  align-items: baseline;
+  column-gap: 10px;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+}
+.layerRow b {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-feature-settings: "tnum" 1;
+  color: var(--text-primary);
+}
+.swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  transform: translateY(1px);
+}
+.swatchSub {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--text-tertiary);
+}
+.subNote {
+  grid-column: 2 / -1;
+  font-size: 11.5px;
+  line-height: 1.35;
+  color: var(--text-tertiary);
+}
+.excluded {
+  margin: 0;
+  font-size: 11.5px;
+  color: var(--text-tertiary);
+}
+
+/* ── Modo fluxo (celular / janelas baixas) ── */
+@media (max-width: 767px), (max-height: 559px) {
+  .root {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .header,
+  .main {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 28px;
+  }
+  .leftScene {
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+  .leftScene > * {
+    min-width: 640px;
+  }
+  .leftInner {
+    transform: none;
+  }
+  .leftScene,
+  .rightScene,
+  .simScene {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+  }
+  .rightCol {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .photo {
+    height: auto;
+    aspect-ratio: 4 / 5;
+  }
+  .simGrid {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 24px;
+  }
+  .results {
+    padding-left: 0;
+    border-left: 0;
+  }
+}

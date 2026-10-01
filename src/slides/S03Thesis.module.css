@@ -1,0 +1,413 @@
+/* S03 — A tese: lugares dispersos → núcleo BORA → anel BORA GROWTH.
+   O campo é um quadrado (lado = min(58% da largura, 100% da altura)); os lugares se posicionam em
+   frações desse quadrado (camadas de tela cheia movidas por xPercent/yPercent → resistente a resize).
+   Regra: nenhuma transition CSS em opacity/transform de elementos animados pelo GSAP
+   (camada, float, aglomerado, rótulo, canal). O "dim" do hover fica no <button>, que o GSAP não anima. */
+
+.stage {
+  position: relative;
+  height: 100%;
+  container-type: size;
+}
+
+/* ── Coluna esquerda ── */
+.left {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  width: calc(100cqw - min(58cqw, 100cqh) - var(--gutter));
+  height: 100%;
+}
+.leftSwap {
+  display: grid;
+  max-width: 640px;
+  margin-top: clamp(12px, 2.4vh, 32px);
+}
+.leftSwap > * {
+  grid-area: 1 / 1;
+  align-self: start;
+  min-width: 0;
+}
+.lede {
+  max-width: 44ch;
+}
+.hint {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  font-size: 12.5px;
+  color: var(--text-tertiary);
+}
+.hintDot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid var(--brand);
+}
+
+.legendList {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+}
+.legendRow {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  width: 100%;
+  padding: clamp(6px, 1.15vh, 12px) 0;
+  border: 0;
+  border-top: 1px solid var(--border);
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: default;
+}
+.legendList li:last-child .legendRow {
+  border-bottom: 1px solid var(--border);
+}
+.legendPlace {
+  font-size: clamp(14px, 1.05vw, 17px);
+  color: var(--text-primary);
+  white-space: nowrap;
+  transition: color 0.3s;
+}
+.legendLeader {
+  flex: 1;
+  min-width: 12px;
+  border-bottom: 1px dotted var(--border-strong);
+  transform: translateY(-4px);
+}
+.legendChannel {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--brand-text);
+}
+.legendRow:focus-visible {
+  outline: none;
+}
+.legendRow:focus-visible .legendPlace,
+.legendRow[data-on="true"] .legendPlace {
+  color: var(--brand);
+}
+
+.example {
+  max-width: 640px;
+  margin-top: auto;
+  padding-top: clamp(12px, 1.8vh, 16px);
+  border-top: 1px solid var(--border-strong);
+}
+.exampleHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+}
+.exampleTitle {
+  font-size: clamp(14px, 1.05vw, 17px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.compare {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: clamp(10px, 1.4vw, 24px);
+  align-items: start;
+  margin-top: 14px;
+}
+.cmpArt {
+  display: block;
+  width: auto;
+  height: clamp(36px, 5.4vh, 60px);
+  overflow: visible;
+}
+.cmpValue {
+  display: block;
+  margin-top: 10px;
+  font-family: var(--font-mono);
+  font-feature-settings: "tnum" 1;
+  font-size: clamp(26px, 2.4vw, 42px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.cmpLabel {
+  display: block;
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--text-secondary);
+}
+.cmpTogether .cmpValue {
+  color: var(--brand-text);
+}
+.versus {
+  align-self: center;
+  font-size: 20px;
+  color: var(--text-tertiary);
+}
+.gridDot {
+  fill: var(--text-tertiary);
+}
+.clubDot {
+  fill: var(--text-primary);
+  opacity: 0.85;
+}
+.clubLine {
+  stroke: var(--brand);
+  stroke-width: 1.4;
+}
+.clubNode {
+  fill: var(--brand);
+}
+
+/* ── Campo (quadrado à direita) ── */
+.field {
+  --cl: clamp(34px, 2.9vw, 52px); /* tamanho do aglomerado de cada lugar */
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: min(58cqw, 100cqh);
+  aspect-ratio: 1;
+  translate: 0 -50%;
+}
+.parallax {
+  position: absolute;
+  inset: 0;
+}
+.svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.ambient {
+  fill: var(--text-primary);
+  opacity: 0.3;
+}
+.line {
+  fill: none;
+  stroke: var(--brand);
+  stroke-opacity: 0.6;
+  stroke-width: 1.3;
+}
+.spoke {
+  fill: none;
+  stroke: var(--text-primary);
+  stroke-opacity: 0.12;
+  stroke-width: 1;
+  transition:
+    stroke 0.3s,
+    stroke-opacity 0.3s;
+}
+.spoke[data-on="true"] {
+  stroke: var(--brand);
+  stroke-opacity: 0.9;
+}
+.ring {
+  fill: none;
+  stroke: var(--brand);
+  stroke-width: 1.8;
+}
+.halo {
+  fill: none;
+  stroke: var(--brand);
+  stroke-opacity: 0.08;
+  stroke-width: 22;
+}
+.orbitRing {
+  fill: none;
+  stroke: var(--border-strong);
+  stroke-width: 1;
+  stroke-dasharray: 2 8;
+}
+.core {
+  fill: var(--brand);
+}
+.coreMark,
+.lockup {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  pointer-events: none;
+}
+.coreMark {
+  width: 10.5%;
+  color: var(--brand-ink);
+}
+.lockup {
+  width: 22%;
+  color: var(--text-primary);
+}
+
+/* Lugares */
+.layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.float {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.place {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  pointer-events: auto;
+  cursor: default;
+  transition: opacity 0.35s var(--ease-bora);
+}
+.alignRight {
+  transform: translate(calc(var(--cl) * -0.5), -50%);
+}
+.alignLeft {
+  flex-direction: row-reverse;
+  text-align: right;
+  transform: translate(calc(-100% + var(--cl) * 0.5), -50%);
+}
+.alignTop {
+  flex-direction: column-reverse;
+  text-align: center;
+  transform: translate(-50%, calc(-100% + var(--cl) * 0.5));
+}
+.alignBottom {
+  flex-direction: column;
+  text-align: center;
+  transform: translate(-50%, calc(var(--cl) * -0.5));
+}
+.cluster {
+  display: block;
+  flex: none;
+  width: var(--cl);
+  height: var(--cl);
+  overflow: visible;
+}
+.clusterDot {
+  fill: var(--text-primary);
+  opacity: 0.85;
+}
+.clusterHub {
+  fill: var(--brand);
+}
+.placeLabel {
+  position: relative;
+  display: block;
+  max-width: 9.5em;
+}
+.alignTop .placeLabel,
+.alignBottom .placeLabel {
+  max-width: none;
+}
+.placeName {
+  display: block;
+  font-size: clamp(11.5px, 0.92vw, 15px);
+  line-height: 1.2;
+  white-space: nowrap;
+  color: var(--text-secondary);
+  transition: color 0.3s;
+}
+.placeChannel {
+  position: absolute;
+  top: 100%;
+  margin-top: 5px;
+  font-size: clamp(9px, 0.68vw, 11px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--brand-text);
+}
+.alignRight .placeChannel {
+  left: 0;
+}
+.alignLeft .placeChannel {
+  right: 0;
+}
+.alignTop .placeChannel,
+.alignBottom .placeChannel {
+  left: 50%;
+  translate: -50% 0;
+}
+.alignTop .placeChannel {
+  top: auto;
+  bottom: 100%;
+  margin: 0 0 5px;
+}
+.field[data-active] .place {
+  opacity: 0.25;
+}
+.field[data-active] .place[data-on="true"] {
+  opacity: 1;
+}
+.place[data-on="true"] .placeName {
+  color: var(--text-primary);
+}
+.place:focus-visible {
+  outline: none;
+}
+.place:focus-visible .placeName {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* ── Modo fluxo (mobile / janelas baixas): coluna + campo empilhados, estado final visível ── */
+@media (max-width: 767px), (max-height: 559px) {
+  .stage {
+    height: auto;
+    container-type: inline-size;
+  }
+  .left {
+    width: auto;
+    height: auto;
+  }
+  .example {
+    margin-top: 32px;
+  }
+  .leftSwap {
+    gap: 24px;
+  }
+  .leftSwap > * {
+    grid-area: auto;
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .field {
+    --cl: 26px;
+    position: relative;
+    top: auto;
+    right: auto;
+    width: min(100%, 300px);
+    margin: 56px auto 40px;
+    translate: none;
+  }
+  .placeName {
+    font-size: 10px;
+  }
+  .placeChannel {
+    font-size: 7.5px;
+    letter-spacing: 0.08em;
+  }
+}

@@ -1,0 +1,232 @@
+/* Mapa de metrô: duas linhas (rotas) que se encontram numa estação de integração e seguem até o terminal.
+   O SVG e os rótulos HTML usam o mesmo sistema de coordenadas (porcentagem do viewBox). */
+
+.box {
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--metro-ratio);
+}
+.svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Linhas */
+.line {
+  fill: none;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.lineA {
+  stroke: var(--text-primary);
+}
+.lineB {
+  stroke: var(--brand-deep);
+}
+.exit {
+  fill: none;
+  stroke-width: 1.6;
+  stroke-dasharray: 2 5;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+.exitA {
+  stroke: var(--text-primary);
+}
+.exitB {
+  stroke: var(--brand-deep);
+}
+.terminus {
+  fill: var(--bg-primary);
+  stroke-width: 1.6;
+  vector-effect: non-scaling-stroke;
+}
+.terminusA {
+  stroke: var(--text-primary);
+}
+.terminusB {
+  stroke: var(--brand-deep);
+}
+.motion {
+  fill: none;
+  stroke: none;
+}
+
+/* Estações */
+.station {
+  fill: var(--surface);
+  stroke-width: 3;
+  vector-effect: non-scaling-stroke;
+}
+.stationA {
+  stroke: var(--text-primary);
+}
+.stationB {
+  stroke: var(--brand-deep);
+}
+.unit {
+  fill: var(--surface);
+  stroke: var(--text-primary);
+  stroke-width: 3;
+  vector-effect: non-scaling-stroke;
+}
+.city {
+  fill: var(--brand);
+  stroke: var(--text-primary);
+  stroke-width: 3;
+  vector-effect: non-scaling-stroke;
+}
+.pulse {
+  fill: none;
+  stroke: var(--brand-deep);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+  opacity: 0;
+}
+.dot {
+  fill: var(--brand);
+  stroke: var(--brand-ink);
+  stroke-width: 1.4;
+  vector-effect: non-scaling-stroke;
+  opacity: 0;
+}
+
+/* Rótulos HTML */
+.label {
+  position: absolute;
+  white-space: nowrap;
+}
+.above {
+  transform: translate(-50%, -100%);
+  text-align: center;
+}
+.below {
+  transform: translate(-50%, 0);
+  text-align: center;
+}
+.right {
+  transform: translate(0, -50%);
+  text-align: left;
+}
+.rightUp {
+  transform: translate(0, -100%);
+  text-align: left;
+}
+.stationName {
+  display: block;
+  font-size: clamp(12px, 1.05vw, 17px);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
+}
+.wrap {
+  white-space: normal;
+  width: max-content;
+  max-width: 9.5em;
+}
+.badge {
+  display: grid;
+  place-items: center;
+  width: clamp(24px, 2.3vw, 36px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  font-size: clamp(11px, 1vw, 15px);
+  font-weight: 700;
+  transform: translate(-50%, -50%);
+}
+.badgeA {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+}
+.badgeB {
+  background: var(--brand-deep);
+  color: var(--bg-primary);
+}
+.kind {
+  color: var(--text-secondary);
+}
+.kindA {
+  transform: translate(0, 0);
+}
+.kindB {
+  transform: translate(0, -100%);
+}
+.exitText {
+  display: block;
+  font-size: clamp(12px, 0.95vw, 15px);
+  line-height: 1.3;
+  color: var(--text-secondary);
+}
+.unitName {
+  display: block;
+  font-size: clamp(13px, 1.1vw, 18px);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
+}
+.cityName {
+  display: block;
+  font-size: clamp(16px, 1.45vw, 24px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+}
+.cityMark {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: clamp(16px, 1.5vw, 24px);
+  color: var(--brand-ink);
+  pointer-events: none;
+}
+
+/* Estágio da ação por trás de cada estação: volt = já roda · tracejado = ideia · vazio = etapa da rota. */
+.st_rodando {
+  fill: var(--brand);
+}
+.st_backlog {
+  fill: var(--surface);
+}
+.st_ideia {
+  fill: var(--surface);
+  stroke-dasharray: 3 3;
+}
+.legend {
+  position: absolute;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: clamp(11px, 0.85vw, 13px);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  transform: translate(-100%, 0);
+}
+.legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.swatch {
+  width: 12px;
+  height: 12px;
+  background: var(--surface);
+  border: 2.5px solid var(--text-primary);
+  border-radius: 50%;
+}
+.swRodando {
+  background: var(--brand);
+}
+.swIdeia {
+  border-style: dashed;
+  border-width: 2px;
+}

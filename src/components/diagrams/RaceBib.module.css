@@ -1,0 +1,88 @@
+/* Número de peito: proporção 3:2, faixa da marca, furos dos alfinetes nos quatro cantos. */
+
+.bib {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  width: var(--bib-w, 72px);
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border-radius: 7px;
+  background: var(--surface);
+  box-shadow:
+    inset 0 0 0 1px var(--border-strong),
+    0 1px 2px rgb(0 0 0 / 0.06);
+  container-type: inline-size;
+  color: var(--text-primary);
+}
+
+.band {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 26%;
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  font-size: 11cqi;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  line-height: 1;
+  padding-left: 0.24em;
+}
+.accent .band {
+  background: var(--brand);
+  color: var(--brand-ink);
+}
+
+.code {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 3%;
+  font-size: 42cqi;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  white-space: nowrap;
+}
+.code[data-len="3"] {
+  font-size: 33cqi;
+}
+.code[data-len="4"] {
+  font-size: 25cqi;
+}
+
+.pin {
+  position: absolute;
+  width: 6.5%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  box-shadow: inset 0 0 0 1px var(--border-strong);
+}
+.tl,
+.tr {
+  top: 7%;
+}
+.bl,
+.br {
+  bottom: 9%;
+}
+.tl,
+.bl {
+  left: 6%;
+}
+.tr,
+.br {
+  right: 6%;
+}
+.tl,
+.tr {
+  background: var(--bg-primary);
+  box-shadow: none;
+  opacity: 0.9;
+}

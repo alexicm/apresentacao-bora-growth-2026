@@ -1,0 +1,457 @@
+/* S07 — Entrar e expandir (land and expand)
+   Escada à esquerda (x = tempo, y = profundidade da parceria), painel do degrau à direita.
+   Regra: nenhuma transition CSS em opacity/transform/clip-path de elementos animados pelo GSAP. */
+
+.root {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  row-gap: clamp(16px, 3vh, 40px);
+}
+
+/* ── Cabeçalho: manchete + lede ↔ princípio (s8) ── */
+.swap {
+  display: grid;
+  margin-top: 20px;
+}
+.swap > * {
+  grid-area: 1 / 1;
+}
+.quoteWrap {
+  align-self: end;
+}
+.quote {
+  font-size: clamp(32px, 3.75vw, 68px);
+}
+
+/* ── Corpo ── */
+.body {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  min-height: 0;
+}
+
+/* ── Gráfico em escada ── */
+.chart {
+  grid-column: 1 / span 7;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  column-gap: 12px;
+  row-gap: 10px;
+  min-height: 0;
+}
+.yAxis {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: start;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+.xAxis {
+  grid-column: 2;
+  grid-row: 2;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.axisLabel {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--text-tertiary);
+}
+/* seta desenhada em CSS (sem glifo) */
+.arrowUp,
+.arrowRight {
+  position: relative;
+  flex: none;
+  background: var(--line);
+}
+.arrowUp {
+  width: 1px;
+  height: 22px;
+}
+.arrowRight {
+  width: 22px;
+  height: 1px;
+}
+.arrowUp::after,
+.arrowRight::after {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-top: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+}
+/* no eixo vertical o texto está girado 180°: a ponta fica no fim visual (topo) */
+.arrowUp::after {
+  left: -3px;
+  bottom: 0;
+  transform: rotate(135deg);
+}
+.arrowRight::after {
+  right: 0;
+  top: -3px;
+  transform: rotate(45deg);
+}
+.plot {
+  grid-column: 2;
+  grid-row: 1;
+  position: relative;
+  min-height: 0;
+  border-left: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.stairs {
+  position: absolute;
+  inset: clamp(46px, 7.4vh, 70px) 0 0 0;
+  display: grid;
+  grid-template-columns: 0.6fr repeat(7, minmax(0, 1fr));
+  align-items: end;
+}
+.stair {
+  position: relative;
+  height: calc(var(--h) * 100%);
+  min-width: 0;
+}
+.ghost {
+  position: absolute;
+  inset: 0;
+  border: 1px dashed var(--border-strong);
+  border-bottom: 0;
+  border-radius: 6px 6px 0 0;
+}
+.stairText {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: clamp(7px, 0.8vw, 12px) clamp(6px, 0.7vw, 11px);
+  color: var(--text-tertiary);
+}
+.fill {
+  background: var(--brand);
+  color: var(--brand-ink);
+  border-radius: 6px 6px 0 0;
+  clip-path: inset(0% 0% 0% 0%);
+}
+.tread {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--text-primary);
+}
+.num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1;
+}
+.stTitle {
+  font-size: clamp(10.5px, 0.86vw, 15px);
+  font-weight: 650;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+.markerLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.marker {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, calc(-100% - 8px));
+}
+.markerDot {
+  display: grid;
+  place-items: center;
+  width: clamp(34px, 2.7vw, 48px);
+  height: clamp(34px, 2.7vw, 48px);
+  border-radius: 50%;
+  background: var(--club);
+  box-shadow: 0 0 0 4px var(--bg-primary);
+  font-size: clamp(9px, 0.7vw, 11px);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--text-primary);
+}
+
+/* ── Painel do degrau ── */
+.panel {
+  grid-column: 8 / span 5;
+  display: grid;
+  min-height: 0;
+}
+.block {
+  grid-area: 1 / 1;
+  align-self: center;
+  min-width: 0;
+}
+.blockLabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+.blockTitle {
+  margin-top: 10px;
+  font-size: var(--fs-display-s);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+}
+.blockBody {
+  margin-top: 10px;
+  max-width: 40ch;
+}
+.example {
+  margin-top: clamp(14px, 2.4vh, 24px);
+  padding: clamp(14px, 1.3vw, 20px) clamp(14px, 1.3vw, 22px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+.exampleHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+}
+.clubBadge {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--club);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--text-primary);
+}
+.clubBadgeLg {
+  width: 44px;
+  height: 44px;
+  font-size: 11px;
+}
+.clubName {
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+.exampleTag {
+  margin-left: auto;
+}
+.exampleText {
+  min-height: 2lh;
+  margin-top: 10px;
+  font-size: clamp(14px, 1.05vw, 17px);
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+.gains {
+  margin: clamp(14px, 2.4vh, 24px) 0 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+.gains > div {
+  padding-top: 12px;
+  border-top: 1px solid var(--border-strong);
+}
+.gains dd {
+  min-height: 2lh;
+  margin: 8px 0 0;
+  font-size: clamp(14px, 1.08vw, 18px);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+.gainBora dt {
+  color: var(--brand-text);
+}
+
+/* bloco 0: apresentação do clube */
+.intro {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.introName {
+  font-size: var(--fs-display-s);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+}
+.introText {
+  margin-top: 14px;
+  max-width: 40ch;
+}
+.introHint {
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  margin-top: clamp(16px, 2.8vh, 28px);
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+.swatchDone,
+.swatchNext {
+  width: 22px;
+  height: 14px;
+  border-radius: 3px 3px 0 0;
+}
+.swatchDone {
+  background: var(--brand);
+  box-shadow: inset 0 2px 0 var(--text-primary);
+}
+.swatchNext {
+  border: 1px dashed var(--border-strong);
+  border-bottom: 0;
+}
+
+/* simulação (degrau 7) */
+.sim {
+  margin-top: clamp(12px, 2vh, 20px);
+}
+.simSliders {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(8px, 1.4vh, 16px) clamp(16px, 1.6vw, 28px);
+}
+.simStats {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: 14px;
+  margin-top: clamp(12px, 2.2vh, 22px);
+  padding-top: clamp(12px, 2vh, 18px);
+  border-top: 1px solid var(--border);
+  align-items: end;
+}
+.simAccent {
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  background: var(--brand-a16);
+  outline: 1px solid color-mix(in srgb, var(--brand-deep) 30%, transparent);
+}
+.simYear {
+  margin-top: 12px;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+}
+.simYear strong {
+  font-weight: 650;
+  color: var(--text-primary);
+}
+
+/* tabela final */
+.tableTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.stepCell {
+  white-space: nowrap;
+}
+.stepNum {
+  margin-right: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+/* ── Tablet: painel mais largo; dentro dos degraus só o número (o título está no painel e na tabela) ── */
+@media (max-width: 1279px) {
+  .chart {
+    grid-column: 1 / span 5;
+  }
+  .panel {
+    grid-column: 6 / span 7;
+  }
+  .stTitle {
+    display: none;
+  }
+  .stairText {
+    padding: 6px 5px;
+  }
+  .num {
+    font-size: 10px;
+  }
+  .panel :global(.data-table) {
+    font-size: 12.5px;
+  }
+  .panel :global(.data-table) th,
+  .panel :global(.data-table) td {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+}
+
+/* ── Modo fluxo (mobile / janelas baixas): empilhado, tudo visível ── */
+@media (max-width: 767px), (max-height: 559px) {
+  .body {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 40px;
+  }
+  .chart,
+  .panel {
+    grid-column: 1;
+  }
+  .chart {
+    height: 360px;
+  }
+  .panel {
+    gap: 40px;
+  }
+  .block,
+  .swap > * {
+    grid-area: auto;
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .swap {
+    gap: 24px;
+  }
+  .swap :global(.split-unit) {
+    transform: none !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  .swap :global(.sh-lede) {
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+}

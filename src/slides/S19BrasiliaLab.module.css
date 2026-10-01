@@ -1,0 +1,513 @@
+/* BORA Brasília Lab — eixo 0 → 90 dias, três fases, saída (playbook → próxima cidade)
+   e console de experimentos (passo final). Animações via GSAP: nada aqui tem transition
+   em opacity/transform de elementos animados. */
+
+.root {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  row-gap: clamp(14px, 2.6vh, 34px);
+}
+
+/* Plano (s0–s4) e console (s5) ocupam a mesma área. */
+.stage {
+  display: grid;
+  min-height: 0;
+}
+.stage > * {
+  grid-area: 1 / 1;
+  min-width: 0;
+  min-height: 0;
+}
+
+.plan {
+  display: flex;
+  flex-direction: column;
+}
+.lede {
+  max-width: 62ch;
+}
+.timeline {
+  margin-top: clamp(16px, 3.8vh, 52px);
+  align-items: start;
+}
+
+/* ── Fases: três colunas sem gutter → eixo contínuo ─────────────────── */
+.phases {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.phase {
+  position: relative;
+  min-width: 0;
+}
+.axis {
+  position: relative;
+  height: clamp(24px, 3.4vh, 34px);
+}
+.tick {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+}
+.tickEnd {
+  left: auto;
+  right: 0;
+  text-align: right;
+}
+.tickMark {
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 1px;
+  height: 9px;
+  background: var(--line);
+}
+.tickMarkEnd {
+  left: auto;
+  right: 0;
+}
+.rule {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--line);
+  transform-origin: left center;
+}
+.progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.5px;
+  height: 2px;
+  background: var(--brand);
+  transform-origin: left center;
+}
+
+.content {
+  padding: clamp(14px, 2.6vh, 30px) var(--gutter) 0 0;
+}
+.phaseMeta {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.phaseIndex {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--brand-text);
+}
+.phaseRange {
+  color: var(--text-tertiary);
+}
+.phaseName {
+  margin-top: clamp(4px, 0.8vh, 10px);
+  font-size: var(--fs-display-s);
+  font-weight: 300;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+}
+.items {
+  margin: clamp(10px, 2vh, 24px) 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  row-gap: clamp(5px, 0.95vh, 11px);
+}
+.item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+  font-size: clamp(13px, 1vw, 16px);
+  line-height: 1.25;
+  color: var(--text-secondary);
+}
+.itemLabel {
+  min-width: 0;
+}
+.itemKey {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+.itemDot {
+  position: relative;
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1.5px solid var(--text-tertiary);
+}
+.itemFill {
+  position: absolute;
+  inset: -1.5px;
+  border-radius: 50%;
+  background: var(--brand);
+}
+
+/* ── Saída: playbook → próxima cidade ───────────────────────────────── */
+.output {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-width: 0;
+}
+.outAxis {
+  position: relative;
+  width: 100%;
+  height: clamp(24px, 3.4vh, 34px);
+}
+.arrowH {
+  position: absolute;
+  left: calc(-1 * var(--gutter));
+  width: calc(50% + var(--gutter) + 1px);
+  bottom: -0.5px;
+  height: 2px;
+  background: var(--brand);
+  transform-origin: left center;
+}
+.arrowV {
+  position: relative;
+  width: 2px;
+  height: clamp(10px, 2vh, 26px);
+  background: var(--brand);
+  transform-origin: center top;
+}
+.arrowV::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -1px;
+  width: 7px;
+  height: 7px;
+  border-right: 2px solid var(--brand);
+  border-bottom: 2px solid var(--brand);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.doc {
+  position: relative;
+  width: clamp(70px, 6.6vw, 124px);
+  aspect-ratio: 120 / 152;
+  margin-top: 5px;
+}
+.doc svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.docSheet {
+  fill: var(--surface);
+  stroke: var(--border-strong);
+  stroke-width: 1.25;
+  vector-effect: non-scaling-stroke;
+}
+.docFold {
+  fill: var(--surface-2);
+  stroke: var(--border-strong);
+  stroke-width: 1.25;
+  vector-effect: non-scaling-stroke;
+}
+.docLine {
+  fill: var(--text-quaternary);
+}
+.docLineStrong {
+  fill: var(--text-tertiary);
+}
+.docKicker {
+  position: absolute;
+  left: 13%;
+  top: 11%;
+  font-size: clamp(7px, 0.55vw, 9px);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.docBadge {
+  position: absolute;
+  right: 11%;
+  bottom: 9%;
+  display: inline-grid;
+  place-items: center;
+  height: clamp(18px, 1.6vw, 26px);
+  padding: 0 clamp(6px, 0.6vw, 10px);
+  border-radius: var(--radius-pill);
+  background: var(--brand);
+  color: var(--brand-ink);
+  font-family: var(--font-mono);
+  font-size: clamp(10px, 0.85vw, 13px);
+  font-weight: 700;
+}
+.docLabel {
+  margin-top: clamp(6px, 1vh, 12px);
+  max-width: 22ch;
+}
+.docTitle {
+  font-size: clamp(13px, 1.05vw, 17px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+.version {
+  color: var(--brand-text);
+}
+.caption {
+  margin-top: 4px;
+  font-size: clamp(11.5px, 0.85vw, 13px);
+  line-height: 1.35;
+  color: var(--text-tertiary);
+  text-wrap: balance;
+}
+.connector {
+  width: 0;
+  height: clamp(10px, 1.8vh, 24px);
+  margin-top: clamp(6px, 1vh, 12px);
+  border-left: 1px dashed var(--line);
+}
+.ring {
+  position: relative;
+  width: clamp(46px, 4.6vw, 84px);
+  aspect-ratio: 1;
+  margin-top: 4px;
+  display: grid;
+  place-items: center;
+}
+.ringSpin {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.ringCircle {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 5;
+  vector-effect: non-scaling-stroke;
+}
+.ringQ {
+  font-family: var(--font-mono);
+  font-size: clamp(18px, 1.8vw, 30px);
+  line-height: 1;
+  color: var(--text-secondary);
+}
+.nextLabel {
+  margin-top: clamp(6px, 1vh, 12px);
+  max-width: 22ch;
+}
+
+/* ── Console de experimentos (s5) ───────────────────────────────────── */
+.console {
+  align-content: start;
+  row-gap: 24px;
+}
+.consoleHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  margin-bottom: clamp(6px, 1.2vh, 12px);
+}
+.consoleTitle {
+  font-size: var(--fs-title);
+}
+.table {
+  font-size: clamp(12.5px, 0.92vw, 15px);
+  line-height: 1.38;
+}
+.table thead th {
+  white-space: nowrap;
+}
+.table tbody tr > * {
+  color: var(--text-tertiary);
+  font-weight: 400;
+  transition: color 0.35s;
+}
+.table tbody tr:has(.liveOn) > * {
+  color: var(--text-secondary);
+}
+.table tbody tr:has(.liveOn) > :first-child {
+  color: var(--text-primary);
+}
+.colHyp {
+  width: 35%;
+}
+.colExp {
+  width: 26%;
+}
+.colMetric {
+  width: 23%;
+}
+.colWeeks {
+  width: 16%;
+  padding-right: 0 !important;
+}
+.hyp {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+.liveDot {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 1.5px solid var(--text-quaternary);
+  transform: translateY(-1px);
+  transition:
+    background-color 0.35s,
+    border-color 0.35s;
+}
+.liveOn {
+  background: var(--brand);
+  border-color: var(--brand);
+}
+.product {
+  display: inline-block;
+  margin-right: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  transition: color 0.35s;
+}
+tr:has(.liveOn) .product {
+  color: var(--brand-text);
+}
+/* Estágio da ação ao lado do nome (rodando × ideia), sem depender da semana. */
+.productStage {
+  font-weight: 600;
+  color: var(--text-tertiary);
+}
+.weeks {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.weeksText {
+  font-size: 12.5px;
+}
+.gantt {
+  display: flex;
+  gap: 2px;
+}
+.cell {
+  width: clamp(4px, 0.36vw, 6px);
+  height: 10px;
+  border-radius: 1.5px;
+  background: var(--border);
+  transition: background-color 0.3s;
+}
+.cellOn {
+  background: var(--text-quaternary);
+}
+.cellNow {
+  background: var(--border-strong);
+  box-shadow: 0 0 0 1px var(--text-tertiary);
+}
+.cellHit {
+  background: var(--brand);
+  box-shadow: none;
+}
+
+.phaseNow {
+  margin-top: 10px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--text-tertiary);
+}
+.phaseNow b {
+  font-weight: 500;
+  color: var(--brand-text);
+}
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: clamp(14px, 2.2vh, 22px);
+  padding-top: clamp(12px, 2vh, 18px);
+  border-top: 1px solid var(--border);
+}
+.activeHead {
+  margin-top: clamp(14px, 2.2vh, 22px);
+  color: var(--text-tertiary);
+}
+.activeList {
+  margin-top: 8px;
+  min-height: 2.9em;
+  font-size: clamp(12px, 0.9vw, 14px);
+  line-height: 1.45;
+  color: var(--text-primary);
+  text-wrap: pretty;
+}
+.activeList > span {
+  white-space: nowrap;
+}
+.sep {
+  color: var(--brand-text);
+}
+
+/* Tablet / janelas baixas: console mais compacto */
+@media (max-width: 1180px), (max-height: 820px) {
+  .table {
+    font-size: 12px;
+    line-height: 1.32;
+  }
+  .table th,
+  .table td {
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-right: 10px;
+  }
+  .product {
+    font-size: 9px;
+    margin-right: 6px;
+  }
+  .stats {
+    gap: 10px;
+  }
+}
+
+/* Modo fluxo (mobile / janelas baixas): tudo empilhado, nada sobreposto. */
+@media (max-width: 767px), (max-height: 559px) {
+  .stage {
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+  }
+  .stage > * {
+    grid-area: auto;
+  }
+  .phases {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 28px;
+  }
+  .output {
+    margin-top: 36px;
+  }
+  .arrowH {
+    display: none;
+  }
+  .tableScroll {
+    overflow-x: auto;
+  }
+  .tableScroll table {
+    min-width: 640px;
+  }
+}

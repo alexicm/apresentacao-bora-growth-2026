@@ -1,0 +1,186 @@
+/* Cidade abstrata do BORA CAPTAINS. Camada "história" (animada pelo GSAP do slide) e
+   camada "simulação" (dirigida por estado React — só ela usa transições CSS). */
+
+.box {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 800 / 760;
+}
+.svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Base: contorno, bairros, avenidas */
+.outline {
+  fill: none;
+  stroke: var(--border-strong);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+.cell {
+  fill: color-mix(in srgb, var(--text-primary) 3.5%, transparent);
+  stroke: var(--border);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+.avenue {
+  fill: none;
+  stroke: var(--border-strong);
+  stroke-width: 1;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Calor (densidade) e limiar */
+.heat {
+  fill: var(--brand);
+  opacity: 0;
+}
+.above {
+  fill: none;
+  stroke: var(--brand);
+  stroke-width: 1.6;
+  vector-effect: non-scaling-stroke;
+}
+.halo {
+  fill: none;
+  stroke: var(--border-strong);
+  stroke-width: 1;
+  stroke-dasharray: 2 5;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Corredores, desafios, capitães, empresas */
+.dot {
+  fill: var(--text-primary);
+}
+.scatter {
+  fill: var(--text-secondary);
+}
+.challenge {
+  fill: none;
+  stroke: var(--brand);
+  stroke-width: 1.3;
+  vector-effect: non-scaling-stroke;
+}
+.captainRing {
+  fill: var(--bg-primary);
+  stroke: var(--brand);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+.captainCore {
+  fill: var(--brand);
+}
+.company {
+  fill: var(--bg-primary);
+  stroke: var(--text-primary);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+.companyLink {
+  fill: none;
+  stroke: var(--text-tertiary);
+  stroke-width: 1.2;
+  stroke-dasharray: 3 4;
+  vector-effect: non-scaling-stroke;
+}
+
+.ripple {
+  fill: none;
+  stroke: var(--brand);
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+  opacity: 0;
+}
+
+/* Hub */
+.hubCore {
+  fill: var(--brand);
+  stroke: var(--bg-primary);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+.hubPulse {
+  fill: none;
+  stroke: var(--brand);
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+  opacity: 0;
+}
+
+/* Camada de simulação (React): transições suaves por elemento */
+.sim .heat,
+.sim .above,
+.sim .dot,
+.sim .challenge,
+.sim .captain,
+.sim .company,
+.sim .companyLink,
+.sim .simHub {
+  transition: opacity 0.45s ease;
+}
+.sim .dot,
+.sim .challenge {
+  transition-delay: calc(var(--i, 0) * 9ms);
+}
+.simHub {
+  transition:
+    opacity 0.45s ease,
+    transform 0.6s var(--ease-bora);
+}
+
+/* Rótulos HTML */
+.label {
+  position: absolute;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.hood {
+  transform: translate(-50%, calc(-100% - 20px));
+  display: inline-grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-strong);
+  background: var(--bg-primary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+.hoodHot {
+  border-color: var(--brand);
+  color: var(--brand-text);
+}
+.hubLabel {
+  transform: translate(calc(-100% - 8px), 12px);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding: 0 10px;
+  border-radius: var(--radius-pill);
+  background: var(--brand);
+  color: var(--brand-ink);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.hubMark {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 11px;
+  color: var(--brand-ink);
+  pointer-events: none;
+}
+.sim .label {
+  transition: opacity 0.45s ease;
+}

@@ -1,0 +1,208 @@
+/* S08 — BORA BOOST
+   Palco com container-type: size: o circuito (ValueCircuit) e o "slot" à direita leem a mesma geometria.
+   Regra do motor: nada com data-a recebe transition CSS em opacity/transform/visibility. */
+
+.stage {
+  position: relative;
+  min-height: 0;
+  container-type: size;
+  --vc-R: min(36cqh, 16cqw);
+  --vc-cx: max(21cqw, calc(var(--vc-R) + 130px));
+  --vc-cy: 50cqh;
+  --vc-ly: 28cqh;
+  --credits-y: 66cqh;
+  /* o conteúdo do passo começa à direita dos rótulos do anel */
+  --slot-x: calc(var(--vc-cx) + var(--vc-R) * 0.81 + 196px);
+}
+@media (max-width: 1279px) {
+  .stage {
+    --vc-R: min(31cqh, 13.5cqw);
+    --vc-cx: max(20cqw, calc(var(--vc-R) + 112px));
+    --slot-x: calc(var(--vc-cx) + var(--vc-R) * 0.81 + 170px);
+  }
+}
+
+.slot {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: var(--slot-x);
+}
+.panel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+/* O simulador é uma cena própria: ocupa o palco inteiro (o circuito sai de cena no passo 4). */
+.simPanel {
+  left: calc(-1 * var(--slot-x));
+}
+
+/* ── Legenda do circuito ─────────────────────────────────────────── */
+.flowList {
+  display: grid;
+  gap: clamp(8px, 1.5vh, 16px);
+  margin-top: clamp(14px, 2.4vh, 24px);
+}
+.flowRow {
+  display: grid;
+  grid-template-columns: clamp(104px, 8.6vw, 140px) minmax(0, 1fr);
+  align-items: start;
+  column-gap: clamp(14px, 1.4vw, 22px);
+  padding-bottom: clamp(8px, 1.5vh, 16px);
+  border-bottom: 1px solid var(--border);
+}
+.flowRow:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.token {
+  display: inline-flex;
+  justify-self: start;
+  align-items: center;
+  height: 28px;
+  padding: 0 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-strong);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  transition:
+    background-color 0.35s var(--ease-bora),
+    border-color 0.35s var(--ease-bora),
+    color 0.35s var(--ease-bora);
+}
+.route {
+  display: block;
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  color: var(--text-tertiary);
+}
+.flowText {
+  margin-top: 3px;
+  font-size: clamp(14px, 1.08vw, 17px);
+  line-height: 1.38;
+  color: var(--text-secondary);
+  transition: color 0.35s var(--ease-bora);
+}
+.flowRow[data-on] .token {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: var(--brand-ink);
+}
+.flowRow[data-on] .flowText {
+  color: var(--text-primary);
+}
+
+/* ── Quem recebe o quê ───────────────────────────────────────────── */
+.recv {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: clamp(14px, 1.6vw, 28px);
+  row-gap: 22px;
+  margin-top: clamp(14px, 2.4vh, 24px);
+}
+/* Em telas menores a tabela vira cena própria, por cima do circuito (fundo opaco). */
+@media (max-width: 1439px) {
+  .tablePanel {
+    left: calc(-1 * var(--slot-x));
+    background: var(--bg-primary);
+  }
+}
+.recvHead {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-strong);
+}
+.recvDot {
+  width: 10px;
+  height: 10px;
+  flex: none;
+  border-radius: 50%;
+  border: 2px solid var(--text-primary);
+}
+.recvDot[data-accent] {
+  border-color: var(--brand);
+  background: var(--brand);
+}
+.recvList li {
+  padding: clamp(6px, 1.05vh, 10px) 0;
+  border-bottom: 1px solid var(--border);
+  font-size: clamp(13px, 1vw, 16px);
+  line-height: 1.3;
+  color: var(--text-secondary);
+}
+.recvList li:last-child {
+  border-bottom: 0;
+}
+.recvList[data-hero] li {
+  font-size: clamp(16px, 1.35vw, 22px);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.22;
+  color: var(--text-primary);
+}
+
+/* ── Simulador: barra "para onde vai a verba" ────────────────────── */
+.split {
+  display: flex;
+  gap: 2px;
+  height: 14px;
+}
+.splitSeg {
+  min-width: 2px;
+  border-radius: 3px;
+  background: var(--text-secondary);
+}
+.splitSeg[data-bora] {
+  background: var(--brand);
+}
+.swatch {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 3px;
+  background: var(--text-secondary);
+}
+.swatch[data-bora] {
+  background: var(--brand);
+}
+
+/* ── Modo fluxo (mobile / janelas baixas): tudo empilhado ────────── */
+.stage[data-flow] {
+  container-type: normal;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.stage[data-flow] .circuitBox {
+  position: relative;
+  height: 380px;
+  container-type: size;
+  --vc-R: min(28cqh, 21cqw);
+  --vc-cx: 42cqw;
+  --vc-cy: 50cqh;
+}
+.stage[data-flow] .recv {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.stage[data-flow] .slot {
+  position: static;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.stage[data-flow] .panel {
+  position: static;
+}
+.circuitBox {
+  position: absolute;
+  inset: 0;
+}

@@ -1,0 +1,142 @@
+/* A base do funil: três grupos (Medir · Atrair · Converter), cada ação com a linha em português.
+   O GSAP anima [data-a="group"], [data-a="item"], [data-a="lede"], [data-a="hint"], [data-a="next"]:
+   nenhum deles tem transition em opacity/transform/visibility (o hover mora no botão interno). */
+
+.root {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  row-gap: clamp(14px, 2.6vh, 30px);
+}
+
+.groups {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+  gap: clamp(12px, 1.6vw, 28px);
+  align-self: center;
+  align-items: start;
+}
+
+.group {
+  min-width: 0;
+}
+
+.groupHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  padding-bottom: clamp(10px, 1.6vh, 16px);
+  border-bottom: 2px solid var(--text-primary);
+}
+.group_converter .groupHead {
+  border-bottom-style: dashed;
+  border-bottom-color: var(--border-strong);
+}
+
+.groupTitle {
+  margin: 0;
+  font-size: clamp(20px, 1.8vw, 30px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.groupSub {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--text-secondary);
+}
+
+.items {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.group_atrair .items {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: clamp(12px, 1.6vw, 28px);
+}
+
+.item {
+  display: grid;
+  gap: 4px;
+  width: 100%;
+  padding: clamp(10px, 1.6vh, 16px) 0;
+  text-align: left;
+  color: inherit;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+}
+.item:hover .itemName {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.item:focus-visible {
+  outline: 2px solid var(--brand-text);
+  outline-offset: 2px;
+}
+
+.itemHead {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.itemName {
+  font-size: clamp(14px, 1.08vw, 17px);
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+.itemPlain {
+  font-size: clamp(13px, 0.95vw, 15px);
+  line-height: 1.4;
+  color: var(--text-secondary);
+}
+
+.itemKpi {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  line-height: 1.35;
+  color: var(--text-tertiary);
+}
+
+.dots_rodando {
+  color: var(--brand-text);
+}
+.dots_backlog {
+  color: var(--text-secondary);
+}
+
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 24px;
+  padding-top: clamp(8px, 1.4vh, 14px);
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+
+.next {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+@media (max-width: 767px), (max-height: 559px) {
+  .groups {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+  .group_atrair .items {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

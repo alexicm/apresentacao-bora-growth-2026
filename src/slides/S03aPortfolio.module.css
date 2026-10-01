@@ -1,0 +1,226 @@
+/* S03a — O pack: quadro frente × estágio (Rodando · Backlog · Ideia). */
+
+.top {
+  align-items: end;
+}
+
+.board {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+}
+.colFront {
+  width: 11%;
+}
+.colRun {
+  width: 49%;
+}
+.colBacklog {
+  width: 19%;
+}
+
+/* Cabeçalho das colunas: estágio, contagem e definição */
+.stageHead {
+  padding: 0 clamp(10px, 1.2vw, 20px) clamp(10px, 1.6vh, 16px) 0;
+  text-align: left;
+  vertical-align: bottom;
+  font-weight: inherit;
+  border-bottom: 1px solid var(--line);
+}
+.frontHead {
+  padding: 0 0 clamp(10px, 1.6vh, 16px);
+  text-align: left;
+  vertical-align: bottom;
+  color: var(--text-tertiary);
+  border-bottom: 1px solid var(--line);
+}
+.headRow {
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(10px, 1vw, 16px);
+}
+.count {
+  font-size: clamp(38px, 3.4vw, 64px);
+  font-weight: 700;
+  line-height: 0.82;
+  letter-spacing: -0.04em;
+  font-feature-settings: "tnum" 1;
+}
+.rodando .count {
+  color: var(--text-primary);
+}
+.headSide {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  padding-bottom: 2px;
+}
+/* definição (s0–s1) e leitura (s2) ocupam o mesmo lugar */
+.headText {
+  display: grid;
+  margin: 0;
+  font-size: clamp(12.5px, 0.9vw, 14px);
+  line-height: 1.35;
+  color: var(--text-secondary);
+}
+.headText > * {
+  grid-area: 1 / 1;
+}
+.note {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* Linhas: frentes */
+.front {
+  padding: clamp(6px, 1vh, 11px) 12px clamp(6px, 1vh, 11px) 0;
+  text-align: left;
+  vertical-align: top;
+  font-size: clamp(14px, 1.05vw, 17px);
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  line-height: 28px;
+  border-bottom: 1px solid var(--border);
+}
+.cell {
+  padding: clamp(6px, 1vh, 11px) clamp(8px, 1vw, 18px) clamp(6px, 1vh, 11px) 0;
+  vertical-align: top;
+  border-bottom: 1px solid var(--border);
+}
+.cell ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Ações: Rodando (volt sólido) · Backlog (contorno) · Ideia (tracejado) */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 28px;
+  padding: 0 12px;
+  font-size: clamp(12px, 0.88vw, 14px);
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--text-primary);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+}
+.chip:focus-visible {
+  outline: 2px solid var(--text-primary);
+  outline-offset: 2px;
+}
+.chip_rodando {
+  color: var(--brand-ink);
+  background: var(--brand);
+  border-color: var(--brand);
+}
+.chip_rodando:hover {
+  background: var(--brand-pressed);
+}
+.chip_backlog:hover,
+.chip_ideia:hover {
+  border-color: var(--text-primary);
+}
+.chip_ideia {
+  color: var(--text-secondary);
+  background: transparent;
+  border-style: dashed;
+}
+.chipDots {
+  display: none;
+}
+
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 24px;
+  margin-top: clamp(10px, 1.8vh, 18px);
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+.next {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Tooltip */
+.tipName {
+  display: block;
+  font-weight: 700;
+}
+.tipGoal {
+  display: block;
+  margin-top: 4px;
+}
+.tipMeta {
+  display: block;
+  margin-top: 6px;
+  opacity: 0.75;
+}
+
+/* Telas menores: quadro vira lista por frente (o estágio fica nos pontos de cada ação) */
+@media (max-width: 1023px) {
+  .count {
+    font-size: 40px;
+  }
+}
+@media (max-width: 767px) {
+  .board,
+  .board tbody,
+  .board tr,
+  .board td,
+  .board th {
+    display: block;
+    width: 100%;
+  }
+  .board thead {
+    display: block;
+  }
+  .board thead tr {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .frontHead {
+    display: none !important;
+  }
+  .stageHead {
+    padding: 0 0 12px;
+  }
+  .headRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .board colgroup {
+    display: none;
+  }
+  .front {
+    padding: 14px 0 6px;
+    border-bottom: 0;
+  }
+  .cell {
+    padding: 0 0 6px;
+    border-bottom: 0;
+  }
+  .board tbody tr {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+  }
+  .chipDots {
+    display: inline-flex;
+  }
+  /* no celular o slide toca até o fim: fica a leitura de cada coluna */
+  .def {
+    display: none;
+  }
+}

@@ -1,0 +1,360 @@
+/* Mapa do portfólio de growth — prancheta escalada (ver EcosystemMap.tsx).
+   Regra do motor: o GSAP anima .node, .head, .edge, .dot e .railLabel (entrada).
+   Hover/foco/estado da simulação ficam em elementos internos (.nodeInner, .headFill)
+   ou em propriedades que o GSAP não toca (stroke, fill, cor). */
+
+.box {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.artboard {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  /* traço sempre ~1px na tela, qualquer que seja a escala */
+  --hair: calc(1.15px / var(--s, 1));
+  --edge: color-mix(in srgb, var(--text-primary) 26%, var(--bg-primary));
+  --edge-faint: color-mix(in srgb, var(--text-primary) 11%, var(--bg-primary));
+  --up: var(--text-primary);
+  --down: var(--brand-deep);
+}
+
+.svg {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* ── Linhas ─────────────────────────────────────────────────────────── */
+.edge {
+  fill: none;
+  stroke: var(--edge);
+  stroke-width: var(--hair);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke 0.35s ease;
+}
+.hasFocus .edge {
+  stroke: var(--edge-faint);
+}
+.isBuild .edge[data-sim="off"],
+.isBuild .edge[data-sim="missing"] {
+  stroke: var(--edge-faint);
+}
+.isBuild .edge[data-sim="on"] {
+  stroke: color-mix(in srgb, var(--text-primary) 38%, var(--bg-primary));
+}
+
+.trace {
+  fill: none;
+  stroke-width: calc(1.9px / var(--s, 1));
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: trace 0.55s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+.trace[data-state="up"] {
+  stroke: var(--up);
+}
+.trace[data-state="down"] {
+  stroke: var(--down);
+}
+@keyframes trace {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.missingEdge {
+  fill: none;
+  stroke: var(--text-primary);
+  stroke-width: calc(1.4px / var(--s, 1));
+  stroke-dasharray: 3 4;
+  stroke-linecap: round;
+  animation: dash 1.2s linear infinite;
+}
+@keyframes dash {
+  to {
+    stroke-dashoffset: -14;
+  }
+}
+
+.dot {
+  fill: var(--edge);
+  transition: fill 0.35s ease;
+}
+.hasFocus .dot {
+  fill: var(--edge-faint);
+}
+.hasFocus .dot[data-state="up"] {
+  fill: var(--up);
+}
+.hasFocus .dot[data-state="down"] {
+  fill: var(--down);
+}
+.isBuild .dot[data-sim="off"] {
+  fill: var(--edge-faint);
+}
+.isBuild .dot[data-sim="missing"] {
+  fill: var(--text-primary);
+}
+
+.railLabel {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--text-tertiary);
+  pointer-events: none;
+}
+
+/* ── Cabeçalhos das frentes ─────────────────────────────────────────── */
+.head {
+  position: absolute;
+  top: 0;
+  height: 26px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.headText {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--text-secondary);
+}
+.headText :global(.t-label) {
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+}
+.headCount {
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+.headRule {
+  position: relative;
+  display: block;
+  height: 2px;
+  background: var(--border-strong);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.headFill {
+  position: absolute;
+  inset: 0;
+  background: var(--brand);
+  transform-origin: 0 50%;
+  transition: transform 0.6s var(--ease-bora);
+}
+.isBuild .headRule {
+  background: var(--border);
+}
+
+/* ── Nós ────────────────────────────────────────────────────────────── */
+.node {
+  position: absolute;
+  overflow: visible;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  text-align: left;
+  border-radius: 10px;
+}
+.node:focus-visible {
+  outline-offset: 2px;
+}
+
+.nodeInner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  padding: 0 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--text-primary);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  white-space: nowrap;
+  transition:
+    opacity 0.3s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+.name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* marcador de status (12px de caixa, centrado em x = 16 — onde passam os conectores verticais) */
+.mark {
+  position: relative;
+  flex: none;
+  width: 12px;
+  height: 12px;
+}
+.mark::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: 50%;
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease,
+    border-radius 0.3s ease,
+    inset 0.3s ease;
+}
+
+/* Estágio (mesma linguagem do StageTag): Rodando = volt sólido · Backlog = contorno · Ideia = tracejado */
+.nodeInner[data-stage="rodando"] {
+  background: var(--brand);
+  border-color: color-mix(in srgb, var(--brand-deep) 35%, var(--brand));
+  color: var(--brand-ink);
+}
+.nodeInner[data-stage="rodando"] .mark::before {
+  background: var(--brand-ink);
+}
+.nodeInner[data-stage="backlog"] {
+  background: var(--surface);
+  border-color: var(--text-primary);
+}
+.nodeInner[data-stage="backlog"] .mark::before {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--text-primary);
+}
+.nodeInner[data-stage="ideia"] {
+  background: color-mix(in srgb, var(--surface) 55%, transparent);
+  border-style: dashed;
+  border-color: var(--text-tertiary);
+  color: var(--text-secondary);
+}
+.nodeInner[data-stage="ideia"] .mark::before {
+  background: transparent;
+  border: 1px dashed currentColor;
+}
+/* Base do pack (produto atual): neutro sólido */
+.nodeInner[data-core="true"] {
+  background: var(--text-primary);
+  border-color: var(--text-primary);
+  color: var(--bg-primary);
+}
+.nodeInner[data-core="true"] .mark::before {
+  background: var(--brand);
+  border: 0;
+}
+
+/* Foco (invertido, distinto de qualquer estágio) e cadeia */
+.nodeInner[data-state="focus"] {
+  background: var(--text-primary);
+  border-color: var(--text-primary);
+  border-style: solid;
+  color: var(--brand);
+  box-shadow: 0 10px 24px -14px rgb(10 10 10 / 0.55);
+}
+.nodeInner[data-state="focus"] .mark::before {
+  background: var(--brand);
+  border: 0;
+  box-shadow: none;
+}
+.nodeInner[data-state="dim"] {
+  opacity: 0.24;
+}
+.nodeInner[data-state="up"] {
+  box-shadow: 0 0 0 1.5px var(--up, var(--text-primary));
+}
+.nodeInner[data-state="down"] {
+  box-shadow: 0 0 0 1.5px var(--brand-deep);
+}
+
+.node:hover .nodeInner[data-state="idle"] {
+  border-color: var(--text-primary);
+}
+
+/* Modo montar */
+.nodeInner[data-sim] .mark::before {
+  inset: 0;
+  border-radius: 3px;
+}
+.nodeInner[data-sim="on"] .mark::before {
+  /* caixa clara com check escuro: legível sobre volt, branco, tracejado e neutro */
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 6.2 5.1 8.2 9 4' fill='none' stroke='%230a0d00' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+      center / 12px no-repeat,
+    var(--surface);
+  border: 0;
+  box-shadow: 0 0 0 1px var(--text-primary);
+}
+.nodeInner[data-sim="off"],
+.nodeInner[data-sim="missing"] {
+  background: transparent;
+  border-style: solid;
+  border-color: var(--border);
+  box-shadow: none;
+  color: var(--text-quaternary);
+}
+.nodeInner[data-sim="off"] .mark::before,
+.nodeInner[data-sim="missing"] .mark::before {
+  background: transparent;
+  border: 0;
+  box-shadow: inset 0 0 0 1px var(--text-tertiary);
+}
+.nodeInner[data-sim="missing"] {
+  border-style: dashed;
+  border-color: var(--text-primary);
+  color: var(--text-primary);
+  background: repeating-linear-gradient(
+    135deg,
+    transparent 0 5px,
+    color-mix(in srgb, var(--text-primary) 7%, transparent) 5px 6px
+  );
+}
+.node:hover .nodeInner[data-sim="off"] {
+  border-color: var(--text-tertiary);
+  color: var(--text-secondary);
+}
+.missingTag {
+  position: absolute;
+  top: -9px;
+  right: 10px;
+  padding: 2px 7px;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bg-primary);
+  background: var(--text-primary);
+  border-radius: 999px;
+}
+
+.isStill .missingEdge {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trace {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .missingEdge {
+    animation: none;
+  }
+}

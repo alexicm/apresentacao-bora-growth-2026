@@ -1,0 +1,115 @@
+import type { SlideMeta } from "../types";
+
+export const meta = {
+  id: "enterprise",
+  title: "BORA ENTERPRISE",
+  chapter: "running",
+  // s0 START · s1 WORK RUN CLUB · s2 RACE TEAM · s3 LEAGUE · s4 simulador · s5 ficha da ação
+  steps: 6,
+  theme: "light",
+  summary: "Programas de corrida vendidos para empresas, do primeiro 5K ao time de prova.",
+} as const satisfies SlideMeta;
+
+export const copy = {
+  label: "BORA ENTERPRISE",
+  headline: ["Corrida como plataforma", "de **==engajamento corporativo.==**"],
+  // Linha em português do que é (padrão de ação explicada).
+  lede: "Programas de corrida vendidos para empresas. A empresa começa pequeno e aprofunda o programa.",
+  maturity: "Maturidade corporativa",
+  buyersTitle: "Quem compra",
+  buyers: ["RH", "Gente & Cultura", "Employer Branding", "Benefícios", "Marketing"],
+  fields: {
+    objective: "Objetivo",
+    duration: "Duração",
+    delivery: "Entrega",
+    revenue: "Modelo de receita",
+    conversion: "Conversão em usuários BORA",
+  },
+  products: [
+    {
+      id: "start",
+      stage: "Entrada",
+      name: "BORA START",
+      line: "Programa de entrada",
+      span: "8 a 12 semanas",
+      shape: "program",
+      shapeLabels: ["Semana 1", "8", "12", "5K de conclusão"],
+      objective: "Levar colaboradores do zero ao primeiro 5K.",
+      duration: "8 a 12 semanas",
+      delivery: "Turmas por nível, treinos guiados no app, encontros presenciais e evento de conclusão.",
+      revenue: "Contrato por turma e valor por participante.",
+      conversion: "Quem conclui recebe condição especial no Coaching individual.",
+    },
+    {
+      id: "run-club",
+      stage: "Rotina",
+      name: "BORA WORK RUN CLUB",
+      line: "Clube recorrente",
+      span: "contínuo",
+      shape: "club",
+      shapeLabels: ["Toda semana", "renovação", "Sem data de fim"],
+      objective: "Criar um ritual recorrente de corrida dentro da empresa.",
+      duration: "Contínuo, com renovação periódica",
+      delivery: "Encontros semanais, capitão interno, check-in, calendário de eventos e desafios.",
+      revenue: "Mensalidade corporativa recorrente.",
+      conversion: "Membros ativos viram BORA IDs; parte segue para o Coaching.",
+    },
+    {
+      id: "race-team",
+      stage: "Meta",
+      name: "BORA RACE TEAM",
+      line: "Preparação para uma prova",
+      span: "10 a 16 semanas",
+      shape: "race",
+      shapeLabels: ["Semana 1", "10 a 16 semanas", "Dia da prova", "próximo desafio"],
+      objective: "Preparar um time da empresa para uma prova específica.",
+      duration: "Ciclo até a prova (ex.: 10 a 16 semanas)",
+      delivery: "Planos por nível, treinos coletivos, kit e BORA HOUSE no dia da prova.",
+      revenue: "Pacote por prova e ativações de marca.",
+      conversion: "Depois da prova: próximo desafio ou Coaching individual.",
+    },
+    {
+      id: "league",
+      // Este degrau é o BORA LEAGUE, que ainda é ideia (o resto da linha está rodando).
+      stageId: "league",
+      stage: "Competição",
+      name: "BORA LEAGUE",
+      line: "Liga entre empresas",
+      span: "temporadas de 8 semanas",
+      shape: "league",
+      shapeLabels: ["Times de empresas diferentes", "8 semanas", "Evento final"],
+      objective: "Engajar e dar visibilidade: vence quem participa com consistência.",
+      duration: "Temporadas de 8 semanas",
+      delivery: "Times, desafios, check-ins, ranking e evento final.",
+      revenue: "Inscrição por empresa, naming rights e ativações.",
+      conversion: "O engajamento da temporada pode virar upgrade para o Coaching.",
+    },
+  ],
+  simCta: "Simular um programa",
+  railAria: "Produtos BORA ENTERPRISE, em ordem de maturidade",
+  sim: {
+    title: "Simulador de programa corporativo",
+    note: "Premissas ajustáveis ao vivo. Não são dados nem preços da BORA.",
+    example: "Empresa com 800 colaboradores em Brasília.",
+    exampleDetail: "Uma turma BORA START aberta a todos.",
+    inputs: {
+      eligible: { label: "Colaboradores elegíveis", min: 100, max: 5000, step: 50, value: 800 },
+      adoption: { label: "Adesão ao programa", min: 0.02, max: 0.4, step: 0.01, value: 0.12 },
+      completion: { label: "Concluem o programa", min: 0.3, max: 0.95, step: 0.05, value: 0.7 },
+      conversion: { label: "Concluintes → PASS/Coaching", min: 0, max: 0.3, step: 0.01, value: 0.1 },
+      price: { label: "Valor hipotético por pessoa", min: 60, max: 600, step: 10, value: 180 },
+    },
+    outputs: {
+      participants: "Participantes (novos BORA IDs)",
+      finishers: "Concluem o programa",
+      conversions: "Viram PASS ou Coaching",
+      revenue: "Receita do contrato",
+    },
+    waffleCaption: "Cada ponto = 1% dos colaboradores elegíveis",
+    waffleLegend: ["Colaboradores", "Participantes", "Concluintes", "Conversões"],
+  },
+  disclaimer: "Escopo, duração e preço são definidos com cada empresa. O BORA LEAGUE ainda é uma ideia a validar.",
+} as const;
+
+export type EnterpriseProduct = (typeof copy.products)[number];
+export type EnterpriseProductId = EnterpriseProduct["id"];

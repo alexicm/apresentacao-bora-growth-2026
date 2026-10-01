@@ -1,0 +1,10 @@
+.next
+out
+node_modules
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+
+# Fora do repositório público: currículo com contato pessoal e a foto original (o app usa as versões em public/brand)
+Profile_Alex.pdf
+image-ee789d9693.jpg

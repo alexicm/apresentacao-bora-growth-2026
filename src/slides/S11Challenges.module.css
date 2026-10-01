@@ -1,0 +1,510 @@
+/* BORA CHALLENGES — cabeçalho fixo; o palco troca de cena: assinatura × desafio → catálogo → rotas → simulação. */
+
+.root {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+/* ── Cabeçalho ── */
+.header {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-items: end;
+}
+.headMain {
+  grid-column: 1 / span 9;
+}
+.headline {
+  margin-top: clamp(12px, 2vh, 22px);
+  font-size: clamp(34px, 4vw, 72px);
+}
+.headAside {
+  grid-column: 10 / span 3;
+  padding-bottom: 0.35em;
+}
+.tagline {
+  margin: 0;
+  font-size: var(--fs-lede);
+  font-weight: 350;
+  line-height: 1.35;
+  color: var(--text-secondary);
+  text-wrap: pretty;
+}
+.tagline strong {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* ── Cenas ── */
+.scenes {
+  display: grid;
+  min-height: 0;
+  margin-top: clamp(18px, 3.6vh, 44px);
+}
+.scene {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 0;
+  min-width: 0;
+}
+.sceneHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 18px;
+  margin-bottom: clamp(14px, 2.6vh, 30px);
+}
+.sceneLabel {
+  color: var(--text-tertiary);
+}
+.sceneCaption {
+  font-size: var(--fs-body);
+  color: var(--text-secondary);
+}
+
+/* ── Cena 0: assinatura × desafio ── */
+.contrast {
+  display: grid;
+  gap: clamp(30px, 9vh, 110px);
+}
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
+  column-gap: var(--gutter);
+  align-items: center;
+}
+.rowTitle {
+  margin: 0;
+  font-size: clamp(28px, 3vw, 54px);
+  font-weight: 350;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  color: var(--text-secondary);
+}
+.rowChal .rowTitle {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.rowBody {
+  margin: 10px 0 0;
+  max-width: 28ch;
+  font-size: var(--fs-body);
+  line-height: 1.4;
+  color: var(--text-tertiary);
+}
+.rowChal .rowBody {
+  color: var(--text-secondary);
+}
+
+/* Assinatura: linha sem começo nem fim (esmaece nas pontas); pontos andam sem destino. */
+.subTrack {
+  position: relative;
+  height: 40px;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent);
+}
+.subLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1.5px;
+  margin-top: -0.75px;
+  background: var(--text-tertiary);
+}
+.drifter {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 0;
+}
+.drifter i {
+  position: absolute;
+  left: -5px;
+  top: -5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--text-tertiary);
+}
+
+/* Desafio: largada → seis marcos → chegada. */
+.chalTrack {
+  --line-y: 34px;
+  position: relative;
+  height: 96px;
+}
+.chalLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--line-y);
+  height: 2px;
+  margin-top: -1px;
+  background: var(--text-primary);
+}
+.endMark {
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.endMark em {
+  font-style: normal;
+}
+.startMark {
+  left: 0;
+  align-items: flex-start;
+}
+.finishMark {
+  right: 0;
+  align-items: flex-end;
+}
+.startTick {
+  position: absolute;
+  left: 0;
+  top: calc(var(--line-y) - 13px);
+  width: 2px;
+  height: 26px;
+  background: var(--text-primary);
+}
+.finishNode {
+  position: absolute;
+  right: -9px;
+  top: calc(var(--line-y) - 9px);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--brand);
+  box-shadow:
+    0 0 0 1.5px var(--text-primary),
+    0 0 0 7px var(--brand-a32);
+}
+.ticks {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.tick {
+  position: absolute;
+  top: calc(var(--line-y) - 6px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  transform: translateX(-50%);
+}
+.tickMark {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--bg-primary);
+  box-shadow: inset 0 0 0 1.5px var(--text-primary);
+}
+.tickLabel {
+  font-size: clamp(12px, 1.08vw, 18px);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  color: var(--text-primary);
+}
+.runnerTrack {
+  position: absolute;
+  left: 0;
+  top: var(--line-y);
+  width: 100%;
+  height: 0;
+}
+.runner {
+  position: absolute;
+  left: -7px;
+  top: -7px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--brand);
+  box-shadow: 0 0 0 1.5px var(--text-primary);
+}
+
+/* ── Cena 1: catálogo ── */
+.table {
+  font-size: clamp(13px, 0.98vw, 16px);
+}
+.table th,
+.table td {
+  vertical-align: middle;
+  padding-top: clamp(5px, 0.9vh, 10px);
+  padding-bottom: clamp(5px, 0.9vh, 10px);
+}
+.table thead th {
+  padding-bottom: clamp(8px, 1.2vh, 12px);
+}
+.challengeCell {
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 1.1vw, 18px);
+  --bib-w: clamp(46px, 4vw, 72px);
+}
+.challengeName {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+.colDuration {
+  white-space: nowrap;
+}
+
+/* ── Cena 2: rotas ── */
+.routesScene {
+  justify-content: flex-start;
+}
+.routesBox {
+  flex: 1;
+  min-height: 0;
+  container-type: size;
+  display: grid;
+  place-items: center;
+}
+.routesDiagram {
+  width: min(100cqw, calc(100cqh * 1200 / 330));
+}
+.routesFoot {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 4fr) minmax(0, 3fr);
+  column-gap: var(--gutter);
+  align-items: start;
+  margin-top: clamp(12px, 2.4vh, 28px);
+  padding-top: clamp(12px, 2vh, 20px);
+  border-top: 1px solid var(--border);
+}
+.example {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+.exampleText {
+  margin: 0;
+  font-size: clamp(14px, 1.08vw, 18px);
+  line-height: 1.4;
+  color: var(--text-secondary);
+}
+.exampleText strong {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.insight {
+  margin: 0;
+  font-size: clamp(16px, 1.3vw, 22px);
+  font-weight: 350;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: var(--text-secondary);
+}
+.insight strong {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.legend {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--text-tertiary);
+}
+
+/* Lista textual das rotas (só no modo fluxo, onde o diagrama ficaria pequeno demais). */
+.routesList {
+  display: none;
+}
+.routesList > div {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ── Cena 3: simulação ── */
+.simGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  column-gap: clamp(24px, 3.6vw, 64px);
+  align-items: start;
+}
+.simInputs {
+  display: grid;
+  gap: clamp(14px, 2.6vh, 28px);
+}
+.simLabel {
+  margin-bottom: 2px;
+  color: var(--text-tertiary);
+}
+.flowWrap {
+  position: relative;
+  margin-top: 14px;
+}
+.trunk {
+  position: relative;
+}
+.rail {
+  position: absolute;
+  left: 5px;
+  top: 10px;
+  bottom: 0;
+  width: 1px;
+  background: var(--line);
+}
+.flow {
+  margin: 0;
+  padding: 0 0 0 30px;
+  list-style: none;
+}
+.node {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(110px, 0.8fr) minmax(0, 2fr);
+  align-items: start;
+  column-gap: 20px;
+}
+.nodeDot {
+  position: absolute;
+  left: -30px;
+  top: 5px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 1.5px solid var(--text-primary);
+  background: var(--surface);
+}
+.nodeName {
+  padding-top: 2px;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--text-primary);
+}
+.edge {
+  padding: clamp(10px, 2vh, 22px) 0;
+  font-size: 12.5px;
+  color: var(--text-tertiary);
+}
+/* Bifurcação: o trilho termina numa barra horizontal; os dois destinos "pendem" dela. */
+.branch {
+  --g: clamp(24px, 3vw, 48px);
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: var(--g);
+  padding: 22px 0 0 30px;
+}
+.branch::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 0;
+  width: calc((100% - 30px - var(--g)) / 2 + var(--g) + 12.5px);
+  height: 1px;
+  background: var(--line);
+}
+.branchNode {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.branchNode::before {
+  content: "";
+  position: absolute;
+  left: -24.5px;
+  top: -22px;
+  width: 1px;
+  height: 27px;
+  background: var(--line);
+}
+.branchNode + .branchNode::before {
+  left: -13px;
+}
+.branchNode + .branchNode .nodeDot {
+  left: -18px;
+}
+.branchAccent .nodeDot {
+  border-color: var(--text-primary);
+  background: var(--brand);
+}
+
+/* ── Modo fluxo (celular / janelas baixas) ── */
+@media (max-width: 767px), (max-height: 559px) {
+  .root {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .scenes {
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+  }
+  .scene {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+  }
+  .row {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 16px;
+  }
+  .chalTrack {
+    height: auto;
+    padding-top: 58px;
+  }
+  .ticks {
+    position: static;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+  }
+  .tick {
+    position: static;
+    flex-direction: row;
+    gap: 6px;
+    transform: none;
+  }
+  .tickMark {
+    width: 8px;
+    height: 8px;
+  }
+  .tickLabel {
+    font-size: 13px;
+  }
+  .table {
+    display: block;
+    overflow-x: auto;
+  }
+  .routesBox {
+    display: none;
+  }
+  .routesList {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+  .routesFoot,
+  .simGrid {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 20px;
+  }
+}

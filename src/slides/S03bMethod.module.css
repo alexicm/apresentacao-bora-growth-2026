@@ -1,0 +1,574 @@
+/* S03b — O método: ciclo de growth (s0), priorizar com ICE (s1), ficha da ação (s2), cadência (s3). */
+
+.top {
+  align-items: end;
+}
+
+/* As cenas dividem a mesma célula; cada passo troca a cena. */
+.stage {
+  display: grid;
+  min-height: 0;
+}
+.scene {
+  grid-area: 1 / 1;
+  align-self: center;
+  min-width: 0;
+}
+.sceneTop {
+  align-self: start;
+}
+
+/* ── Cena 0: o ciclo ─────────────────────────────────────────────────── */
+.cycle {
+  --cycle-gap: clamp(16px, 2.2vw, 40px);
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  column-gap: var(--cycle-gap);
+  row-gap: clamp(10px, 1.6vh, 16px);
+}
+.rowLabel {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--text-tertiary);
+}
+.rowLabel::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.band {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  padding-top: 12px;
+  border-top: 2px solid var(--border-strong);
+}
+.band_rodando {
+  border-top-color: var(--brand);
+}
+.band_ideia {
+  border-top-style: dashed;
+}
+.bandCount {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.phase {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  min-height: clamp(150px, 22vh, 210px);
+  padding: clamp(14px, 1.4vw, 22px);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+}
+.phaseNum {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--brand-text);
+}
+.phaseName {
+  margin: 0;
+  font-size: clamp(18px, 1.5vw, 25px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+}
+.phaseDesc {
+  margin: 0;
+  font-size: clamp(13px, 0.95vw, 15px);
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+.arrow {
+  position: absolute;
+  top: 50%;
+  right: calc(var(--cycle-gap) * -0.5);
+  translate: 50% -50%;
+  font-size: 18px;
+  color: var(--brand-text);
+}
+/* "U" do aprendizado: sai do centro da fase 05 e volta ao centro da fase 02 */
+.loop {
+  grid-column: 2 / 6;
+  position: relative;
+  height: 46px;
+  margin-inline: calc((100% - 3 * var(--cycle-gap)) / 8);
+  border: 1.5px dashed var(--line);
+  border-top: 0;
+  border-radius: 0 0 18px 18px;
+}
+.loop::before {
+  content: "";
+  position: absolute;
+  left: -6.5px;
+  top: -2px;
+  border: 5.5px solid transparent;
+  border-bottom: 8px solid var(--line);
+  border-top: 0;
+}
+.loopText {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  translate: -50% 50%;
+  padding: 0 14px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--text-secondary);
+  background: var(--bg-primary);
+}
+
+/* ── Cena 1: ICE ─────────────────────────────────────────────────────── */
+.iceGrid {
+  align-items: start;
+}
+.iceHead,
+.iceRow {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) 38px 38px 38px minmax(120px, 34%);
+  align-items: center;
+  gap: 10px;
+}
+.iceHead {
+  padding: 0 12px 10px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  border-bottom: 1px solid var(--border-strong);
+}
+.iceNum {
+  text-align: center;
+}
+.iceList {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.iceItem {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 46px;
+  transform: translateY(calc(var(--r0) * 46px));
+}
+.iceRow {
+  width: 100%;
+  height: 100%;
+  padding: 0 12px;
+  font: inherit;
+  text-align: left;
+  color: var(--text-primary);
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  cursor: pointer;
+}
+.iceRow:hover {
+  background: var(--brand-a08);
+}
+.iceRow:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: -2px;
+}
+.iceRow[aria-pressed="true"] {
+  background: var(--brand-a16);
+  box-shadow: inset 2px 0 0 var(--brand);
+}
+.rowIn {
+  display: contents;
+}
+.rank {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-tertiary);
+  text-align: center;
+}
+.iceName {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  font-size: clamp(13.5px, 1vw, 15.5px);
+  font-weight: 600;
+}
+/* nome inteiro: quebra em até duas linhas em vez de cortar com reticências */
+.iceName span:last-child {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  line-height: 1.2;
+}
+@media (max-width: 1279px) {
+  .iceHead,
+  .iceRow {
+    grid-template-columns: 26px minmax(0, 1fr) 28px 28px 28px minmax(96px, 30%);
+    gap: 8px;
+  }
+  .iceName {
+    font-size: 13px;
+  }
+}
+.dots_backlog {
+  color: var(--text-primary);
+}
+.dots_ideia {
+  color: var(--text-tertiary);
+}
+.iceVal {
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+.scoreCell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 46px;
+  align-items: center;
+  gap: 10px;
+}
+.bar {
+  display: block;
+  height: 6px;
+  background: var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.barFill {
+  display: block;
+  height: 100%;
+  background: var(--brand);
+  border-radius: 6px;
+  transform-origin: left center;
+  /* a barra não é animada pelo GSAP: a transição suaviza a mudança de nota */
+  transition: transform 0.45s var(--ease-bora);
+}
+.scoreNum {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: right;
+}
+.cut {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0;
+  border-top: 1.5px dashed var(--brand-text);
+  pointer-events: none;
+}
+.cut span {
+  position: absolute;
+  right: 0;
+  top: 0;
+  translate: 0 -50%;
+  padding: 2px 10px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brand-ink);
+  background: var(--brand);
+  border-radius: var(--radius-pill);
+}
+.selName {
+  margin: 0;
+  font-size: clamp(20px, 1.7vw, 28px);
+  font-weight: 750;
+  letter-spacing: -0.02em;
+}
+.result {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.resultNum {
+  font-family: var(--font-mono);
+  font-size: clamp(32px, 2.8vw, 46px);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--brand-text);
+}
+.formula {
+  margin: 10px 0 0;
+  font-size: 12.5px;
+  color: var(--text-tertiary);
+}
+.reset {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.reset:hover {
+  color: var(--text-primary);
+}
+
+/* ── Cena 2: a ficha (a mesma ActionBrief dos produtos) + gestão ────── */
+.sheetGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(14px, 1.6vw, 28px);
+  align-items: start;
+}
+.mgmt {
+  display: grid;
+  align-content: start;
+  gap: clamp(10px, 1.6vh, 18px);
+  padding: clamp(16px, 1.6vw, 26px);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-xl);
+}
+.mgmtHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+.mgmtTitle {
+  margin: 0;
+  font-size: clamp(16px, 1.3vw, 21px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.field {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  min-width: 0;
+}
+.fieldTop {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.phaseChip {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--brand-text);
+}
+.fieldLabel {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+.fieldValue {
+  margin: 0;
+  font-size: clamp(14.5px, 1.1vw, 17px);
+  font-weight: 550;
+  line-height: 1.35;
+}
+.fieldCaption {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--text-tertiary);
+}
+.decisions {
+  display: grid;
+  gap: 8px;
+}
+.decision {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 10px;
+  row-gap: 2px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+}
+.decision_escalar {
+  border-color: var(--brand);
+  box-shadow: inset 0 0 0 1px var(--brand);
+}
+.decision_encerrar {
+  border-style: dashed;
+}
+.decisionName {
+  font-size: 14.5px;
+  font-weight: 700;
+}
+.decisionRule {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--text-secondary);
+}
+.decisionThen {
+  grid-column: 2;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--text-primary);
+}
+
+/* ── Cena 3: cadência ────────────────────────────────────────────────── */
+.ritualTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.ritualTable th {
+  padding: 0 14px 10px 0;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: left;
+  color: var(--text-tertiary);
+  border-bottom: 1px solid var(--border-strong);
+}
+.ritualTable td {
+  padding: clamp(10px, 1.6vh, 16px) 14px clamp(10px, 1.6vh, 16px) 0;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--border);
+}
+.freq {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brand-text);
+  white-space: nowrap;
+}
+.ritualName {
+  display: block;
+  font-size: clamp(14.5px, 1.1vw, 17px);
+  font-weight: 700;
+}
+.ritualDesc {
+  display: block;
+  margin-top: 3px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.weeks {
+  display: grid;
+  grid-template-columns: repeat(13, 1fr);
+  gap: 3px;
+  min-width: 150px;
+}
+.week {
+  height: 14px;
+  border-radius: 3px;
+  background: var(--border);
+}
+.week[data-on] {
+  background: var(--brand);
+}
+.phaseList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.phasePill {
+  padding: 2px 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+}
+.artifacts {
+  display: grid;
+  gap: 10px;
+}
+.artifact {
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+}
+.artifactName {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+.artifactDesc {
+  margin: 4px 0 0;
+  font-size: 13.5px;
+  line-height: 1.4;
+  color: var(--text-secondary);
+}
+
+/* ── Telas menores ───────────────────────────────────────────────────── */
+/* Telas baixas (ex.: 1024×768): sem as dicas dos sliders e com a ficha mais compacta. */
+@media (max-height: 820px) and (min-width: 768px) {
+  .icePanel :global(.slider) p {
+    display: none;
+  }
+  .mgmt {
+    gap: 10px;
+    padding: 14px 16px;
+  }
+  .decision {
+    padding: 7px 10px;
+  }
+  .decisionThen {
+    display: none;
+  }
+  .sheetIntro {
+    margin-bottom: 8px;
+  }
+}
+/* Celular (modo documento): as cenas empilham e ficam todas visíveis. */
+@media (max-width: 767px) {
+  .stage {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+  .cycle {
+    grid-template-columns: 1fr;
+  }
+  .rowLabel,
+  .band,
+  .loop {
+    display: none;
+  }
+  .phase {
+    min-height: 0;
+  }
+  .arrow {
+    display: none;
+  }
+  .iceHead,
+  .iceRow {
+    grid-template-columns: 26px minmax(0, 1fr) 0 0 0 96px;
+    gap: 8px;
+  }
+  .iceHead .iceNum,
+  .iceVal {
+    visibility: hidden;
+  }
+  .sheetGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .weeks {
+    min-width: 0;
+  }
+  .ritualTable thead th:nth-child(4),
+  .ritualTable td:nth-child(4) {
+    display: none;
+  }
+}

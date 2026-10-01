@@ -1,0 +1,141 @@
+/* Leaderboard — linhas reordenadas com GSAP Flip (transform nas linhas: sem transition CSS nelas).
+   As barras mudam de tamanho por transition CSS no transform dos segmentos (o GSAP não os toca). */
+
+.lb {
+  --row-h: clamp(38px, 5.4vh, 54px);
+  --bar-h: 8px;
+  --pos-w: 2.6em;
+  --cg: clamp(10px, 1vw, 16px);
+}
+.head {
+  display: grid;
+  grid-template-columns: var(--pos-w) 2.8em minmax(0, 1.55fr) minmax(0, 1.3fr) 4.2em;
+  align-items: center;
+  column-gap: var(--cg);
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-strong);
+}
+/* As posições ficam paradas; só as linhas (empresas) se movem. */
+.body {
+  display: grid;
+  grid-template-columns: var(--pos-w) minmax(0, 1fr);
+}
+.ranks li {
+  display: flex;
+  align-items: center;
+  height: var(--row-h);
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+.ranks li:last-child,
+.row:last-child {
+  border-bottom: 0;
+}
+.ranks li[data-leader] {
+  color: var(--brand-text);
+}
+.list {
+  position: relative;
+}
+.row {
+  display: grid;
+  grid-template-columns: 2.8em minmax(0, 1.55fr) minmax(0, 1.3fr) 4.2em;
+  align-items: center;
+  column-gap: var(--cg);
+  height: var(--row-h);
+  padding-left: var(--cg);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-primary);
+}
+.delta {
+  font-size: 11.5px;
+  color: var(--text-quaternary);
+  white-space: nowrap;
+}
+.delta[data-dir="up"] {
+  color: var(--text-primary);
+}
+.delta[data-dir="down"] {
+  color: var(--text-tertiary);
+}
+.name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  font-size: clamp(14px, 1.12vw, 18px);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.nameText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.leader {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  height: 18px;
+  padding: 0 7px;
+  border-radius: var(--radius-pill);
+  background: var(--brand);
+  color: var(--brand-ink);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.bar {
+  position: relative;
+  height: var(--bar-h);
+  border-radius: 4px;
+  background: var(--border);
+  overflow: hidden;
+}
+.seg {
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+  transform-origin: 0 50%;
+  transition: transform 0.75s var(--ease-bora);
+}
+.base {
+  background: var(--text-secondary);
+}
+.row[data-leader] .base {
+  background: var(--brand);
+}
+.perf {
+  background: var(--text-tertiary);
+}
+.pts {
+  justify-self: end;
+  font-size: clamp(14px, 1.1vw, 18px);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+.swatch {
+  display: inline-block;
+  width: 14px;
+  height: 6px;
+  border-radius: 3px;
+}
+
+@media (max-width: 767px) {
+  .lb {
+    --pos-w: 2.2em;
+    --cg: 8px;
+  }
+  .head {
+    grid-template-columns: var(--pos-w) 2.2em minmax(0, 1.7fr) minmax(0, 1fr) 3.2em;
+  }
+  .row {
+    grid-template-columns: 2.2em minmax(0, 1.7fr) minmax(0, 1fr) 3.2em;
+  }
+  .leader {
+    display: none;
+  }
+}

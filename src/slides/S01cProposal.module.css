@@ -1,0 +1,108 @@
+/* A proposta: a frase no alto e o roteiro em três partes embaixo.
+   O GSAP anima [data-a="act"], [data-a="act-line"] e [data-a="roadmap-label"]: sem transition nesses elementos. */
+
+.root {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  row-gap: clamp(20px, 4vh, 48px);
+}
+
+.contours {
+  position: absolute;
+  top: 4%;
+  right: -4%;
+  width: min(36vw, 580px);
+  aspect-ratio: 1;
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+.roadmap {
+  position: relative;
+  align-self: end;
+}
+
+.acts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(14px, 2vw, 36px);
+  margin: clamp(12px, 2vh, 20px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.actItem {
+  position: relative;
+  padding-top: clamp(14px, 2vh, 22px);
+}
+
+.actLine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--text-primary);
+}
+
+.act {
+  display: grid;
+  justify-items: start;
+  gap: clamp(6px, 1vh, 10px);
+  width: 100%;
+  padding: 0;
+  text-align: left;
+  color: inherit;
+  background: none;
+  border: 0;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.act:focus-visible {
+  outline: 2px solid var(--brand-text);
+  outline-offset: 6px;
+}
+
+.actNum {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+
+.actTitle {
+  font-size: clamp(22px, 2.1vw, 36px);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+
+.actText {
+  max-width: 36ch;
+  font-size: var(--fs-body);
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+
+.actRange {
+  margin-top: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brand-text);
+}
+.act:hover .actTitle {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
+}
+
+@media (max-width: 767px), (max-height: 559px) {
+  .acts {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+  }
+  .contours {
+    display: none;
+  }
+}

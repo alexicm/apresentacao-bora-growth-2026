@@ -1,0 +1,488 @@
+/* BORA CAPTAINS — narrativa à esquerda (passos → portão → simulador), cidade abstrata à direita. */
+
+.root {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+}
+.cols {
+  min-height: 0;
+  height: 100%;
+}
+
+/* ── Coluna esquerda ─────────────────────────────────────────────────── */
+.left {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.title {
+  font-size: clamp(30px, 3.1vw, 56px) !important;
+}
+.leftStage {
+  position: relative;
+  display: grid;
+  flex: 1;
+  min-height: 0;
+  margin-top: clamp(14px, 2.6vh, 34px);
+}
+.leftStage > * {
+  grid-area: 1 / 1;
+  min-width: 0;
+  min-height: 0;
+}
+.flowPane {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 2.2vh, 28px);
+}
+
+/* Passos */
+.stepsWrap {
+  position: relative;
+}
+.steps {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  row-gap: clamp(4px, 0.75vh, 12px);
+}
+.rail {
+  position: absolute;
+  left: 12px;
+  top: 10px;
+  bottom: 10px;
+  width: 1px;
+  background: var(--border);
+}
+.railProgress {
+  position: absolute;
+  inset: 0;
+  width: 2px;
+  margin-left: -0.5px;
+  background: var(--brand);
+  transform-origin: center top;
+}
+.step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 25px minmax(0, 1fr);
+  column-gap: 14px;
+  align-items: start;
+}
+.stepText {
+  opacity: 0.32;
+}
+.num {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-primary);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--text-secondary);
+}
+.numOn {
+  position: absolute;
+  inset: -1px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--brand);
+  color: var(--brand-ink);
+  font-weight: 600;
+  opacity: 0;
+}
+.stepTitle {
+  font-size: clamp(14px, 1.1vw, 18px);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  padding-top: 2px;
+}
+.stepBody {
+  margin-top: 2px;
+  font-size: clamp(12px, 0.88vw, 14px);
+  line-height: 1.35;
+  color: var(--text-tertiary);
+}
+
+/* Densidade por bairro (passos 6–7) */
+.density {
+  padding-top: clamp(10px, 1.6vh, 20px);
+  border-top: 1px solid var(--border);
+}
+.densHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  color: var(--text-tertiary);
+}
+.bars {
+  position: relative;
+  display: grid;
+  row-gap: clamp(6px, 0.9vh, 10px);
+  margin-top: clamp(8px, 1.4vh, 16px);
+  padding-top: 16px;
+}
+.barRow {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr) 34px;
+  column-gap: 12px;
+  align-items: center;
+}
+.barKey {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+.track {
+  position: relative;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--border);
+}
+.bar,
+.barHot {
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+  transform-origin: left center;
+}
+.bar {
+  background: var(--text-tertiary);
+}
+.barHot {
+  background: var(--brand);
+  opacity: 0;
+}
+.barVal {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  text-align: right;
+  color: var(--text-primary);
+}
+.thresholdWrap {
+  position: absolute;
+  top: 0;
+  bottom: -4px;
+  left: calc(26px + 12px);
+  right: calc(34px + 12px);
+  pointer-events: none;
+}
+.threshold {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  border-left: 1px dashed var(--text-secondary);
+}
+.thresholdLabel {
+  position: absolute;
+  top: -3px;
+  left: 6px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  white-space: nowrap;
+  color: var(--text-secondary);
+}
+
+/* Portão (passo 8) */
+.gatePane {
+  display: flex;
+  flex-direction: column;
+  align-content: start;
+}
+.gateHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+}
+.gateTitle {
+  font-size: var(--fs-display-s);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+.gateCaption {
+  margin-top: clamp(8px, 1.4vh, 14px);
+  color: var(--text-tertiary);
+}
+.gateTable {
+  margin-top: 6px;
+  font-size: clamp(12.5px, 0.9vw, 14.5px);
+}
+.gateTable th:last-child,
+.gateTable td:last-child {
+  width: 34px;
+  padding-right: 0;
+  text-align: right;
+}
+.check {
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--brand);
+  color: var(--brand-ink);
+}
+.check svg {
+  width: 11px;
+  height: 11px;
+}
+.decision {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: clamp(12px, 2vh, 20px);
+  font-size: var(--fs-body);
+  color: var(--text-secondary);
+}
+.yes {
+  display: inline-grid;
+  place-items: center;
+  height: 30px;
+  padding: 0 14px;
+  border-radius: var(--radius-pill);
+  background: var(--brand);
+  color: var(--brand-ink);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.statement {
+  margin-top: clamp(16px, 3vh, 34px);
+  font-size: var(--fs-display-s);
+}
+
+/* Simulador (passo 9) */
+.simPane {
+  align-self: start;
+}
+.sim {
+  padding: clamp(16px, 1.6vw, 26px);
+}
+.sim h3 {
+  font-size: clamp(16px, 1.3vw, 22px);
+}
+.sliders {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(8px, 1.4vh, 14px) clamp(14px, 1.4vw, 22px);
+}
+.toggleRow {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 8px;
+}
+.toggleLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+.results {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(10px, 1.6vh, 16px) clamp(14px, 1.4vw, 22px);
+  margin-top: clamp(12px, 2vh, 20px);
+  padding-top: clamp(12px, 2vh, 18px);
+  border-top: 1px solid var(--border);
+}
+.criteria {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px 10px;
+  align-content: center;
+}
+.crit {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: var(--text-tertiary);
+  transition: color 0.3s;
+}
+.critOk {
+  color: var(--text-primary);
+}
+.critMark {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid var(--border-strong);
+  transition:
+    background-color 0.3s,
+    border-color 0.3s;
+}
+.critOk .critMark {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: var(--brand-ink);
+}
+.critMark svg {
+  width: 9px;
+  height: 9px;
+}
+.critLabel {
+  grid-column: 1 / -1;
+  color: var(--text-tertiary);
+}
+
+/* ── Coluna direita: cidade ─────────────────────────────────────────── */
+.right {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.mapHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+}
+.city {
+  font-size: var(--fs-title);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.mapArea {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  margin-top: clamp(4px, 1vh, 12px);
+  container-type: size;
+  display: grid;
+  place-items: center;
+}
+.mapFit {
+  width: min(100cqw, calc(100cqh * 728 / 704));
+}
+.legend {
+  margin: clamp(6px, 1.2vh, 14px) 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 24px;
+}
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.lgIcon {
+  display: inline-grid;
+  place-items: center;
+  width: 14px;
+  height: 14px;
+  flex: none;
+}
+.lgCaptain {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--brand);
+  box-shadow:
+    inset 0 0 0 2px var(--bg-primary),
+    inset 0 0 0 6px var(--brand);
+}
+.lgRunner {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-primary);
+}
+.lgChallenge {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1.5px solid var(--brand);
+  box-shadow:
+    inset 0 0 0 3px var(--bg-primary),
+    inset 0 0 0 6px var(--text-primary);
+}
+.lgCompany {
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid var(--text-primary);
+  border-radius: 1.5px;
+}
+.lgHub {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--brand);
+}
+
+@media (max-height: 820px), (max-width: 1180px) {
+  .stepBody {
+    display: none;
+  }
+  .sim > p {
+    display: none;
+  }
+}
+@media (max-width: 1180px) {
+  .sim h3 {
+    font-size: 15px;
+  }
+}
+@media (max-height: 820px) {
+  .gateCaption {
+    display: none;
+  }
+  .gateTable th,
+  .gateTable td {
+    padding-top: 7px;
+    padding-bottom: 7px;
+  }
+  .statement {
+    margin-top: 14px;
+  }
+}
+
+/* Modo fluxo */
+@media (max-width: 767px), (max-height: 559px) {
+  .leftStage {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .leftStage > * {
+    grid-area: auto;
+  }
+  .mapArea {
+    container-type: normal;
+    margin-top: 16px;
+  }
+  .mapFit {
+    width: 100%;
+  }
+  .legend {
+    justify-content: flex-start;
+  }
+  .right {
+    margin-top: 40px;
+  }
+}
