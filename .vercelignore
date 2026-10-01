@@ -1,0 +1,8 @@
+Profile_Alex.pdf
+image-ee789d9693.jpg
+.next
+out
+node_modules
+*.tsbuildinfo
+.env*
+.vercel
