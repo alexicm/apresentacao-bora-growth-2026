@@ -27,6 +27,20 @@
   box-shadow: 0 40px 90px -50px rgb(0 0 0 / 0.55);
 }
 
+/* Pilha de fichas (slides de frente): uma por passo, no mesmo lugar. */
+.stack {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  align-items: center;
+  width: min(100%, clamp(420px, 41vw, 680px));
+  height: 100%;
+}
+.stack > .panel {
+  grid-area: 1 / 1;
+  width: 100%;
+  max-height: 100%;
+}
+
 /* ── A ficha ──────────────────────────────────────────────────────────── */
 .card {
   --pad: clamp(20px, 2.2vw, 38px);
@@ -157,10 +171,10 @@
 .noteDots {
   flex: none;
 }
-.note_rodando {
+.note_agora {
   border-color: color-mix(in srgb, var(--brand-text) 45%, transparent);
 }
-.note_rodando .noteDots {
+.note_agora .noteDots {
   color: var(--brand-text);
 }
 .note_ideia {
@@ -219,6 +233,18 @@
     max-height: none;
     overflow: visible;
     box-shadow: none;
+  }
+  .stack {
+    width: 100%;
+    height: auto;
+    grid-template-rows: none;
+    gap: 24px;
+  }
+  .stack > .panel {
+    grid-area: auto;
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
   .facts {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);

@@ -2,43 +2,41 @@ import type { SlideMeta } from "../types";
 
 export const meta = {
   id: "next-steps",
-  title: "Próximos passos",
+  title: "O que proponho",
   chapter: "close",
-  // s0 o que proponho à diretoria · s1 os próximos 90 dias e a cadência
+  // s0 as três decisões · s1 como dividiríamos o trabalho e a cadência
   steps: 2,
-  theme: "light",
-  summary: "O que proponho à diretoria e o que acontece nos próximos 90 dias.",
+  theme: "dark",
+  summary: "Três decisões para começar, se fizer sentido, e como dividiríamos o trabalho.",
 } as const satisfies SlideMeta;
 
 export const copy = {
-  label: "Próximos passos",
+  label: "O que proponho",
   // Uma linha visual por item (a revelação é por máscara).
-  headline: ["O que preciso de vocês", "**para começar.**"],
-  lede: "Nada aqui pede uma aposta grande. O que já roda ganha meta e dono, e cada ideia só vira projeto se passar no teste.",
-  asksLabel: "O que proponho à diretoria",
+  headline: ["O que proponho", "**à diretoria.**"],
+  lede: "Nada começa sem aprovação. Se fizer sentido, o primeiro passo seria o teste de 90 dias em Brasília.",
+  asksLabel: "Três decisões",
   asks: [
     {
       n: "01",
       title: "Validar o rumo",
-      text: "Crescer por comunidades, com a Rede BORA ativa como o número que acompanhamos juntos.",
+      text: "Crescer por comunidades, com a Rede BORA ativa como o número a acompanhar juntos.",
     },
     {
       n: "02",
-      title: "Aprovar o Brasília Lab",
-      text: "90 dias com ficha, meta e dono para cada ação. As ideias entram só como teste pequeno.",
+      title: "Aprovar o teste de 90 dias",
+      text: "Brasília como laboratório: ficha, meta e dono para cada ação, e as ideias só como teste pequeno.",
     },
     {
       n: "03",
-      title: "Definir parceiros e verba dos testes",
-      text: "Com a Diretoria de Expansão: quais clubes, empresas e marcas entram nos pilotos, e com que orçamento.",
+      title: "Definir parceiros e verba",
+      text: "Com a Diretoria de Expansão: quais clubes, empresas e marcas entrariam nos testes, e com que orçamento.",
     },
   ],
-  planLabel: "O que eu faço nos próximos 90 dias",
-  plan: [
-    { when: "0 a 30 dias", name: "Construir", text: "Ficha de cada ação, base de dados pronta (BORA ID, CRM e tracking) e mapa de clubes e capitães." },
-    { when: "31 a 60 dias", name: "Pilotar", text: "Pilotos Powered, desafio 5K, PASS beta e turmas START em empresas." },
-    { when: "61 a 90 dias", name: "Aprender", text: "Leitura de conversão e retenção, e o Playbook Brasília V1 para decidir o que escala." },
-  ],
-  cadence: { label: "Todo mês", text: "Revisão do portfólio com a diretoria: escalar, ajustar ou encerrar cada ação." },
-  honesty: "Resultado só entra na revisão depois de medido.",
+  roleLabel: "Como dividiríamos o trabalho",
+  board: { title: "A diretoria decidiria", items: ["Onde expandir", "Com quem fazer parceria", "Quanto investir"] },
+  me: { title: "Eu construiria", items: ["A demanda e os canais", "A base de dados e as métricas", "Os testes e os playbooks"] },
+  flows: { down: "Direção", up: "Evidência e playbooks" },
+  cadence: { label: "Todo mês", text: "Revisão com a diretoria: escalar, ajustar ou encerrar cada ação." },
+  honesty: "Resultado só entraria na revisão depois de medido.",
 } as const;

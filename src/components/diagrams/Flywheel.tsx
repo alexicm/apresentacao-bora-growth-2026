@@ -4,8 +4,8 @@ import { StageDots } from "@/components/ui/StageTag";
 import { r2 } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 
-/** O que move o estágio: uma ação rodando, no backlog ou ideia, o produto atual ou só um resultado. */
-export type FlywheelKind = "rodando" | "backlog" | "ideia" | "atual" | "resultado";
+/** O que move o estágio: uma ação da Fase 1, da Fase 2 ou ideia, o produto atual ou só um resultado. */
+export type FlywheelKind = "agora" | "depois" | "ideia" | "atual" | "resultado";
 export type FlywheelStage = { label: string; why: string; gear?: string; kind?: FlywheelKind };
 
 type Props = {
@@ -51,7 +51,7 @@ function arrowPath(a1: number) {
 
 /**
  * Flywheel: estágios em círculo, arcos no sentido horário, rótulos para fora.
- * Cada marcador mostra o que move o estágio: volt sólido = ação rodando · anel tracejado = ideia ·
+ * Cada marcador mostra o que move o estágio: volt sólido = Fase 1 · contorno = Fase 2 · anel tracejado = ideia ·
  * sólido neutro = produto atual · anel pequeno = resultado (consequência, não é ação).
  * Alvos de animação: [data-fw-arc=i], [data-fw-arrow=i], [data-fw-dot=i], [data-fw-label=i],
  * [data-a="fw-ring"] (anel que gira), [data-a="fw-comets"], [data-a="fw-starter"], [data-a="fw-center"].
@@ -111,8 +111,8 @@ export function Flywheel({ stages, starter, centerLabel, active, onActive, class
         // Só o estágio exatamente no topo/base centraliza; os vizinhos se alinham para fora (sem colisão).
         const align = cos > 0.12 ? "left" : cos < -0.12 ? "right" : Math.sin((a * Math.PI) / 180) < 0 ? "top" : "bottom";
         const state = i === active ? "is-active" : i === prev || i === next ? "is-near" : active !== null ? "is-off" : "";
-        const kind = s.kind ?? "rodando";
-        const stageKind = kind === "rodando" || kind === "backlog" || kind === "ideia" ? kind : null;
+        const kind = s.kind ?? "agora";
+        const stageKind = kind === "agora" || kind === "depois" || kind === "ideia" ? kind : null;
         return (
           <button
             key={i}

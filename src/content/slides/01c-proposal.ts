@@ -14,8 +14,8 @@ export const copy = {
   label: "A proposta",
   // Uma linha visual por item (a revelação é por máscara).
   headline: ["O que eu proponho:", "**crescer por ==comunidades.==**"],
-  // {total} e {rodando} vêm de projects.ts (contagens do pack).
-  lede: "Um pack de {total} ações para a BORA crescer onde os corredores já estão: clubes, empresas, provas e bairros. Delas, {rodando} já estão rodando; as outras são testadas em Brasília antes de escalar.",
+  // {total} vem de projects.ts (contagem do pack). Nada do pack está em andamento: tudo é proposta.
+  lede: "Um pack de {total} ações que posso ajudar a BORA a fazer, de dentro, para crescer onde os corredores já estão: clubes, empresas, provas e bairros. Nada está em andamento: é uma proposta em duas fases, mais ideias para testar antes.",
   roadmapLabel: "Roteiro da conversa",
   // `chapters` = capítulos de src/content/deck.ts que formam cada parte (o intervalo de slides é calculado).
   acts: [
@@ -26,12 +26,12 @@ export const copy = {
     },
     {
       title: "O que fazer e como",
-      text: "As ações, o método, o que já roda, as ideias a validar e como tudo se conecta.",
-      chapters: ["pack", "running", "next", "system"],
+      text: "O pack e o método. Depois, as ações em ordem: Fase 1, Fase 2, ideias a validar e como tudo se conecta.",
+      chapters: ["pack", "start", "later", "ideas", "system"],
     },
     {
       title: "O plano",
-      text: "Os próximos 90 dias em Brasília, o número que mede o resultado e o que preciso de vocês.",
+      text: "O plano de 90 dias proposto, o número que mediria o resultado e o que preciso de vocês.",
       chapters: ["plan", "close"],
     },
   ],

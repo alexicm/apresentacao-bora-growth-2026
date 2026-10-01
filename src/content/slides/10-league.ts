@@ -3,7 +3,7 @@ import type { SlideMeta } from "../types";
 export const meta = {
   id: "league",
   title: "BORA LEAGUE",
-  chapter: "next",
+  chapter: "ideas",
   // s0 temporada + pontuação · s1 classificação semana a semana · s2 camadas de receita · s3 ficha da ação
   steps: 4,
   theme: "dark",

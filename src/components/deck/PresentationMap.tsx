@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import { StageTag } from "@/components/ui/StageTag";
 import { Tag } from "@/components/ui/Tag";
-import { CHAPTERS, SLIDES, type ChapterId } from "@/content/deck";
+import { CHAPTERS, SLIDES, type DeckChapterId } from "@/content/deck";
 import { gsap } from "@/lib/gsap";
 import { motionPrefs } from "@/lib/motion";
 import { cn, pad2 } from "@/lib/utils";
@@ -67,7 +67,7 @@ export function PresentationMap() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapTab]);
 
-  const chapters = Object.keys(CHAPTERS) as ChapterId[];
+  const chapters = Object.keys(CHAPTERS) as DeckChapterId[];
 
   return (
     <div
@@ -178,8 +178,8 @@ export function PresentationMap() {
           ))}
         </ul>
         <div className="flex flex-wrap gap-2">
-          <StageTag stage="rodando" />
-          <StageTag stage="backlog" />
+          <StageTag stage="agora" />
+          <StageTag stage="depois" />
           <StageTag stage="ideia" />
           <Tag kind="current" />
           <Tag kind="illustrative">Exemplo · Hipótese · Simulação</Tag>

@@ -1,0 +1,82 @@
+/* Frente 4 · Conversão: rotas até o Coaching (exemplo). Diagrama ChallengeRoutes, o mesmo da versão longa. */
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+}
+.routesBox {
+  flex: 1;
+  min-height: 0;
+  container-type: size;
+  display: grid;
+  place-items: center;
+}
+.routesDiagram {
+  width: min(100cqw, calc(100cqh * 1200 / 330));
+}
+.foot {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  column-gap: var(--gutter);
+  align-items: start;
+  padding-top: clamp(10px, 1.8vh, 18px);
+  border-top: 1px solid var(--border);
+}
+.example {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.exampleText {
+  margin: 0;
+  font-size: clamp(14px, 1.08vw, 17px);
+  line-height: 1.4;
+  color: var(--text-secondary);
+}
+.exampleText strong {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.legend {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--text-tertiary);
+}
+
+/* Lista textual das rotas (só no celular, onde o diagrama ficaria pequeno demais). */
+.routesList {
+  display: none;
+}
+
+@media (max-width: 767px), (max-height: 559px) {
+  .routesBox {
+    display: none;
+  }
+  .routesList {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    margin: 18px 0;
+  }
+  .routesList > div {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .foot {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 14px;
+  }
+  .example {
+    flex-direction: column;
+  }
+}

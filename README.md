@@ -1,6 +1,6 @@
 # BORA Growth · Pack de Ações e Projetos
 
-**As ações e projetos de growth para a BORA Assessoria Brasil: o que já está rodando, o que está no backlog e o que ainda é ideia.**
+**Uma proposta de ações e projetos de growth para a BORA Assessoria Brasil: o que o Alex faria de dentro da BORA, em que ordem e com que método. Nada disso está rodando hoje; é a apresentação da ideia.**
 Apresentação executiva interativa, feita para ser apresentada ao vivo numa reunião estratégica com a liderança da BORA.
 
 > Ideia central: **não é sobre conquistar corredores um a um. É sobre conquistar comunidades.** Com estratégia, método e organização.
@@ -48,19 +48,17 @@ npx serve out          # ou qualquer servidor estático
 
 ---
 
-## Estágio de cada ação (Rodando · Backlog · Ideia)
+## Fase de cada ação (Fase 1 · Fase 2 · Ideia)
 
-Fonte única: o campo `stage` de cada item em **`GROWTH_PROJECTS`**, em `src/content/projects.ts`.
+Nada do pack está em execução: a fase diz em que ordem a proposta faria cada ação, se aprovada. Fonte única: o campo `stage` de cada item em **`GROWTH_PROJECTS`**, em `src/content/projects.ts`.
 
-| Estágio | Significado | Visual |
-| --- | --- | --- |
-| `rodando` | Já está em execução na BORA | ●●● volt sólido |
-| `backlog` | Desenhado e priorizado, entra na próxima janela | ●●○ contorno |
-| `ideia` | Hipótese a validar antes de virar projeto | ●○○ tracejado |
+| Chave | Rótulo | Significado | Visual |
+| --- | --- | --- | --- |
+| `agora` | Fase 1 | Primeiros 30 dias, se a proposta for aprovada | ●●● volt sólido |
+| `depois` | Fase 2 | De 31 a 90 dias, depois da base pronta | ●●○ contorno |
+| `ideia` | Ideia | Só vira projeto se um teste pequeno bater a meta | ●○○ tracejado |
 
-Mudou o estágio de um projeto? Edite só o `stage` dele. O quadro do pack, as pastas do mapa, o mapa da rede, o ecossistema, os selos dos slides e as contagens se atualizam sozinhos. Para mostrar o estágio num slide: `<StageTag of="open" />`.
-
----
+Quer mudar a fase de uma ação? Edite só o `stage` dela. O quadro da proposta, as tabelas das frentes, o plano de 90 dias, as pastas do mapa e as contagens se atualizam sozinhos. Para mostrar a fase num slide: `<StageTag of="open" />`.
 
 ## Editar textos
 
@@ -86,7 +84,7 @@ Todo texto visível está em **`src/content/slides/`**, um arquivo por slide, co
 
 ### Regra de honestidade dos dados
 
-- **Estágio** (Rodando / Backlog / Ideia) diz em que pé está cada ação. Rodando não é resultado: nenhum resultado é afirmado sem dado medido.
+- **Fase** (Fase 1 / Fase 2 / Ideia) é a ordem proposta, não execução: nada do pack está rodando hoje, e nenhum resultado é afirmado sem dado medido.
 - `BORA atual`: fatos públicos declarados pela própria BORA, sempre com fonte.
 - `Exemplo`, `Exemplo fictício`, `Hipótese`, `Ilustrativo`, `Dados demo`, `Simulação`, `Arquitetura-alvo`: tudo que não é dado real.
 
@@ -94,25 +92,21 @@ Nenhuma receita, CAC, cliente ou parceiro é inventado. Os números das **simula
 
 ---
 
-## Roteiro (28 slides, 8 capítulos, 3 atos)
+## Roteiro (15 slides, 6 capítulos, cerca de 46 passos)
 
-Detalhes em `docs/NARRATIVE.md`.
+Versão curta e direta. Detalhes em `docs/NARRATIVE.md`. Os slides da versão longa continuam em `src/slides/` e podem voltar ao deck por `src/content/deck.ts`.
 
-**Começo · por que mudar**
-1. **Abertura**: hero · quem apresenta (currículo) · a proposta (uma frase e o roteiro)
-2. **A virada**: o problema · a tese
+**Começo**
+1. **Abertura**: hero com a proposta em uma frase · quem apresenta (currículo)
+2. **Por que mudar**: como a BORA cresce hoje (um corredor de cada vez) e a tese (ir onde os corredores já estão)
 
-**Meio · o que fazer e como**
-3. **O pack**: o quadro das ações por frente e estágio · o método de growth
-4. **O que já roda**: a base do funil · a Rede BORA · OPEN · CHALLENGES · POWERED · entrar e expandir · CAPTAINS · HOUSE · ENTERPRISE
-5. **O que vem depois** (ideias a validar): PASS · BOOST · LEAGUE
-6. **O sistema**: ecossistema de growth · BORA OS · a roda de crescimento (flywheel) · pipeline de expansão
+**Meio**
+3. **A proposta**: as 22 ações numa tela, por frente e fase · como faríamos (ciclo, ficha da ação e cadência)
+4. **As seis frentes**: Fundação · Aquisição · Distribuição · Conversão · Receita B2B · Expansão. Cada frente mostra todas as suas ações (o que é, primeiro passo, métrica), um visual e a ficha das ações principais.
 
-**Fim · o plano e a decisão**
-7. **O plano**: Brasília Lab (90 dias) · o que medimos · o papel
-8. **Fechamento**: próximos passos (o que proponho à diretoria) · construa a rede
-
-Cada slide de produto segue o mesmo padrão: rótulo com o nome e o estágio, manchete com a conclusão, uma linha em português do que é, o aprofundamento (exemplo, tabela, simulação) e, no último passo, a ficha da ação.
+**Fim**
+5. **O plano**: como tudo se conecta (flywheel) · o plano proposto de 90 dias e o número que mediria tudo
+6. **Fechamento**: o que proponho à diretoria · Brasília como laboratório, o Brasil como projeto
 
 ---
 
@@ -146,11 +140,11 @@ public/brand/          assets oficiais da BORA (logo, contornos, fotos otimizada
 
 Interpretação premium da identidade atual da BORA (estudada em boraassessoria.com):
 
-- **Cor**: volt `#ceff00` (token oficial `--bora-verde`), usado como sinal: conexões ativas, ações rodando, resultado principal, marca-texto. Variações oficiais `#a6cf00` e `#5c6e00`.
+- **Cor**: volt `#ceff00` (token oficial `--bora-verde`), usado como sinal: conexões, ações da Fase 1, resultado principal, marca-texto. Variações oficiais `#a6cf00` e `#5c6e00`.
 - **Temas**: escuro (quase-preto esverdeado + off-white `#eef0e6` da BORA) e claro (`#f7f9ef`, do site). Tokens em `src/app/globals.css`.
 - **Tipografia**: **Lexend** (Google Fonts), a alternativa gratuita mais próxima da Altone, fonte comercial do site. Manchetes em peso leve com **negrito** na ideia principal. **Geist Mono** para números e dados.
 - **Marca**: wordmark e escudo vetorizados dos arquivos públicos; lockup "BORA / GROWTH" no mesmo sistema de "BORA / ASSESSORIA"; grafismo oficial de contornos do raio (`.contours`).
-- **Linguagem visual**: ponto = corredor · aglomerado = comunidade · volt = BORA e ações rodando · tracejado = ideia ou hipótese.
+- **Linguagem visual**: ponto = corredor · aglomerado = comunidade · volt = BORA e Fase 1 · tracejado = ideia ou hipótese.
 - **Grid** de 12 colunas, muito espaço negativo, linhas finas, pílulas e raios da família do site.
 
 ## Motion system

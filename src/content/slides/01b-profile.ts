@@ -4,8 +4,8 @@ export const meta = {
   id: "profile",
   title: "Quem apresenta",
   chapter: "opening",
-  // s0 quem sou · s1 trajetória e formação · s2 o que trago para a BORA
-  steps: 3,
+  // s0 quem sou, em números, e a trajetória · s1 o que trago para a BORA
+  steps: 2,
   theme: "dark",
   summary: "Alex Rodrigues: growth, marketing e tecnologia.",
 } as const satisfies SlideMeta;
@@ -23,16 +23,12 @@ export const copy = {
   monogram: "AR",
   photoAlt: "Alex Rodrigues",
 
-  // ── Passo 0: em números ──────────────────────────────────────────────
+  // ── Passo 0: em números e trajetória ─────────────────────────────────
   facts: [
     { value: "10+", label: "anos em marketing, growth e tecnologia" },
     { value: "6", label: "mercados: tecnologia, educação, varejo, automotivo, food service e A&B" },
     { value: "3", label: "modelos de negócio: B2B, B2C e SaaS" },
   ],
-  skillsTitle: "No que eu trabalho",
-  skills: ["Growth e experimentação", "CRM e reativação de base", "Canais de distribuição", "E-commerce", "Product marketing", "Dados e IA", "Gestão de times"],
-
-  // ── Passo 1: trajetória ──────────────────────────────────────────────
   careerTitle: "Trajetória",
   careerNote: "Seleção das experiências mais ligadas ao pack.",
   career: [
@@ -48,7 +44,7 @@ export const copy = {
   ],
   educationTitle: "Formação",
   education: [
-    { school: "Ibmec", course: "Ciências Econômicas (em curso)" },
+    { school: "Ibmec", course: "Ciências Econômicas" },
     { school: "Harvard Business School Online", course: "Strategy Planning and Execution" },
     { school: "Universidade Anhembi Morumbi", course: "Administração" },
     { school: "PM3", course: "Product Management" },
@@ -57,9 +53,9 @@ export const copy = {
   certificationsTitle: "Certificações",
   certifications: ["G4 Growth", "G4 Indicadores e Métricas", "G4 Digital Commerce"],
 
-  // ── Passo 2: o que trago para a BORA ─────────────────────────────────
+  // ── Passo 1: o que trago para a BORA ─────────────────────────────────
   bringTitle: "O que trago para a BORA",
-  bringNote: "Cada experiência vira ferramenta para uma ação do pack.",
+  bringNote: "Cada experiência serviria a uma ação do pack.",
   bring: [
     { from: "Academia Evolve", skill: "Funil de academia, do tráfego à matrícula", actions: ["landing-cidade", "pre-cadastro", "crm-tracking"] },
     { from: "Unyleya · Contraktor", skill: "Experimentação contínua e reativação de base", actions: ["bora-id", "referral", "preco-unico"] },

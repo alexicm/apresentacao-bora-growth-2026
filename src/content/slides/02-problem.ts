@@ -2,15 +2,16 @@ import type { SlideMeta } from "../types";
 
 export const meta = {
   id: "problem",
-  title: "O problema",
+  title: "Por que mudar",
   chapter: "shift",
-  steps: 3,
+  // s0 o que a BORA construiu e o funil de hoje · s1 a tese (rede) e o comparativo
+  steps: 2,
   theme: "light",
-  summary: "Crescer atleta por atleta é linear e depende de mídia.",
+  summary: "Hoje a BORA cresce um atleta por vez. A tese: ir onde os corredores já estão.",
 } as const satisfies SlideMeta;
 
 export const copy = {
-  label: "O problema",
+  label: "Por que mudar",
   headline: ["A BORA construiu uma assessoria.", "Agora precisa construir **distribuição.**"],
   facts: [
     { value: "3.000+", label: "atletas" },
@@ -20,7 +21,7 @@ export const copy = {
   factsSource: "Números declarados pela BORA em boraassessoria.com (set/2026).",
   today: "Hoje · BORA atual",
   flowLabelOld: "Como a BORA cresce hoje",
-  flowLabelNew: "Como a BORA cresce em rede",
+  flowLabelNew: "Como a BORA cresceria em rede",
   oldFlow: [
     { id: "ad", label: "Anúncio", caption: "mídia paga" },
     { id: "lead", label: "Lead", caption: "formulário" },
@@ -31,7 +32,7 @@ export const copy = {
   // Manchetes animadas por máscara: cada item do array precisa caber em UMA linha.
   oldStatement: ["Um corredor **de cada vez.**"],
   oldLede:
-    "Cada novo atleta passa pelo mesmo funil: mídia, atendimento e venda individual. O crescimento é linear e cada ciclo recomeça do zero.",
+    "Cada novo atleta passa pelo mesmo funil: mídia, atendimento e venda individual. Cada ciclo recomeça do zero.",
   proposed: "BORA Growth · proposta",
   newFlow: [
     { id: "community", label: "Comunidade", caption: "onde já se corre" },
@@ -42,13 +43,13 @@ export const copy = {
     { id: "revenue", label: "Receita", caption: "B2C, B2B e marcas" },
   ],
   media: { label: "Mídia", caption: "amplifica, não sustenta" },
-  newStatement: ["Crescimento não pode", "depender **só de mídia.**"],
+  newStatement: ["A tese: ir onde os", "**corredores ==já estão.==**"],
   newLede:
-    "A mídia continua importante. Mas passa a amplificar um sistema de distribuição, em vez de sustentar o crescimento sozinha.",
+    "Clubes, empresas, bairros e provas já reúnem corredores. A mídia passaria a amplificar a rede.",
   compare: {
     title: "Modelo atual × BORA Growth",
     colCurrent: "Modelo atual",
-    colProposed: "BORA Growth",
+    colProposed: "BORA Growth · proposta",
     rows: [
       { k: "Porta de entrada", a: "Anúncio", b: "Comunidade" },
       { k: "Relação", a: "1 para 1", b: "1 para muitos" },

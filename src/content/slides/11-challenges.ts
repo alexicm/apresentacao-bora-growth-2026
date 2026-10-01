@@ -3,7 +3,7 @@ import type { SlideMeta } from "../types";
 export const meta = {
   id: "challenges",
   title: "BORA CHALLENGES",
-  chapter: "running",
+  chapter: "later",
   // s0 assinatura × desafio · s1 catálogo · s2 rotas até o Coaching · s3 simulador · s4 ficha da ação
   steps: 5,
   theme: "light",

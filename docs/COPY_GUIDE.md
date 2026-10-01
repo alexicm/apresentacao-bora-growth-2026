@@ -6,16 +6,18 @@ Vale para todo texto visível da apresentação: manchetes, ledes, rótulos, tag
 
 - A apresentação é **BORA Growth · Pack de Ações e Projetos**. Nunca escreva "BORA Network".
 - O conceito de rede de comunidades é **Rede BORA** (como na North Star "Rede BORA ativa").
-- O pack é o conjunto de ações e projetos de growth do Alex para a BORA. Cada ação tem um estágio:
-  - **Rodando**: já em execução na BORA.
-  - **Backlog**: desenhado e priorizado, entra na próxima janela.
-  - **Ideia**: hipótese a validar antes de virar projeto.
-- Estágio de cada projeto (fonte única: `stage` em `src/content/projects.ts`):
-  - Rodando: BORA ID, CRM + tracking, BORA OS, Brasília Lab, BORA OPEN, BORA CAPTAINS, Programa de indicação, Programa de influenciadores, Landing por cidade, Conteúdo por intenção, Mídia paga, BORA POWERED, BORA CHALLENGES, BORA ENTERPRISE, BORA HOUSE.
-  - Backlog: Preço único, Pré-cadastro com plano.
+- O pack é uma **proposta**: as ações de growth que o Alex faria de dentro da BORA, se aprovado. **Nada está rodando hoje** ("tudo está congelado, só estou apresentando a ideia que tivemos"). Nenhum texto pode parecer projeto em andamento.
+- Cada ação tem uma fase, que é ordem proposta, não execução:
+  - **Fase 1**: primeiros 30 dias, se a proposta for aprovada.
+  - **Fase 2**: de 31 a 90 dias, depois da base pronta.
+  - **Ideia**: só vira projeto se um teste pequeno bater a meta.
+- Fase de cada ação (fonte única: `stage` em `src/content/projects.ts`, chaves `agora` / `depois` / `ideia`):
+  - Fase 1: BORA ID, CRM + tracking, BORA OPEN, Programa de indicação, Landing por cidade, Conteúdo por intenção, Mídia paga, Preço único, Pré-cadastro com plano, Brasília Lab.
+  - Fase 2: BORA OS, BORA CAPTAINS, Programa de influenciadores, BORA POWERED, BORA HOUSE, BORA CHALLENGES, BORA ENTERPRISE.
   - Ideia: BORA PASS, BORA BOOST, BORA LEAGUE, Playbook de cidade, Pipeline de expansão.
-- Um projeto **rodando** não é "proposta", "conceito" nem "ainda não existe". Mas rodando também não é resultado: não escreva que algo "funciona", "gerou" ou "cresceu" sem dado medido.
-- Para mostrar estágio, use o componente `StageTag` (`<StageTag of="open" />`), não `Tag kind="proposed"`.
+- Tom de proposta: "a proposta é", "se aprovado", "faríamos", "o primeiro passo seria". Proibido: "rodando", "em execução", "em andamento", "estamos fazendo", "começamos", "lançamos", "já temos" para ações do pack.
+- Fatos reais da BORA de hoje continuam, separados da proposta: o Coaching que ela vende, os números do site com fonte, o modelo atual de crescimento.
+- Para mostrar a fase, use o componente `StageTag` (`<StageTag of="open" />`), não `Tag kind="proposed"`.
 
 ## Sem travessões
 
@@ -51,7 +53,7 @@ Vale para todo texto visível da apresentação: manchetes, ledes, rótulos, tag
 - `plain`: o que é, numa frase em português simples, sem jargão ("Treinos abertos e gratuitos, toda semana, com check-in.").
 - `why`: por que importa, sem prometer resultado ("Traz corredores novos sem anúncio, e cada um vira uma relação.").
 - `howTo`: três passos concretos, no infinitivo. Para ideias, são passos de validação ("Convidar 50 corredores para testar por dois meses."). Plano, nunca resultado.
-- Ações rodando: "Já em execução. Próximo passo: meta e dono no Brasília Lab." Nunca "funcionou" ou "deu certo".
+- Notas de fase: sempre proposta ("Proposta para os primeiros 30 dias: começaria com ficha, meta e dono."). Nunca "em execução", "funcionou" ou "deu certo".
 
 ## Restrições de layout (não quebre o slide)
 

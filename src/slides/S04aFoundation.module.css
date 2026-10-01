@@ -107,10 +107,10 @@
   color: var(--text-tertiary);
 }
 
-.dots_rodando {
+.dots_agora {
   color: var(--brand-text);
 }
-.dots_backlog {
+.dots_depois {
   color: var(--text-secondary);
 }
 

@@ -2,61 +2,41 @@ import type { ComponentType } from "react";
 import type { SlideId } from "@/content/deck";
 import { HeroSlide } from "./S01Hero";
 import { ProfileSlide } from "./S01bProfile";
-import { ProposalSlide } from "./S01cProposal";
 import { ProblemSlide } from "./S02Problem";
-import { ThesisSlide } from "./S03Thesis";
 import { PortfolioSlide } from "./S03aPortfolio";
 import { MethodSlide } from "./S03bMethod";
-import { FoundationSlide } from "./S04aFoundation";
-import { NetworkSlide } from "./S04Network";
-import { OpenSlide } from "./S05Open";
-import { PoweredSlide } from "./S06Powered";
-import { LandExpandSlide } from "./S07LandExpand";
-import { BoostSlide } from "./S08Boost";
-import { EnterpriseSlide } from "./S09Enterprise";
-import { LeagueSlide } from "./S10League";
-import { ChallengesSlide } from "./S11Challenges";
-import { PassSlide } from "./S12Pass";
-import { CaptainsSlide } from "./S13Captains";
-import { HouseSlide } from "./S14House";
-import { OsSlide } from "./S15Os";
+import { FundacaoSlide } from "./S24Fundacao";
+import { AquisicaoSlide } from "./S25Aquisicao";
+import { DistribuicaoSlide } from "./S26Distribuicao";
+import { ConversaoSlide } from "./S27Conversao";
+import { ReceitaB2BSlide } from "./S28ReceitaB2B";
+import { ExpansaoSlide } from "./S29Expansao";
 import { FlywheelSlide } from "./S16Flywheel";
-import { PipelineSlide } from "./S17Pipeline";
-import { EcosystemSlide } from "./S18Ecosystem";
-import { BrasiliaLabSlide } from "./S19BrasiliaLab";
-import { MetricsSlide } from "./S20Metrics";
-import { RoleSlide } from "./S21Role";
+import { PlanoSlide } from "./S30Plano";
 import { NextStepsSlide } from "./S21aNextSteps";
 import { CloseSlide } from "./S22Close";
 
-/** Mapa slide → componente. A ordem vem de src/content/deck.ts. */
+/**
+ * Mapa slide → componente da versão curta. A ordem vem de src/content/deck.ts.
+ * Os slides da versão longa continuam em src/slides (S01cProposal, S03Thesis, S04Network, S04aFoundation,
+ * S05Open, S06Powered, S07LandExpand, S08Boost, S09Enterprise, S10League, S11Challenges, S12Pass,
+ * S13Captains, S14House, S15Os, S17Pipeline, S18Ecosystem, S19BrasiliaLab, S20Metrics, S21Role):
+ * para restaurá-los, importe-os aqui e devolva as metas a SLIDES (ver o comentário em deck.ts).
+ */
 export const SLIDE_COMPONENTS: Record<SlideId, ComponentType> = {
   intro: HeroSlide,
   profile: ProfileSlide,
-  proposal: ProposalSlide,
   problem: ProblemSlide,
-  thesis: ThesisSlide,
   portfolio: PortfolioSlide,
   method: MethodSlide,
-  foundation: FoundationSlide,
-  network: NetworkSlide,
-  open: OpenSlide,
-  powered: PoweredSlide,
-  "land-and-expand": LandExpandSlide,
-  boost: BoostSlide,
-  enterprise: EnterpriseSlide,
-  league: LeagueSlide,
-  challenges: ChallengesSlide,
-  pass: PassSlide,
-  captains: CaptainsSlide,
-  house: HouseSlide,
-  os: OsSlide,
+  fundacao: FundacaoSlide,
+  aquisicao: AquisicaoSlide,
+  distribuicao: DistribuicaoSlide,
+  conversao: ConversaoSlide,
+  "receita-b2b": ReceitaB2BSlide,
+  expansao: ExpansaoSlide,
   flywheel: FlywheelSlide,
-  "expansion-pipeline": PipelineSlide,
-  ecosystem: EcosystemSlide,
-  "brasilia-lab": BrasiliaLabSlide,
-  metrics: MetricsSlide,
-  role: RoleSlide,
+  plano: PlanoSlide,
   "next-steps": NextStepsSlide,
   close: CloseSlide,
 };

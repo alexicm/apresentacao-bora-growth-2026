@@ -3,7 +3,7 @@ import type { SlideMeta } from "../types";
 export const meta = {
   id: "open",
   title: "BORA OPEN",
-  chapter: "running",
+  chapter: "start",
   // s0 exemplo · s1 o funil · s2 OPEN ≠ Coaching · s3 simulador · s4 ficha da ação
   steps: 5,
   theme: "light",

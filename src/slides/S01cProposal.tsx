@@ -13,7 +13,7 @@ import styles from "./S01cProposal.module.css";
 
 const fill = (t: string, v: Record<string, string | number>) => t.replace(/\{(\w+)\}/g, (_, k: string) => String(v[k] ?? ""));
 
-const LEDE = fill(copy.lede, { total: PACK.length, rodando: PACK.filter((g) => g.stage === "rodando").length });
+const LEDE = fill(copy.lede, { total: PACK.length });
 
 /** Cada parte do roteiro aponta para o intervalo de slides dos seus capítulos (calculado de deck.ts). */
 const ACTS = copy.acts.map((a) => {

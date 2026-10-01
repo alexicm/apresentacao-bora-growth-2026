@@ -1,0 +1,180 @@
+/* Frente 5 · Receita B2B: linha do ENTERPRISE (START → LEAGUE) e simulador de um programa corporativo.
+   O GSAP anima [data-a="rung"], [data-a="sim"], [data-a="w"]: a transition dos pontos do waffle é só de cor. */
+
+.wrap {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: clamp(10px, 2vh, 22px);
+  height: 100%;
+  min-height: 0;
+}
+
+/* ── A linha de maturidade ── */
+.ladder {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ladderLabel {
+  margin-right: 6px;
+  color: var(--text-tertiary);
+}
+.rung {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  height: 32px;
+  align-items: center;
+  padding: 0 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}
+.rungIdea {
+  border-style: dashed;
+}
+.rungName {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.rungLine {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+.rungArrow {
+  color: var(--text-quaternary);
+}
+
+/* ── Simulador ── */
+.sim {
+  min-height: 0;
+}
+.simBody {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(8px, 1.4vh, 18px) var(--gutter);
+}
+.example {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin: 0;
+  font-size: var(--fs-body);
+}
+.sliders {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(8px, 1.5vh, 20px) 24px;
+}
+.figure {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding-left: var(--gutter);
+  border-left: 1px solid var(--border);
+}
+.stats {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px var(--gutter);
+  padding-top: clamp(10px, 1.8vh, 18px);
+  border-top: 1px solid var(--border);
+}
+
+/* Waffle: cada ponto = 1% dos elegíveis */
+.waffle {
+  display: grid;
+  grid-template-columns: repeat(10, var(--w-dot));
+  gap: var(--w-gap);
+  --w-dot: clamp(7px, 0.62vw, 10px);
+  --w-gap: clamp(4px, 0.36vw, 6px);
+}
+.w {
+  width: var(--w-dot);
+  height: var(--w-dot);
+  border-radius: 50%;
+  background: var(--border-strong);
+  transition:
+    background-color 0.45s var(--ease-bora),
+    box-shadow 0.45s var(--ease-bora);
+}
+.w[data-k="1"] {
+  background: var(--text-tertiary);
+}
+.w[data-k="2"] {
+  background: var(--text-primary);
+}
+.w[data-k="3"] {
+  background: var(--brand);
+  box-shadow: 0 0 0 1.5px var(--text-primary);
+}
+.legend {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 4px 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 11.5px;
+  color: var(--text-secondary);
+}
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.swatch {
+  --w-dot: 9px;
+  flex: none;
+}
+.caption {
+  font-size: 11.5px;
+  line-height: 1.35;
+  color: var(--text-tertiary);
+}
+
+@media (max-width: 899px) {
+  .sliders {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+/* Telas baixas (ex.: 1024×768): sem as dicas dos sliders e com menos respiro. */
+@media (max-height: 820px) and (min-width: 768px) {
+  .sliders :global(.slider) p {
+    display: none;
+  }
+  .sliders {
+    row-gap: 6px;
+  }
+  .simBody {
+    row-gap: 8px;
+  }
+  .stats {
+    padding-top: 8px;
+  }
+}
+@media (max-width: 1180px) {
+  .figure {
+    display: none;
+  }
+  .simBody {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 767px), (max-height: 559px) {
+  .sliders,
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

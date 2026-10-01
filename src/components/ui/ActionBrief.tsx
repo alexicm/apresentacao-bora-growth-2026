@@ -129,3 +129,42 @@ export function revealBrief(tl: gsap.core.Timeline, q: (s: string) => Element[],
   );
   return tl;
 }
+
+/**
+ * Várias fichas no mesmo slide, uma por passo (slides de frente): a camada entra com a primeira
+ * e cada passo seguinte troca a ficha. No celular, as fichas viram blocos em sequência no fim do slide.
+ * Use `revealBriefStep(tl, q, k)` no passo de cada ficha.
+ */
+export function ActionBriefStack({ ids }: { ids: readonly string[] }) {
+  const list = ids.map((id) => growthById(id)).filter((g): g is GrowthProject => Boolean(g));
+  if (!list.length) return null;
+  return (
+    <div data-a="brief" className={styles.layer}>
+      <div data-a="brief-scrim" className={styles.scrim} aria-hidden="true" />
+      <div className={styles.stack}>
+        {list.map((g, k) => (
+          <div key={g.id} data-a="brief-panel" data-brief={k} className={styles.panel}>
+            <ActionBriefCard g={g} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/** Revela a ficha `k` da pilha (a 0 traz a camada e o véu; as seguintes trocam a anterior). */
+export function revealBriefStep(tl: gsap.core.Timeline, q: (s: string) => Element[], k: number, { flow = false } = {}) {
+  const r = motionPrefs.reduced;
+  const panel = (i: number) => q(`[data-a="brief-panel"][data-brief="${i}"]`);
+  let at = 0.12;
+  if (k === 0) {
+    tl.from(q('[data-a="brief"]'), { autoAlpha: 0, duration: 0.01 }, 0);
+    tl.from(q('[data-a="brief-scrim"]'), { autoAlpha: 0, duration: r ? DUR.s : 0.6, ease: EASE.soft }, 0);
+  } else {
+    if (!flow) tl.to(panel(k - 1), { autoAlpha: 0, x: r ? 0 : -40, duration: 0.4, ease: EASE.in }, 0);
+    at = flow ? 0 : 0.3;
+  }
+  tl.from(panel(k), { autoAlpha: 0, x: r ? 0 : 56, duration: r ? DUR.s : 0.9, ease: EASE.out }, at);
+  tl.from(q(`[data-a="brief-panel"][data-brief="${k}"] [data-a="brief-row"]`), { autoAlpha: 0, y: r ? 0 : 12, duration: r ? DUR.s : 0.6, ease: EASE.out, stagger: 0.06 }, at + 0.18);
+  return tl;
+}

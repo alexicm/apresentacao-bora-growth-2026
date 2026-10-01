@@ -4,9 +4,13 @@
 
 ## 0. Revisões após o plano inicial (pedidos do cliente durante a construção)
 
+### Revisão de 01/10/2026
+- O Alex corrigiu: nada do pack está rodando; é a apresentação da ideia. Todo o texto passou para tom de proposta e as fases viraram Fase 1 / Fase 2 / Ideia.
+- Versão curta e direta: de 28 para 15 slides (6 capítulos, cerca de 46 passos). Um slide por frente com todas as ações; duas simulações (OPEN e ENTERPRISE). Os slides da versão longa continuam em `src/slides/`.
+
 ### Revisão de 30/09/2026
 - Nome: **BORA Growth · Pack de Ações e Projetos** (lockup "BORA / GROWTH"). O conceito de rede passa a ser **Rede BORA**.
-- **Estágios** (Rodando / Backlog / Ideia) informados pelo Alex para cada ação, em `GROWTH_PROJECTS.stage`. Novos itens de funil: Landing por cidade e Conteúdo por intenção (rodando), Preço único e Pré-cadastro com plano (backlog).
+- **Estágios** por ação em `GROWTH_PROJECTS.stage` (primeiro Rodando / Backlog / Ideia; **corrigido em 01/10/2026**: nada está rodando, a proposta usa Fase 1 / Fase 2 / Ideia). Novos itens de funil: Landing por cidade, Conteúdo por intenção, Preço único e Pré-cadastro com plano.
 - Novos slides: **Quem apresenta** (currículo do Alex, a partir de `Profile_Alex.pdf`), **O pack** (quadro frente × estágio) e **O método** (ciclo de growth, ICE, ficha por ação, cadência). Capítulos "Abertura" e "O pack".
 - Mapa ganha a aba **Projetos** (tecla P): pastas por frente com a ficha de cada ação e atalho para o slide.
 - Revisão de copy em todos os slides, sem travessões (`docs/COPY_GUIDE.md`).

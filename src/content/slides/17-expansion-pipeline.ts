@@ -33,7 +33,7 @@ export const copy = {
     stations: ["Capitão", "BORA OPEN", "Desafio", "PASS", "Demanda por Coaching"],
     stationIds: ["captains", "open", "challenges", "pass", null],
   },
-  legend: { rodando: "Já roda", ideia: "Ideia", step: "Etapa da rota" },
+  legend: { agora: "Já roda", ideia: "Ideia", step: "Etapa da rota" },
   unit: "Unidade BORA",
   city: "Cidade BORA",
   exits: {

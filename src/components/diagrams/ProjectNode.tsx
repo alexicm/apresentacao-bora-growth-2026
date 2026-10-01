@@ -20,7 +20,7 @@ type Props = {
 
 /**
  * Nó de produto no mapa da rede. O marcador indica o estágio no pack:
- * rodando = volt sólido · backlog = contorno · ideia = anel tracejado · produto atual (Coaching) = sólido neutro.
+ * Fase 1 = volt sólido · Fase 2 = contorno · ideia = anel tracejado · produto atual (Coaching) = sólido neutro.
  * É um botão: clique/Enter abre o painel do produto.
  */
 export function ProjectNode({ project, x, y, caption, side = "bottom", selected, dimmed, onSelect, onHover }: Props) {

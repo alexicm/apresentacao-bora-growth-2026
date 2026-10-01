@@ -9,7 +9,7 @@ import { SectionHeader, revealHeader } from "@/components/ui/SectionHeader";
 import { Tag } from "@/components/ui/Tag";
 import { copy } from "@/content/slides/04-network";
 import { StageTag } from "@/components/ui/StageTag";
-import { NETWORK_ORDER, PROJECTS, stageOf, type ProjectId } from "@/content/projects";
+import { PROJECTS, type ProjectId } from "@/content/projects";
 import { gsap } from "@/lib/gsap";
 import { draw, fade, motionPrefs, pop, rise } from "@/lib/motion";
 
@@ -30,8 +30,6 @@ const NODES: GraphNode[] = [
 ];
 
 const FIRST: ProjectId[] = ["open", "powered", "enterprise"];
-const countStage = (st: string) => NETWORK_ORDER.filter((id) => stageOf(id) === st).length;
-const LEDE = copy.lede.replace("{rodando}", String(countStage("rodando"))).replace("{ideia}", String(countStage("ideia")));
 const REST = NODES.map((n) => n.id).filter((id) => !FIRST.includes(id));
 
 export function NetworkSlide() {
@@ -105,11 +103,12 @@ export function NetworkSlide() {
   return (
     <div ref={scope} className="slide grid-12 items-center gap-y-6">
       <div className="col-span-12 flex flex-col justify-center lg:col-span-4">
-        <SectionHeader index={index} label={copy.label} title={copy.headline} lede={LEDE} size="l" />
+        <SectionHeader index={index} label={copy.label} title={copy.headline} lede={copy.lede} size="l" />
         <div data-a="legend" className="mt-8 flex flex-col items-start gap-3">
           <p className="t-label text-fg-2">{copy.hint}</p>
           <div className="flex flex-wrap gap-2">
-            <StageTag stage="rodando" />
+            <StageTag stage="agora" />
+            <StageTag stage="depois" />
             <StageTag stage="ideia" />
             <Tag kind="current">{copy.coachingCaption}</Tag>
           </div>

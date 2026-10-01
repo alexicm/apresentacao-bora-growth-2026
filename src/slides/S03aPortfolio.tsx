@@ -7,24 +7,27 @@ import { InteractiveTooltip, useTooltip } from "@/components/ui/InteractiveToolt
 import { SectionHeader, revealHeader } from "@/components/ui/SectionHeader";
 import { Emphasis } from "@/components/ui/SplitHeadline";
 import { StageDots, StageTag } from "@/components/ui/StageTag";
-import { GROWTH_FRONTS, PACK, STAGES, horizonLabel, type GrowthProject, type Stage } from "@/content/projects";
+import { slideIndex } from "@/content/deck";
+import { FRONT_SLIDE, GROWTH_FRONTS, PACK, STAGES, horizonLabel, type GrowthProject, type Stage } from "@/content/projects";
 import { copy } from "@/content/slides/03a-portfolio";
 import { DUR, EASE, fade, hold, rise } from "@/lib/motion";
-import { cn } from "@/lib/utils";
+import { cn, pad2 } from "@/lib/utils";
 import styles from "./S03aPortfolio.module.css";
 
 const COUNTS = Object.fromEntries(STAGES.map((s) => [s, PACK.filter((g) => g.stage === s).length])) as Record<Stage, number>;
-const MAJORITY = COUNTS.rodando > PACK.length / 2;
-const HEADLINE = (MAJORITY ? copy.headline : copy.headlineSome).map((l) => l.replace("{total}", String(PACK.length)));
+const HEADLINE = copy.headline.map((l) => l.replace("{total}", String(PACK.length)));
+const fill = (t: string, v: Record<string, string | number>) => t.replace(/\{(\w+)\}/g, (_, k: string) => String(v[k] ?? ""));
 const CELLS = GROWTH_FRONTS.map((front) => ({
   front,
+  /** Índice do slide da frente (o roteiro: cada frente leva ao slide dela). */
+  slide: slideIndex(FRONT_SLIDE[front]),
   byStage: STAGES.map((s) => PACK.filter((g) => g.front === front && g.stage === s)),
 }));
 
 /**
- * O pack inteiro numa tela: frentes nas linhas, estágios nas colunas.
- * Rodando = volt sólido · Backlog = contorno · Ideia = tracejado (mesma linguagem do StageTag).
- * Clicar numa ação abre a ficha dela nas pastas do mapa.
+ * A proposta numa tela: frentes nas linhas, fases nas colunas.
+ * Fase 1 = volt sólido · Fase 2 = contorno · Ideia = tracejado (mesma linguagem do StageTag).
+ * Clicar numa ação abre a ficha dela nas pastas do mapa; clicar numa frente leva ao slide dela (o roteiro).
  */
 export function PortfolioSlide() {
   const { index } = useSlide();
@@ -36,20 +39,19 @@ export function PortfolioSlide() {
       rise(tl, q('[data-a="head"]'), 0.55, { stagger: 0.12, y: 14 });
       tl.from(q('[data-a="count"]'), { textContent: 0, snap: { textContent: 1 }, duration: reduced ? DUR.xs : 1.3, ease: EASE.soft, stagger: 0.12 }, 0.7);
       rise(tl, q('[data-a="def"]'), 0.9, { stagger: 0.12, y: 6 });
-    });
-    step(1, (tl) => {
-      fade(tl, q('[data-a="row"]'), 0, { stagger: 0.06 });
+      fade(tl, q('[data-a="row"]'), 0.8, { stagger: 0.06 });
       tl.from(
         q('[data-a="chip"]'),
-        { autoAlpha: 0, scale: reduced ? 1 : 0.86, duration: DUR.s, ease: EASE.out, stagger: { each: 0.025, from: "start" } },
-        0.15,
+        { autoAlpha: 0, scale: reduced ? 1 : 0.86, duration: DUR.s, ease: EASE.out, stagger: { each: 0.02, from: "start" } },
+        0.95,
       );
-      fade(tl, q('[data-a="hint"]'), 0.9);
+      fade(tl, q('[data-a="hint"]'), 1.5);
     });
-    step(2, (tl) => {
+    step(1, (tl) => {
       tl.to(q('[data-a="def"]'), { autoAlpha: 0, y: reduced ? 0 : -6, duration: DUR.xs, ease: EASE.in }, 0);
       rise(tl, q('[data-a="note"]'), 0.2, { stagger: 0.12, y: 8 });
-      fade(tl, q('[data-a="next"]'), 0.7);
+      tl.from(q('[data-a="slide-no"]'), { autoAlpha: 0, x: reduced ? 0 : -6, duration: DUR.s, ease: EASE.out, stagger: 0.06 }, 0.4);
+      fade(tl, q('[data-a="next"]'), 0.8);
       hold(tl, 0.2);
     });
   });
@@ -119,10 +121,20 @@ export function PortfolioSlide() {
             </tr>
           </thead>
           <tbody>
-            {CELLS.map(({ front, byStage }) => (
+            {CELLS.map(({ front, slide, byStage }) => (
               <tr key={front} data-a="row">
                 <th scope="row" className={styles.front}>
-                  {front}
+                  <button
+                    type="button"
+                    className={styles.frontBtn}
+                    aria-label={fill(copy.goTo, { front, n: pad2(slide + 1) })}
+                    onClick={() => deck.goTo(slide, 0, "cut")}
+                  >
+                    <span>{front}</span>
+                    <span data-a="slide-no" className={styles.slideNo}>
+                      {pad2(slide + 1)}
+                    </span>
+                  </button>
                 </th>
                 {byStage.map((items, si) => (
                   <td key={STAGES[si]} className={styles.cell}>

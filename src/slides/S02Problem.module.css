@@ -225,7 +225,43 @@
   .support {
     display: none;
   }
+  /* Fatos em linha (em vez de empilhados) para liberar altura. */
+  .facts {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 16px;
+  }
+  .factValue {
+    font-size: clamp(20px, 2vw, 28px);
+  }
+  .statement {
+    font-size: clamp(20px, 2.1vw, 30px);
+  }
+  .compare th,
+  .compare td {
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+  .fact {
+    grid-template-columns: 1fr;
+    row-gap: 4px;
+    padding: 8px 0;
+  }
+  .factLabel {
+    font-size: 12px;
+  }
   .flow {
-    grid-template-rows: auto clamp(52px, 8vh, 70px);
+    grid-template-rows: auto clamp(44px, 6.5vh, 64px);
+  }
+}
+
+/* Celular: o funil mantém largura legível e rola para o lado dentro do quadro (sem empurrar a página). */
+@media (max-width: 767px) {
+  .flowWrap {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    padding-bottom: 8px;
+  }
+  .flowWrap .flow {
+    min-width: 720px;
   }
 }

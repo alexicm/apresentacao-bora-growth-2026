@@ -1,0 +1,105 @@
+/* Frente 3 · Distribuição: o clube sem e com a BORA (Sunset Run Club, fictício).
+   O diagrama usa as classes globais .powered-* (as mesmas do slide BORA POWERED da versão longa). */
+
+.wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  align-items: center;
+  gap: var(--gutter);
+  height: 100%;
+}
+
+.side {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: clamp(14px, 2.4vh, 26px);
+}
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+.swap {
+  display: grid;
+  min-height: 7.5em;
+}
+.swap > * {
+  grid-area: 1 / 1;
+}
+.caption {
+  margin: 0;
+  max-width: 34ch;
+}
+.equation {
+  margin: 0;
+  padding-top: 14px;
+  max-width: 36ch;
+  font-size: clamp(14px, 1.05vw, 17px);
+  line-height: 1.45;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--border-strong);
+}
+
+.diagramBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 0;
+}
+.diagram {
+  position: relative;
+  height: 100%;
+  max-width: 100%;
+  aspect-ratio: 900 / 620;
+}
+
+@media (max-width: 1023px) {
+  .wrap {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: center;
+  }
+  .side {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+  }
+  .equation {
+    display: none;
+  }
+  .diagram {
+    height: auto;
+    width: min(100%, calc((100svh - 2 * var(--chrome-h) - 360px) * 900 / 620));
+  }
+}
+
+@media (max-width: 767px), (max-height: 559px) {
+  .side {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .swap > * {
+    grid-area: auto;
+  }
+  .diagram {
+    width: 100%;
+  }
+}
+
+/* Celular: o diagrama mantém largura legível e rola para o lado dentro do quadro. */
+@media (max-width: 767px) {
+  .diagramBox {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    height: auto;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    padding-bottom: 8px;
+  }
+  .diagram {
+    width: 660px !important;
+    max-width: none;
+  }
+}

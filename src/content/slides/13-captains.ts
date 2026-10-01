@@ -3,7 +3,7 @@ import type { SlideMeta } from "../types";
 export const meta = {
   id: "captains",
   title: "BORA CAPTAINS",
-  chapter: "running",
+  chapter: "later",
   // 7 passos do fluxo (o 1º junto com a manchete) + portão "Abrir operação?" + simulador + ficha da ação.
   steps: 10,
   theme: "dark",

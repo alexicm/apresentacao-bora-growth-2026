@@ -11,8 +11,8 @@ import { cn } from "@/lib/utils";
 import styles from "./S01bProfile.module.css";
 
 /**
- * Quem apresenta: a identidade fica fixa à esquerda; à direita, três cenas
- * (em números → trajetória e formação → o que isso traz para cada ação do pack).
+ * Quem apresenta: a identidade e os números ficam fixos à esquerda; à direita, duas cenas
+ * (trajetória e formação → o que isso traz para cada ação do pack).
  * Tudo vem do currículo do Alex (Profile_Alex.pdf). No celular, as cenas empilham.
  */
 export function ProfileSlide() {
@@ -32,16 +32,12 @@ export function ProfileSlide() {
         pop(tl, q('[data-a="avatar"]'), 0.55, { duration: DUR.m });
         rise(tl, q('[data-a="id"]'), 0.65, { y: 10 });
         rise(tl, q('[data-a="summary"]'), 0.8, { y: 12 });
-        rise(tl, q('[data-a="fact"]'), 0.7, { stagger: 0.12, y: 14 });
-        tl.from(q('[data-a="skill"]'), { autoAlpha: 0, scale: reduced ? 1 : 0.9, duration: DUR.s, ease: EASE.out, stagger: 0.04 }, 1.2);
+        rise(tl, q('[data-a="fact"]'), 0.9, { stagger: 0.1, y: 12 });
+        rise(tl, q('[data-a="job"]'), 0.7, { stagger: 0.05, y: 10 });
+        rise(tl, q('[data-a="side"]'), 1.1, { stagger: 0.1, y: 12 });
       });
       step(1, (tl) => {
         swap(tl, 0, 1);
-        rise(tl, q('[data-a="job"]'), 0.3, { stagger: 0.06, y: 10 });
-        rise(tl, q('[data-a="side"]'), 0.6, { stagger: 0.1, y: 12 });
-      });
-      step(2, (tl) => {
-        swap(tl, 1, 2);
         rise(tl, q('[data-a="bring"]'), 0.3, { stagger: 0.1, y: 12 });
         tl.from(q('[data-a="chip"]'), { autoAlpha: 0, scale: reduced ? 1 : 0.86, duration: DUR.s, ease: EASE.out, stagger: 0.03 }, 0.6);
         hold(tl, 0.2);
@@ -74,32 +70,20 @@ export function ProfileSlide() {
         <p data-a="summary" className="t-lede mt-[clamp(14px,2.4vh,24px)] max-w-[40ch] text-fg-2">
           {copy.summary}
         </p>
+        <div className={styles.factsRow}>
+          {copy.facts.map((f) => (
+            <div key={f.value + f.label} data-a="fact" className={styles.factMini}>
+              <span className={styles.factMiniValue}>{f.value}</span>
+              <span className={styles.factMiniLabel}>{f.label}</span>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Cenas */}
       <div className={cn("col-span-12 lg:col-span-7", styles.stage)}>
-        {/* Cena 0: em números */}
+        {/* Cena 0: trajetória e formação */}
         <div data-scene="0" className={styles.scene}>
-          <div className={styles.facts}>
-            {copy.facts.map((f) => (
-              <div key={f.value + f.label} data-a="fact" className={styles.fact}>
-                <span className={styles.factValue}>{f.value}</span>
-                <span className={styles.factLabel}>{f.label}</span>
-              </div>
-            ))}
-          </div>
-          <p className="t-label mt-[clamp(16px,3vh,28px)] text-fg-3">{copy.skillsTitle}</p>
-          <ul className={styles.skills}>
-            {copy.skills.map((s) => (
-              <li key={s} data-a="skill" className={styles.skill}>
-                {s}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Cena 1: trajetória e formação */}
-        <div data-scene="1" className={cn(styles.scene, "pre")}>
           <div className={styles.careerGrid}>
             <section aria-labelledby="profile-career">
               <h3 id="profile-career" className={styles.sceneTitle}>
@@ -148,8 +132,8 @@ export function ProfileSlide() {
           </div>
         </div>
 
-        {/* Cena 2: o que trago para a BORA */}
-        <div data-scene="2" className={cn(styles.scene, "pre")}>
+        {/* Cena 1: o que trago para a BORA */}
+        <div data-scene="1" className={cn(styles.scene, "pre")}>
           <h3 className={styles.sceneTitle}>
             <span className="t-label text-fg-2">{copy.bringTitle}</span>
             <span className="text-[12px] text-fg-3">{copy.bringNote}</span>

@@ -16,7 +16,7 @@ export const copy = {
   // Voz da BORA (como no site: "Não é sobre ser rápido. É sobre começar."). Uma linha por item.
   headline: ["Não é sobre conquistar corredores.", "É sobre conquistar ==comunidades.=="],
   // A proposta em uma frase (o roteiro vem no slide "A proposta").
-  subheadline: "Ações e projetos de growth para a BORA crescer pelas comunidades onde os corredores já estão.",
+  subheadline: "Uma proposta de ações de growth para a BORA crescer pelas comunidades onde os corredores já estão.",
   hint: "→ avançar · M mapa · P projetos · F tela cheia",
   photoAlt: "Comunidade BORA reunida: centenas de atletas com a camiseta verde da BORA, de braços para o alto.",
 } as const;

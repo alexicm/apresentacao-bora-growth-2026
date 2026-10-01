@@ -3,7 +3,7 @@ import type { SlideMeta } from "../types";
 export const meta = {
   id: "land-and-expand",
   title: "Entrar e expandir",
-  chapter: "running",
+  chapter: "later",
   // s0 escada · s1–s7 um degrau por → (s7 inclui a simulação) · s8 princípio + tabela
   steps: 9,
   theme: "light",

@@ -3,7 +3,7 @@ import type { SlideMeta } from "../types";
 export const meta = {
   id: "enterprise",
   title: "BORA ENTERPRISE",
-  chapter: "running",
+  chapter: "later",
   // s0 START · s1 WORK RUN CLUB · s2 RACE TEAM · s3 LEAGUE · s4 simulador · s5 ficha da ação
   steps: 6,
   theme: "light",

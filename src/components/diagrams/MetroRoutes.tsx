@@ -68,11 +68,11 @@ type Props = {
   exits: { a: string; b: readonly string[] };
   /** Descrição completa do mapa para leitores de tela (vem do conteúdo do slide). */
   ariaLabel: string;
-  /** Estágio de cada estação: volt = já roda · tracejado = ideia · vazio = etapa da rota. */
+  /** Estágio de cada estação: volt = Fase 1 · contorno = Fase 2 · tracejado = ideia · contorno claro = etapa da rota. */
   stagesA?: RouteStages;
   stagesB?: RouteStages;
   /** Legenda dos estágios das estações (canto superior direito, área livre do mapa). */
-  legend?: { rodando: string; ideia: string; step: string };
+  legend?: { agora: string; depois?: string; ideia: string; step: string };
   className?: string;
 };
 
@@ -81,7 +81,7 @@ type Props = {
  * unit, unit-label, city, city-label, city-mark, exit, exit-end, exit-text, pulse, pulse-loop, dot, legend (+ data-path nos trajetos).
  */
 export function MetroRoutes({ routeA, routeB, unit, city, exits, ariaLabel, stagesA, stagesB, legend, className }: Props) {
-  const stClass = (st: Stage | null | undefined) => (st ? styles[`st_${st}`] : undefined);
+  const stClass = (st: Stage | null | undefined) => (st ? styles[`st_${st}`] : stagesA || stagesB ? styles.st_none : undefined);
   return (
     <div
       className={cn(styles.box, className)}
@@ -179,15 +179,21 @@ export function MetroRoutes({ routeA, routeB, unit, city, exits, ariaLabel, stag
       {legend && (
         <ul data-a="legend" className={styles.legend} style={pos(METRO.w, 6)}>
           <li>
-            <i className={cn(styles.swatch, styles.swRodando)} aria-hidden="true" />
-            {legend.rodando}
+            <i className={cn(styles.swatch, styles.swAgora)} aria-hidden="true" />
+            {legend.agora}
           </li>
+          {legend.depois && (
+            <li>
+              <i className={styles.swatch} aria-hidden="true" />
+              {legend.depois}
+            </li>
+          )}
           <li>
             <i className={cn(styles.swatch, styles.swIdeia)} aria-hidden="true" />
             {legend.ideia}
           </li>
           <li>
-            <i className={styles.swatch} aria-hidden="true" />
+            <i className={cn(styles.swatch, styles.swNone)} aria-hidden="true" />
             {legend.step}
           </li>
         </ul>

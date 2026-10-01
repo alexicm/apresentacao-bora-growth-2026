@@ -1,0 +1,66 @@
+/* Frente 6 · Expansão: as duas rotas do pipeline (diagrama MetroRoutes, o mesmo da versão longa). */
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1.6vh, 16px);
+  height: 100%;
+  min-height: 0;
+}
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+}
+.mapBox {
+  flex: 1;
+  min-height: 0;
+  container-type: size;
+  display: grid;
+  place-items: center;
+}
+.map {
+  width: min(100cqw, calc(100cqh * 1200 / 430));
+}
+.note {
+  margin: 0;
+  padding-top: clamp(8px, 1.4vh, 14px);
+  font-size: clamp(14px, 1.05vw, 17px);
+  line-height: 1.4;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--border);
+}
+.note strong {
+  font-weight: 650;
+  color: var(--text-primary);
+}
+
+@media (max-width: 767px), (max-height: 559px) {
+  .mapBox {
+    container-type: normal;
+    display: block;
+  }
+  .map {
+    width: 100%;
+  }
+}
+/* Celular: o mapa mantém largura legível e rola para o lado dentro do quadro. */
+@media (max-width: 767px) {
+  .wrap {
+    min-width: 0;
+    max-width: 100%;
+  }
+  .mapBox {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    padding-bottom: 8px;
+  }
+  .map {
+    width: 820px;
+    max-width: none;
+  }
+}

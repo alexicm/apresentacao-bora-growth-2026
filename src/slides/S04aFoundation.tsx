@@ -19,12 +19,11 @@ const GROUPS = copy.groups.map((gr) => ({
 }));
 const BASE = GROUPS.flatMap((g) => g.items);
 const LEDE = fill(copy.lede, {
-  n: BASE.filter((g) => g.stage === "rodando").length,
-  total: PACK.filter((g) => g.stage === "rodando").length,
-  backlog: BASE.filter((g) => g.stage === "backlog").length,
+  n: BASE.filter((g) => g.stage === "agora").length,
+  total: PACK.filter((g) => g.stage === "agora").length,
 });
-/** Grupos em que todas as ações estão rodando entram no passo 0; os demais (backlog) no passo 1. */
-const isNow = (items: GrowthProject[]) => items.every((g) => g.stage === "rodando");
+/** Medir e Atrair entram no passo 0; Converter no passo 1. */
+const isNow = (id: string) => id !== "converter";
 
 /**
  * As ações de base que não têm slide próprio, explicadas em uma linha cada.
@@ -77,13 +76,12 @@ export function FoundationSlide() {
         {GROUPS.map((gr) => (
           <section
             key={gr.id}
-            data-a={isNow(gr.items) ? "group-now" : "group-later"}
+            data-a={isNow(gr.id) ? "group-now" : "group-later"}
             className={cn(styles.group, styles[`group_${gr.id}`])}
             aria-label={gr.title}
           >
             <header data-a="group-head" className={styles.groupHead}>
               <h3 className={styles.groupTitle}>{gr.title}</h3>
-              {gr.items[0] && <StageTag stage={gr.items[0].stage} />}
               <p className={styles.groupSub}>{gr.sub}</p>
             </header>
             <ul className={styles.items}>
@@ -107,7 +105,11 @@ export function FoundationSlide() {
       </div>
 
       <div className={styles.foot}>
-        <span data-a="hint">{copy.hint}</span>
+        <span data-a="hint" className="flex flex-wrap items-center gap-x-3 gap-y-2">
+          <StageTag stage="agora" />
+          <StageTag stage="depois" />
+          <span>{copy.hint}</span>
+        </span>
         <span data-a="next" className={styles.next}>
           {copy.next}
         </span>

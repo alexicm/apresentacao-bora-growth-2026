@@ -1,4 +1,4 @@
-/* S03a — O pack: quadro frente × estágio (Rodando · Backlog · Ideia). */
+/* S03a · A proposta: quadro frente × fase (Fase 1 · Fase 2 · Ideia). Cada frente leva ao slide dela. */
 
 .top {
   align-items: end;
@@ -47,7 +47,7 @@
   letter-spacing: -0.04em;
   font-feature-settings: "tnum" 1;
 }
-.rodando .count {
+.agora .count {
   color: var(--text-primary);
 }
 .headSide {
@@ -83,6 +83,36 @@
   line-height: 28px;
   border-bottom: 1px solid var(--border);
 }
+.frontBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.frontBtn:hover > span:first-child {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.frontBtn:focus-visible {
+  outline: 2px solid var(--text-primary);
+  outline-offset: 3px;
+}
+.slideNo {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+  padding: 4px 6px;
+  color: var(--text-tertiary);
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+}
 .cell {
   padding: clamp(6px, 1vh, 11px) clamp(8px, 1vw, 18px) clamp(6px, 1vh, 11px) 0;
   vertical-align: top;
@@ -97,7 +127,7 @@
   list-style: none;
 }
 
-/* Ações: Rodando (volt sólido) · Backlog (contorno) · Ideia (tracejado) */
+/* Ações: Fase 1 (volt sólido) · Fase 2 (contorno) · Ideia (tracejado) */
 .chip {
   display: inline-flex;
   align-items: center;
@@ -117,15 +147,15 @@
   outline: 2px solid var(--text-primary);
   outline-offset: 2px;
 }
-.chip_rodando {
+.chip_agora {
   color: var(--brand-ink);
   background: var(--brand);
   border-color: var(--brand);
 }
-.chip_rodando:hover {
+.chip_agora:hover {
   background: var(--brand-pressed);
 }
-.chip_backlog:hover,
+.chip_depois:hover,
 .chip_ideia:hover {
   border-color: var(--text-primary);
 }

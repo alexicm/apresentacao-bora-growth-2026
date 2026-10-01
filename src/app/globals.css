@@ -538,8 +538,8 @@ html.is-locked {
   outline: 2px solid var(--brand);
   outline-offset: 1px;
 }
-.pf-chip--rodando .stage-dots,
-.pf-file--rodando .stage-dots {
+.pf-chip--agora .stage-dots,
+.pf-file--agora .stage-dots {
   color: var(--brand-text);
 }
 .pf-file--ideia .stage-dots {
@@ -774,7 +774,7 @@ html.is-locked {
   background: currentColor;
   opacity: 1;
 }
-.stage--rodando {
+.stage--agora {
   color: var(--brand-ink);
   background: var(--brand);
   border-color: var(--brand);
@@ -1307,7 +1307,7 @@ html.is-locked {
     box-shadow 0.35s;
 }
 /* rodando = volt sólido (padrão acima) · backlog = contorno · ideia = anel tracejado · atual = neutro */
-.net-node--backlog .net-node-dot-core {
+.net-node--depois .net-node-dot-core {
   background: var(--bg-primary);
   border: 2px solid var(--text-primary);
 }
@@ -1997,7 +1997,7 @@ html.is-locked {
   background: var(--bg-primary);
   border: 2px dashed var(--brand);
 }
-.fw-dot--backlog .fw-dot-lit {
+.fw-dot--depois .fw-dot-lit {
   background: var(--bg-primary);
   border: 2px solid var(--brand);
 }
@@ -2024,7 +2024,7 @@ html.is-locked {
   text-transform: uppercase;
   color: var(--text-tertiary);
 }
-.fw-label-gear--rodando {
+.fw-label-gear--agora {
   color: var(--brand-text);
 }
 .fw-label-gear--atual {

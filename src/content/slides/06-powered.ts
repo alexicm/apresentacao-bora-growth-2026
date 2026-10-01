@@ -3,7 +3,7 @@ import type { SlideMeta } from "../types";
 export const meta = {
   id: "powered",
   title: "BORA POWERED",
-  chapter: "running",
+  chapter: "later",
   // s0 o clube · s1 sem a BORA · s2 com a BORA · s3 a equação · s4 ficha da ação
   steps: 5,
   theme: "dark",

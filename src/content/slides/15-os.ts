@@ -7,7 +7,7 @@ export const meta = {
   // s0 o núcleo · s1 módulos + jornada de um ID · s2 integrações possíveis · s3 o que o OS vai responder · s4 resposta (demo)
   steps: 5,
   theme: "dark",
-  summary: "A base comum de dados, já rodando: um BORA ID por corredor.",
+  summary: "A base comum de dados, já agora: um BORA ID por corredor.",
 } as const satisfies SlideMeta;
 
 export type OsModule =

@@ -3,20 +3,20 @@ import type { SlideMeta } from "../types";
 export const meta = {
   id: "foundation",
   title: "A base do funil",
-  chapter: "running",
-  // s0 medir e atrair (rodando) · s1 converter (backlog) e o atalho para as fichas
+  chapter: "start",
+  // s0 medir e atrair · s1 converter e o atalho para as fichas
   steps: 2,
   theme: "light",
-  summary: "O que já roda no funil de hoje: medir, atrair e converter.",
+  summary: "Fase 1, por onde começar: medir, atrair e converter melhor no funil de hoje.",
 } as const satisfies SlideMeta;
 
 // As ações (nome, estágio, o que é, métrica) vêm de GROWTH_PROJECTS em src/content/projects.ts.
 export const copy = {
-  label: "A base do funil",
+  label: "Fase 1 · a base",
   // Uma linha visual por item (a revelação é por máscara).
-  headline: ["Antes dos produtos,", "**a base do funil.**"],
-  // {n} = ações de base rodando · {total} = ações rodando no pack · {backlog} = ações de base no backlog.
-  lede: "Das {total} ações que já rodam, {n} não são produtos novos: medem e atraem melhor no funil que a BORA já tem. Outras {backlog} entram na próxima janela para converter mais.",
+  headline: ["Por onde começar:", "**a base do funil.**"],
+  // {n} = ações de base na Fase 1 · {total} = ações da Fase 1 no pack.
+  lede: "Das {total} ações da Fase 1, {n} são de base: medir cada corredor, atrair com origem medida e converter quem já chega. Nenhuma depende de produto novo.",
   groups: [
     { id: "medir", title: "Medir", sub: "Saber quem é cada corredor e de onde veio.", ids: ["bora-id", "crm-tracking", "os"] },
     {
@@ -28,6 +28,6 @@ export const copy = {
     { id: "converter", title: "Converter", sub: "Transformar pré-cadastro em venda.", ids: ["preco-unico", "pre-cadastro"] },
   ],
   metric: "Métrica",
-  hint: "Clique numa ação para ver a ficha completa: como executamos, métrica e prazo.",
-  next: "A seguir: os produtos da Rede BORA →",
+  hint: "BORA OS e influenciadores ficam para a Fase 2. Clique numa ação para ver a ficha completa.",
+  next: "A seguir: BORA OPEN, o produto da Fase 1 →",
 } as const;

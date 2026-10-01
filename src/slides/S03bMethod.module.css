@@ -47,7 +47,7 @@
   padding-top: 12px;
   border-top: 2px solid var(--border-strong);
 }
-.band_rodando {
+.band_agora {
   border-top-color: var(--brand);
 }
 .band_ideia {
@@ -220,7 +220,7 @@
     font-size: 13px;
   }
 }
-.dots_backlog {
+.dots_depois {
   color: var(--text-primary);
 }
 .dots_ideia {

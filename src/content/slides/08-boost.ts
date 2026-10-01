@@ -3,7 +3,7 @@ import type { SlideMeta } from "../types";
 export const meta = {
   id: "boost",
   title: "BORA BOOST",
-  chapter: "next",
+  chapter: "ideas",
   // s0 por quê · s1 cadeia linear · s2 a cadeia vira circuito · s3 quem recebe o quê · s4 exemplo + simulador · s5 ficha da ação
   steps: 6,
   theme: "dark",

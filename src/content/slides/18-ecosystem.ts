@@ -100,8 +100,8 @@ export const copy = {
     note: "Ilustrativo: ligue por estágio ou clique nas ações do mapa. Não é um plano aprovado.",
     presetsLabel: "Ligar por estágio",
     presets: [
-      { value: "rodando", label: "Rodando hoje" },
-      { value: "backlog", label: "+ Backlog" },
+      { value: "agora", label: "Rodando hoje" },
+      { value: "depois", label: "+ Backlog" },
       { value: "tudo", label: "Tudo" },
     ],
     custom: "Seleção personalizada",

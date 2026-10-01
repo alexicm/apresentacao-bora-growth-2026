@@ -1,85 +1,66 @@
-// Ordem da apresentação e capítulos.
+// Ordem da apresentação e capítulos (versão curta, 15 slides).
 // Os metadados de cada slide (título, passos, tema, resumo) ficam no arquivo do próprio slide
 // em src/content/slides — lá também estão todos os textos.
+//
+// Versão longa (28 slides): os slides que saíram continuam no projeto (src/content/slides e src/slides).
+// Para restaurá-la, importe as metas abaixo e devolva-as a SLIDES e a SLIDE_COMPONENTS (src/slides/index.ts):
+//   intro, profile, proposal (01c), problem, thesis (03), portfolio, network (04), method, foundation (04a),
+//   open (05), challenges (11), powered (06), land-and-expand (07), captains (13), house (14), enterprise (09),
+//   pass (12), boost (08), league (10), ecosystem (18), os (15), flywheel, expansion-pipeline (17),
+//   brasilia-lab (19), metrics (20), role (21), next-steps, close.
+// Os capítulos antigos (start, later, ideas, system) seguem válidos em ChapterId.
 
 import { meta as intro } from "./slides/01-intro";
 import { meta as profile } from "./slides/01b-profile";
-import { meta as proposal } from "./slides/01c-proposal";
 import { meta as problem } from "./slides/02-problem";
-import { meta as thesis } from "./slides/03-thesis";
 import { meta as portfolio } from "./slides/03a-portfolio";
 import { meta as method } from "./slides/03b-method";
-import { meta as foundation } from "./slides/04a-foundation";
-import { meta as network } from "./slides/04-network";
-import { meta as open } from "./slides/05-open";
-import { meta as powered } from "./slides/06-powered";
-import { meta as landExpand } from "./slides/07-land-and-expand";
-import { meta as boost } from "./slides/08-boost";
-import { meta as enterprise } from "./slides/09-enterprise";
-import { meta as league } from "./slides/10-league";
-import { meta as challenges } from "./slides/11-challenges";
-import { meta as pass } from "./slides/12-pass";
-import { meta as captains } from "./slides/13-captains";
-import { meta as house } from "./slides/14-house";
-import { meta as os } from "./slides/15-os";
+import { meta as fundacao } from "./slides/24-frente-fundacao";
+import { meta as aquisicao } from "./slides/25-frente-aquisicao";
+import { meta as distribuicao } from "./slides/26-frente-distribuicao";
+import { meta as conversao } from "./slides/27-frente-conversao";
+import { meta as receitaB2b } from "./slides/28-frente-receita-b2b";
+import { meta as expansao } from "./slides/29-frente-expansao";
 import { meta as flywheel } from "./slides/16-flywheel";
-import { meta as pipeline } from "./slides/17-expansion-pipeline";
-import { meta as ecosystem } from "./slides/18-ecosystem";
-import { meta as brasilia } from "./slides/19-brasilia-lab";
-import { meta as metrics } from "./slides/20-metrics";
-import { meta as role } from "./slides/21-role";
+import { meta as plano } from "./slides/30-plano";
 import { meta as nextSteps } from "./slides/21a-next-steps";
 import { meta as close } from "./slides/22-close";
 import type { ChapterId } from "./types";
 
 export type { ChapterId, SlideMeta } from "./types";
 
-export const CHAPTERS: Record<ChapterId, { roman: string; title: string }> = {
+/** Capítulos da versão curta, na ordem em que aparecem (mapa M e cabeçalho). */
+export const CHAPTERS = {
   opening: { roman: "I", title: "Abertura" },
-  shift: { roman: "II", title: "A virada" },
-  pack: { roman: "III", title: "O pack" },
-  running: { roman: "IV", title: "O que já roda" },
-  next: { roman: "V", title: "O que vem depois" },
-  system: { roman: "VI", title: "O sistema" },
-  plan: { roman: "VII", title: "O plano" },
-  close: { roman: "VIII", title: "Fechamento" },
-};
+  shift: { roman: "II", title: "Por que mudar" },
+  pack: { roman: "III", title: "A proposta" },
+  fronts: { roman: "IV", title: "As seis frentes" },
+  plan: { roman: "V", title: "O plano" },
+  close: { roman: "VI", title: "Fechamento" },
+} as const satisfies Partial<Record<ChapterId, { roman: string; title: string }>>;
+
+export type DeckChapterId = keyof typeof CHAPTERS;
 
 export const SLIDES = [
   // I Abertura · começo
   intro,
   profile,
-  proposal,
-  // II A virada
+  // II Por que mudar: o problema e a tese
   problem,
-  thesis,
-  // III O pack · meio
+  // III A proposta: o pack numa tela e como faríamos · meio
   portfolio,
   method,
-  // IV O que já roda
-  foundation,
-  network,
-  open,
-  challenges,
-  powered,
-  landExpand,
-  captains,
-  house,
-  enterprise,
-  // V O que vem depois (ideias)
-  pass,
-  boost,
-  league,
-  // VI O sistema
-  ecosystem,
-  os,
+  // IV As seis frentes: todas as 22 ações, cada uma com o que é e o primeiro passo
+  fundacao,
+  aquisicao,
+  distribuicao,
+  conversao,
+  receitaB2b,
+  expansao,
+  // V O plano: como tudo se conecta e os 90 dias propostos · fim
   flywheel,
-  pipeline,
-  // VII O plano · fim
-  brasilia,
-  metrics,
-  role,
-  // VIII Fechamento
+  plano,
+  // VI Fechamento
   nextSteps,
   close,
 ] as const;

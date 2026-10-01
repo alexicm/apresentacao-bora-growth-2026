@@ -41,9 +41,9 @@ const LEDE = copy.lede
 /** Ligar por estágio (cumulativo): Rodando hoje → + Backlog → Tudo. */
 function presetSet(preset: Preset) {
   const take: Record<Preset, GrowthProject["stage"][]> = {
-    rodando: ["rodando"],
-    backlog: ["rodando", "backlog"],
-    tudo: ["rodando", "backlog", "ideia"],
+    agora: ["agora"],
+    depois: ["agora", "depois"],
+    tudo: ["agora", "depois", "ideia"],
   };
   return new Set(GROWTH_PROJECTS.filter((p) => take[preset].includes(p.stage)).map((p) => p.id));
 }
@@ -62,8 +62,8 @@ export function EcosystemSlide() {
   const { index, step, current } = useSlide();
   const [hovered, setHovered] = useState<string | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
-  const [preset, setPreset] = useState<Preset>("rodando");
-  const [active, setActive] = useState<ReadonlySet<string>>(() => presetSet("rodando"));
+  const [preset, setPreset] = useState<Preset>("agora");
+  const [active, setActive] = useState<ReadonlySet<string>>(() => presetSet("agora"));
   // Escolhas do apresentador valem só enquanto ele está no passo em que foram feitas.
   const [viewPick, setViewPick] = useState<{ step: number; view: View } | null>(null);
   const [filterPick, setFilterPick] = useState<{ step: number; filter: Filter } | null>(null);

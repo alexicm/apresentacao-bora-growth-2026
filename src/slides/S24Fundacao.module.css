@@ -1,0 +1,154 @@
+/* Frente 1 · Fundação: o caminho de um BORA ID (exemplo fictício).
+   O GSAP anima [data-a^="j-"]: nada aqui tem transition em opacity, transform ou visibility. */
+
+.journey {
+  display: grid;
+  align-content: center;
+  gap: clamp(22px, 4.4vh, 48px);
+  height: 100%;
+}
+
+.path {
+  position: relative;
+}
+
+.stops {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.stop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 0 clamp(6px, 1vw, 18px);
+  text-align: center;
+}
+.when {
+  height: 18px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 18px;
+  letter-spacing: 0.04em;
+  color: var(--text-tertiary);
+}
+.node {
+  position: relative;
+  z-index: 1;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--text-primary);
+  border-radius: 50%;
+  background: var(--bg-primary);
+}
+.what {
+  font-size: clamp(17px, 1.55vw, 26px);
+  font-weight: 650;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.rec {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 0 16px;
+  font-size: clamp(12.5px, 1vw, 15.5px);
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--brand-ink);
+  background: var(--brand);
+  border-radius: var(--radius-pill);
+}
+.recDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--brand-ink);
+}
+
+/* Trilho entre o primeiro e o último nó (centro a centro) */
+.trackWrap {
+  position: absolute;
+  top: 40px; /* altura do "quando" (18) + gap (12) + raio do nó (10) */
+  left: 12.5%;
+  right: 12.5%;
+  height: 0;
+}
+.track {
+  position: absolute;
+  inset: -1px 0 auto;
+  height: 2px;
+  background: var(--line);
+  transform-origin: 0 50%;
+}
+.carrier {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 0;
+}
+.token {
+  position: absolute;
+  z-index: 2;
+  left: -11px;
+  top: -11px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--brand);
+  box-shadow:
+    0 0 0 2px var(--bg-primary),
+    0 0 0 7px var(--brand-a32);
+}
+
+.moral {
+  max-width: 56ch;
+  margin: 0 auto;
+  font-size: clamp(17px, 1.5vw, 26px);
+  font-weight: 350;
+  line-height: 1.4;
+  letter-spacing: -0.015em;
+  text-align: center;
+  color: var(--text-secondary);
+}
+.moral strong {
+  font-weight: 650;
+  color: var(--text-primary);
+}
+
+@media (max-width: 767px), (max-height: 559px) {
+  .stops {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+  }
+  .stop {
+    display: grid;
+    grid-template-columns: 20px minmax(0, 1fr);
+    align-items: center;
+    gap: 4px 14px;
+    padding: 0;
+    text-align: left;
+  }
+  .when {
+    grid-column: 2;
+    height: auto;
+  }
+  .node {
+    grid-row: 1 / span 3;
+  }
+  .what,
+  .rec {
+    grid-column: 2;
+    justify-self: start;
+  }
+  .trackWrap {
+    display: none;
+  }
+  .moral {
+    text-align: left;
+  }
+}

@@ -4,13 +4,14 @@ import { useSlide } from "@/components/deck/hooks";
 import { useStepTimeline } from "@/components/deck/useStepTimeline";
 import { SectionHeader, revealHeader } from "@/components/ui/SectionHeader";
 import { copy } from "@/content/slides/21a-next-steps";
-import { fade, hold, pop, rise } from "@/lib/motion";
+import { fade, hold, rise } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import styles from "./S21aNextSteps.module.css";
 
 /**
- * O fim prático da conversa: o que o Alex propõe à diretoria e o que ele faz nos próximos 90 dias.
- * Alinhamento, não venda. Os 90 dias são os mesmos três tempos do Brasília Lab.
+ * O fim prático da conversa: as três decisões que o Alex propõe à diretoria e como o trabalho
+ * seria dividido (a diretoria decide onde e com quem; ele construiria o como). Tudo no condicional:
+ * alinhamento, não venda.
  */
 export function NextStepsSlide() {
   const { index } = useSlide();
@@ -22,12 +23,12 @@ export function NextStepsSlide() {
       rise(tl, q('[data-a="ask"]'), 0.65, { stagger: 0.14, y: 16 });
     });
     step(1, (tl) => {
-      tl.from(q('[data-a="plan"]'), { autoAlpha: 0, y: reduced ? 0 : 18, duration: 0.7, ease: "bora" }, 0);
-      tl.from(q('[data-a="track"]'), { scaleX: 0, transformOrigin: "0% 50%", duration: reduced ? 0.4 : 1.1, ease: "power3.inOut" }, 0.25);
-      pop(tl, q('[data-a="phase-dot"]'), 0.35, { stagger: 0.3, duration: 0.5 });
-      rise(tl, q('[data-a="phase"]'), 0.4, { stagger: 0.3, y: 10 });
-      fade(tl, q('[data-a="cadence"]'), 1.2);
-      fade(tl, q('[data-a="honesty"]'), 1.35);
+      tl.from(q('[data-a="role"]'), { autoAlpha: 0, y: reduced ? 0 : 18, duration: 0.7, ease: "bora" }, 0);
+      rise(tl, q('[data-a="role-col"]'), 0.25, { stagger: 0.15, y: 12 });
+      rise(tl, q('[data-a="role-item"]'), 0.4, { stagger: 0.05, y: 8 });
+      fade(tl, q('[data-a="flow"]'), 0.7, { stagger: 0.15 });
+      fade(tl, q('[data-a="cadence"]'), 1.0);
+      fade(tl, q('[data-a="honesty"]'), 1.15);
       hold(tl, 0.2);
     });
   });
@@ -61,22 +62,29 @@ export function NextStepsSlide() {
           </ol>
         </section>
 
-        <section data-a="plan" className={styles.planBox} aria-label={copy.planLabel}>
-          <p className="t-label text-fg-3">{copy.planLabel}</p>
-          <div className={styles.phasesWrap}>
-            <span data-a="track" className={styles.track} aria-hidden="true" />
-            <ol className={styles.phases}>
-            {copy.plan.map((p) => (
-              <li key={p.name} className={styles.phase}>
-                <span data-a="phase-dot" className={styles.phaseDot} aria-hidden="true" />
-                <div data-a="phase" className="grid gap-1.5">
-                  <span className={styles.phaseWhen}>{p.when}</span>
-                  <h4 className={styles.phaseName}>{p.name}</h4>
-                  <p className={styles.phaseText}>{p.text}</p>
-                </div>
-              </li>
+        <section data-a="role" className={styles.planBox} aria-label={copy.roleLabel}>
+          <p className="t-label text-fg-3">{copy.roleLabel}</p>
+          <div className={styles.roleGrid}>
+            {[copy.board, copy.me].map((col, i) => (
+              <div key={col.title} data-a="role-col" className={cn(styles.roleCol, i === 1 && styles.roleColMe)}>
+                <h4 className={styles.roleTitle}>{col.title}</h4>
+                <ul className={styles.roleList}>
+                  {col.items.map((it) => (
+                    <li key={it} data-a="role-item">
+                      {it}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ))}
-            </ol>
+            <div className={styles.flows} aria-hidden="true">
+              <span data-a="flow" className={styles.flowDown}>
+                {copy.flows.down} →
+              </span>
+              <span data-a="flow" className={styles.flowUp}>
+                ← {copy.flows.up}
+              </span>
+            </div>
           </div>
           <div className={styles.foot}>
             <p data-a="cadence" className={styles.cadence}>

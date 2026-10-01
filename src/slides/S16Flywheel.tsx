@@ -24,17 +24,17 @@ const STAGES: FlywheelStage[] = copy.stages.map((s) => {
   return { label: s.label, why: s.why, gear: "gear" in s ? s.gear : undefined, kind };
 });
 const countKind = (k: FlywheelKind) => STAGES.filter((s) => s.kind === k).length;
-const STATEMENT = copy.statement.map((l) => l.replace("{rodando}", String(countKind("rodando"))).replace("{ideia}", String(countKind("ideia"))));
+const STATEMENT = copy.statement.map((l) => l.replace("{fases}", String(countKind("agora") + countKind("depois"))).replace("{ideia}", String(countKind("ideia"))));
 const CIRCLE = `M${FW.c} ${FW.c - FW.r} A${FW.r} ${FW.r} 0 1 1 ${FW.c - 0.01} ${FW.c - FW.r} Z`;
 
-/** Acende o estágio i (e desenha o arco que chega nele). */
-function lightStage(tl: gsap.core.Timeline, q: (s: string) => Element[], i: number, pos: gsap.Position) {
+/** Acende o estágio i (e desenha o arco que chega nele). `k` encurta as durações (passo sem scroll). */
+function lightStage(tl: gsap.core.Timeline, q: (s: string) => Element[], i: number, pos: gsap.Position, k = 1) {
   if (i > 0) {
-    draw(tl, q(`[data-fw-arc="${i - 1}"]`), pos, { duration: 0.7, ease: "none" });
-    tl.fromTo(q(`[data-fw-arrow="${i - 1}"]`), { opacity: 0 }, { opacity: 1, duration: 0.2 }, `>-0.1`);
+    draw(tl, q(`[data-fw-arc="${i - 1}"]`), pos, { duration: 0.7 * k, ease: "none" });
+    tl.fromTo(q(`[data-fw-arrow="${i - 1}"]`), { opacity: 0 }, { opacity: 1, duration: 0.2 * k }, `>-${0.1 * k}`);
   }
-  tl.fromTo(q(`[data-fw-dot="${i}"] .fw-dot-lit`), { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.45, ease: "bora" }, i > 0 ? ">-0.15" : pos);
-  tl.fromTo(q(`[data-fw-label="${i}"]`), { opacity: 0.2 }, { opacity: 1, duration: 0.45 }, "<");
+  tl.fromTo(q(`[data-fw-dot="${i}"] .fw-dot-lit`), { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.45 * k, ease: "bora" }, i > 0 ? `>-${0.15 * k}` : pos);
+  tl.fromTo(q(`[data-fw-label="${i}"]`), { opacity: 0.2 }, { opacity: 1, duration: 0.45 * k }, "<");
 }
 
 /** Fecha o ciclo: o último estágio volta a gerar BORA IDs. */
@@ -60,25 +60,18 @@ export function FlywheelSlide() {
         lightStage(tl, q, 0, 1.0);
         rise(tl, q('[data-a="fw-info"]'), 1.2);
       });
-      // Passos 1–3: em modo apresentação a roda é construída pelo scroll (scrub, abaixo);
-      // no modo fluxo / movimento reduzido, cada passo acende um terço dos estágios.
-      const thirds = [
-        [1, 5],
-        [5, 9],
-        [9, N],
-      ];
-      thirds.forEach(([from, to], k) =>
-        at(k + 1, (tl) => {
-          if (scrub) {
-            hold(tl, 0.6);
-            return;
-          }
-          for (let i = from; i < to; i++) lightStage(tl, q, i, i === from ? 0 : ">-0.2");
-          if (to === N) closeLoop(tl, q, ">");
-        }),
-      );
-      // Passo 4 — a roda ganha movimento: crescimento vira efeito de rede.
-      at(4, (tl) => {
+      // Passo 1: em modo apresentação a roda é construída pelo scroll (scrub, abaixo);
+      // no modo fluxo / movimento reduzido, o passo acende todos os estágios, mais depressa.
+      at(1, (tl) => {
+        if (scrub) {
+          hold(tl, 0.6);
+          return;
+        }
+        for (let i = 1; i < N; i++) lightStage(tl, q, i, i === 1 ? 0 : ">-0.08", 0.3);
+        closeLoop(tl, q, ">");
+      });
+      // Passo 2: a roda ganha movimento; a leitura por fase (o que é Fase 1 ou 2 e o que é ideia).
+      at(2, (tl) => {
         unmask(tl, q('[data-a="statement"] .split-unit'), 0, { stagger: 0.05 });
         revealHighlights(tl, q('[data-a="statement"] .hl'), 0.8);
         rise(tl, q('[data-a="statement-lede"]'), 0.5);
@@ -88,7 +81,7 @@ export function FlywheelSlide() {
     [scrub],
   );
 
-  // Scrub: o scroll entre os passos 0 e 3 acende os estágios um a um.
+  // Scrub: o scroll entre os passos 0 e 1 acende os estágios um a um.
   useGSAP(
     () => {
       const section = sectionRef.current;
@@ -102,8 +95,8 @@ export function FlywheelSlide() {
       ScrollTrigger.create({
         trigger: section,
         start: "top top",
-        end: () => `+=${Math.max(1, stepLen() * 3)}`,
-        scrub: 0.7,
+        end: () => `+=${Math.max(1, stepLen())}`,
+        scrub: 1.4,
         animation: tl,
         invalidateOnRefresh: true,
       });
@@ -114,7 +107,7 @@ export function FlywheelSlide() {
   // Passo final: a roda "começa parada e ganha movimento" — anel e cometas giram, cada vez mais rápido.
   useEffect(() => {
     const root = scope.current;
-    if (!root || !current || !entered || step < 4 || motionPrefs.reduced) return;
+    if (!root || !current || !entered || step < 2 || motionPrefs.reduced) return;
     const ring = root.querySelector('[data-a="fw-ring"]');
     const contours = root.querySelector(".fw-contours");
     const layer = root.querySelector('[data-a="fw-comets"]');
@@ -173,7 +166,8 @@ export function FlywheelSlide() {
             <>
               <p className="t-label text-fg-3">{copy.legendTitle}</p>
               <div className="mt-3 flex flex-wrap items-center gap-2">
-                <StageTag stage="rodando" />
+                <StageTag stage="agora" />
+                <StageTag stage="depois" />
                 <StageTag stage="ideia" />
                 <Tag kind="current">{copy.legend.current}</Tag>
                 <span className="fw-legend-result">

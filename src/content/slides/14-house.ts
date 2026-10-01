@@ -3,7 +3,7 @@ import type { SlideMeta } from "../types";
 export const meta = {
   id: "house",
   title: "BORA HOUSE",
-  chapter: "running",
+  chapter: "later",
   // s0 o fim de semana · s1 quem é atendido · s2 receitas possíveis · s3 simulador · s4 ficha da ação
   steps: 5,
   theme: "light",

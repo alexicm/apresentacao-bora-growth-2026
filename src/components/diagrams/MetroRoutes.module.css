@@ -186,16 +186,19 @@
   pointer-events: none;
 }
 
-/* Estágio da ação por trás de cada estação: volt = já roda · tracejado = ideia · vazio = etapa da rota. */
-.st_rodando {
+/* Estágio da ação por trás de cada estação: volt = Fase 1 · contorno = Fase 2 · tracejado = ideia · contorno claro = etapa da rota. */
+.st_agora {
   fill: var(--brand);
 }
-.st_backlog {
+.st_depois {
   fill: var(--surface);
 }
 .st_ideia {
   fill: var(--surface);
   stroke-dasharray: 3 3;
+}
+.st_none {
+  stroke-opacity: 0.35;
 }
 .legend {
   position: absolute;
@@ -223,8 +226,11 @@
   border: 2.5px solid var(--text-primary);
   border-radius: 50%;
 }
-.swRodando {
+.swAgora {
   background: var(--brand);
+}
+.swNone {
+  border-color: var(--border-strong);
 }
 .swIdeia {
   border-style: dashed;

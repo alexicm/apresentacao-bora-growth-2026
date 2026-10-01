@@ -3,7 +3,7 @@ import type { SlideMeta } from "../types";
 export const meta = {
   id: "pass",
   title: "BORA PASS",
-  chapter: "next",
+  chapter: "ideas",
   // s0 a frase · s1 três níveis · s2 o mercado se expande · s3 simulador · s4 ficha da ação
   steps: 5,
   theme: "dark",

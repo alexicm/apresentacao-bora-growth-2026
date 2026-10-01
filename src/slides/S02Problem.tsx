@@ -27,25 +27,21 @@ export function ProblemSlide() {
   const lastStep = useRef(step);
 
   const { scope } = useStepTimeline(({ step: at, q, reduced }) => {
-    // Passo 0 — o que a BORA já construiu.
+    // Passo 0 — o que a BORA já construiu e o funil de hoje: uma linha, um corredor de cada vez.
     at(0, (tl) => {
       revealHeader(tl, q);
       rise(tl, q('[data-a="fact"]'), 0.4, { stagger: 0.1, y: 14 });
-      fade(tl, q('[data-a="source"]'), 0.9);
+      fade(tl, q('[data-a="source"]'), 0.8);
+      fade(tl, q('[data-a="flow-label-old"]'), 0.6);
+      tl.from(q('[data-a="rail"]'), { scaleX: 0, duration: reduced ? 0.4 : 1.3, ease: "power3.inOut" }, 0.6);
+      rise(tl, q('[data-a="st-old"]'), 0.7, { stagger: 0.1, y: 16 });
+      tl.from(q('[data-a="dot"]'), { scale: 0, autoAlpha: 0, duration: 0.5, stagger: 0.1, ease: "back.out(1.6)" }, 0.75);
+      unmask(tl, q('[data-a="stmt-old"] .split-unit'), 1.1, { stagger: 0.05 });
+      rise(tl, q('[data-a="lede-old"]'), 1.35);
     });
 
-    // Passo 1 — o funil de hoje: uma linha, um corredor de cada vez.
+    // Passo 1 — a tese: a comunidade vira a porta de entrada; a mídia vira amplificador.
     at(1, (tl) => {
-      fade(tl, q('[data-a="flow-label-old"]'), 0);
-      tl.from(q('[data-a="rail"]'), { scaleX: 0, duration: reduced ? 0.4 : 1.5, ease: "power3.inOut" }, 0);
-      rise(tl, q('[data-a="st-old"]'), 0.15, { stagger: 0.14, y: 16 });
-      tl.from(q('[data-a="dot"]'), { scale: 0, autoAlpha: 0, duration: 0.5, stagger: 0.14, ease: "back.out(1.6)" }, 0.2);
-      unmask(tl, q('[data-a="stmt-old"] .split-unit'), 0.7, { stagger: 0.05 });
-      rise(tl, q('[data-a="lede-old"]'), 1.0);
-    });
-
-    // Passo 2 — a reorganização: comunidade vira a porta de entrada; mídia vira amplificador.
-    at(2, (tl) => {
       tl.to(q('[data-a="tag-now"]'), { autoAlpha: 0, duration: 0.3 }, 0)
         .from(q('[data-a="tag-new"]'), { autoAlpha: 0, duration: 0.5 }, 0.3)
         .to(q('[data-a="flow-label-old"]'), { autoAlpha: 0, duration: 0.3 }, 0)
@@ -76,7 +72,7 @@ export function ProblemSlide() {
   useEffect(() => {
     const flow = flowRef.current;
     if (!flow) return;
-    const wantNew = entered && step >= 2;
+    const wantNew = entered && step >= 1;
     const prev = lastStep.current;
     lastStep.current = step;
     if (wantNew === isNew.current) return;
@@ -101,15 +97,15 @@ export function ProblemSlide() {
   // Corredores: um de cada vez (hoje) × muitos ao mesmo tempo (rede). Só com o slide em cena.
   useEffect(() => {
     const flow = flowRef.current;
-    if (!flow || !current || !entered || step < 1 || motionPrefs.reduced) return;
+    if (!flow || !current || !entered || motionPrefs.reduced) return;
     const tracks = gsap.utils.toArray<HTMLElement>(flow.querySelectorAll('[data-a="track"]'));
     const trickle = flow.querySelector('[data-a="trickle"]');
     const ctx = gsap.context(() => {
-      if (step === 1) {
+      if (step === 0) {
         const [track] = tracks;
         const dot = track.firstElementChild;
         gsap
-          .timeline({ repeat: -1, repeatDelay: 0.6, delay: 1.4 })
+          .timeline({ repeat: -1, repeatDelay: 0.6, delay: 2 })
           .set(track, { xPercent: 0 })
           .to(dot, { opacity: 1, duration: 0.3 })
           .to(track, { xPercent: 100, duration: 4.6, ease: "none" }, "<")
@@ -216,7 +212,7 @@ export function ProblemSlide() {
         </div>
       </div>
 
-      <div className="self-center">
+      <div className={cn("self-center", styles.flowWrap)}>
         <p className="t-label mb-[clamp(14px,2.6vh,30px)] grid text-fg-3">
           <span data-a="flow-label-old" className="[grid-area:1/1]">
             {copy.flowLabelOld}

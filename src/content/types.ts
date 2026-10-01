@@ -1,4 +1,8 @@
-export type ChapterId = "opening" | "shift" | "pack" | "running" | "next" | "system" | "plan" | "close";
+/**
+ * Capítulos. A versão curta usa opening, shift, pack, fronts, plan e close.
+ * start, later, ideas e system ficam para os slides da versão longa (fora do deck, mantidos no projeto).
+ */
+export type ChapterId = "opening" | "shift" | "pack" | "fronts" | "plan" | "close" | "start" | "later" | "ideas" | "system";
 
 export type SlideMeta = {
   id: string;

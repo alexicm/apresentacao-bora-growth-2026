@@ -1,0 +1,246 @@
+/* O plano proposto: 90 dias em três tempos (+ depois dos 90) e o número que mediria tudo.
+   O GSAP anima [data-a="ph-*"], [data-a="chip"], [data-a="output"], [data-a="ns"]: sem transition nessas propriedades. */
+
+.root {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  row-gap: clamp(12px, 2.4vh, 28px);
+}
+.top {
+  align-items: end;
+}
+.proposal {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+  align-self: end;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-strong);
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--text-secondary);
+}
+
+/* ── Linha do tempo ── */
+.timeline {
+  position: relative;
+  align-self: center;
+}
+.track {
+  position: absolute;
+  top: 7px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--line);
+  transform-origin: 0 50%;
+}
+.phases {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.2fr) minmax(0, 0.95fr) minmax(0, 0.8fr);
+  gap: var(--gutter);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.phase {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  min-width: 0;
+}
+.dot {
+  position: relative;
+  z-index: 1;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--text-primary);
+  border-radius: 50%;
+  background: var(--bg-primary);
+}
+.dotBuild {
+  background: var(--brand);
+  border-color: var(--brand-deep);
+}
+.dotLater {
+  border-style: dashed;
+}
+.range {
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--text-tertiary);
+}
+.name {
+  margin: 0;
+  font-size: clamp(22px, 1.9vw, 34px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+.later .name {
+  font-size: clamp(17px, 1.3vw, 22px);
+  font-weight: 650;
+}
+.text {
+  margin: 0;
+  max-width: 36ch;
+  font-size: clamp(13px, 0.98vw, 15.5px);
+  line-height: 1.4;
+  color: var(--text-secondary);
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 11px;
+  font-size: clamp(11.5px, 0.85vw, 13px);
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--text-primary);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+}
+.chip:hover {
+  border-color: var(--text-primary);
+}
+.chip:focus-visible {
+  outline: 2px solid var(--brand-text);
+  outline-offset: 2px;
+}
+.chip_agora {
+  color: var(--brand-ink);
+  background: var(--brand);
+  border-color: var(--brand);
+}
+.chip_ideia {
+  color: var(--text-secondary);
+  background: transparent;
+  border-style: dashed;
+}
+
+/* Saída dos 90 dias */
+.output {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 14px;
+  margin-top: clamp(14px, 2.6vh, 28px);
+  padding-top: clamp(10px, 1.6vh, 16px);
+  border-top: 1px dashed var(--border-strong);
+  font-size: clamp(13px, 1vw, 15.5px);
+  color: var(--text-secondary);
+}
+.outputName {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* ── North Star ── */
+.ns {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  align-items: center;
+  gap: 14px var(--gutter);
+  padding: clamp(14px, 2.2vh, 24px) clamp(16px, 1.8vw, 30px);
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+}
+.nsHead {
+  display: grid;
+  gap: 8px;
+}
+.nsName {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  margin: 0;
+  font-size: clamp(22px, 2vw, 36px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+.nsDef {
+  margin: 0;
+  font-size: clamp(13px, 0.98vw, 15px);
+  line-height: 1.4;
+  color: var(--text-secondary);
+}
+.questions {
+  display: grid;
+  gap: 8px;
+}
+.qList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.q {
+  display: inline-flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 12px;
+  font-size: clamp(12px, 0.9vw, 14px);
+  white-space: nowrap;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+}
+.honesty {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--text-tertiary);
+}
+
+/* Telas baixas (ex.: 1024×768): menos respiro para caber fases e North Star. */
+@media (max-height: 820px) and (min-width: 768px) {
+  .output {
+    margin-top: 10px;
+    padding-top: 8px;
+  }
+  .ns {
+    padding-block: 12px;
+  }
+  .nsDef {
+    display: none;
+  }
+}
+
+@media (max-width: 899px) {
+  .phases {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 18px;
+  }
+  .track {
+    display: none;
+  }
+}
+
+@media (max-width: 767px), (max-height: 559px) {
+  .phases,
+  .ns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .chip,
+  .q {
+    white-space: normal;
+    height: auto;
+    min-height: 28px;
+    padding-block: 4px;
+  }
+}
